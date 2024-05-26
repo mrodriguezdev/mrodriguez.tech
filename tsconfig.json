@@ -1,14 +1,29 @@
 {
-  "extends": "astro/tsconfigs/strict",
-  "paths": {
-    "@components/*": [
-      "src/components/*"
-    ],
-    "@layouts/*": [
-      "src/layouts/*"
-    ],
-    "@pages/*": [
-      "src/pages/*"
-    ]
-  }
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "jsx": "preserve",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "baseUrl": ".",
+    "paths": {
+      "@components/*": [
+        "src/components/*"
+      ],
+      "@pages/*": [
+        "src/pages/*"
+      ],
+      "@layouts/*": [
+        "src/layouts/*"
+      ],
+      "@public/*": [
+        "public/*"
+      ]
+    }
+  },
+  "include": [
+    "src"
+  ]
 }
