@@ -1,0 +1,20 @@
+---
+const currentYear = new Date().getFullYear();
+const creationYear = 2024;
+---
+
+<footer class="absolute bottom-2 left-0 right-0 text-center">
+    <span class="text-sm text-zinc-800/90 dark:text-zinc-200/90">
+        &copy; {creationYear} - {currentYear}
+        <a href="https://mrodriguezdev.me/" class="hover:underline"
+            >mrodriguezdev</a
+        >
+        | Todos los derechos reservados
+    </span>
+</footer>
+
+<style>
+    a {
+        color: #73ba30;
+    }
+</style>

@@ -1,0 +1,40 @@
+---
+const NAV = [
+    {
+        name: "Blog",
+        url: "/",
+    },
+    {
+        name: "Proyectos",
+        url: "/proyectos/",
+    },
+    {
+        name: "Sobre mí",
+        url: "/sobre-mi/",
+    },
+    {
+        name: "Contacto",
+        url: "mailto:mrodriguezdev.me@gmail.com",
+    },
+];
+---
+
+<nav class="py-2">
+    <ul class="flex gap-x-4">
+        {
+            NAV.map((item) => (
+                <li>
+                    <a href={item.url} class="hover:underline">
+                        {item.name}
+                    </a>
+                </li>
+            ))
+        }
+    </ul>
+</nav>
+
+<style>
+    a {
+        color: #73ba30;
+    }
+</style>

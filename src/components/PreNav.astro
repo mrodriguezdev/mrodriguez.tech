@@ -1,0 +1,31 @@
+---
+import GitHubIcon from "./icons/GitHub.astro";
+import LinkedInIcon from "./icons/LinkedIn.astro";
+
+const SOCIAL = [
+    {
+        url: "https://github.com/mrodriguezdev",
+        title: "GitHub",
+        icon: GitHubIcon,
+    },
+    {
+        url: "https://www.linkedin.com/in/mario-rodríguez-guzmán/",
+        title: "LinkedIn",
+        icon: LinkedInIcon,
+    },
+];
+---
+
+<nav class="flex justify-end py-2">
+    <ul class="flex gap-x-2">
+        {
+            SOCIAL.map((item) => (
+                <li>
+                    <a href={item.url} target="_blank" title={item.title}>
+                        <item.icon color="#73ba30" />
+                    </a>
+                </li>
+            ))
+        }
+    </ul>
+</nav>
