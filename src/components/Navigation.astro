@@ -1,27 +1,14 @@
 ---
-const NAV = [
-    {
-        name: "Blog",
-        url: "/",
-    },
-    {
-        name: "Projects",
-        url: "/projects/",
-    },
-    {
-        name: "About",
-        url: "/about/",
-    },
-];
+import siteConfig from "../data/site-config";
 ---
 
 <nav class="py-2">
     <ul class="flex gap-x-4">
         {
-            NAV.map((item) => (
+            siteConfig.headerNavLinks?.map((item) => (
                 <li>
-                    <a href={item.url} class="hover:underline">
-                        {item.name}
+                    <a href={item.href} class="hover:underline">
+                        {item.text}
                     </a>
                 </li>
             ))
