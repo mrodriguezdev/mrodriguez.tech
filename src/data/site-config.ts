@@ -1,6 +1,7 @@
 import GitHubIcon from "../components/icons/GitHub.astro";
 import LinkedInIcon from "../components/icons/LinkedIn.astro";
 import MailIcon from "../components/icons/Mail.astro";
+import RssIcon from "../components/icons/Rss.astro";
 
 export type Image = {
     src: string;
@@ -28,6 +29,8 @@ export type SiteConfig = {
     socialLinks?: Social[];
 };
 
+const site = "https://mrodriguez-tech.vercel.app";
+
 const siteConfig: SiteConfig = {
     title: 'Mario Rodríguez - Desarrollador de Software',
     description: 'Explora mi sitio web para descubrir mis proyectos y mi blog personal, reflejando mi pasión y habilidades en el desarrollo de software.',
@@ -51,6 +54,11 @@ const siteConfig: SiteConfig = {
     ],
     socialLinks: [
         {
+            name: 'RSS Feed',
+            url: site,
+            icon: RssIcon
+        },
+        {
             name: 'GitHub',
             url: 'https://github.com/mrodriguezdev',
             icon: GitHubIcon
@@ -65,7 +73,7 @@ const siteConfig: SiteConfig = {
             url: 'mailto:mario.rodriguez@mrodriguezdev.me',
             icon: MailIcon
         }
-    ]
+    ],
 };
 
 export default siteConfig;
