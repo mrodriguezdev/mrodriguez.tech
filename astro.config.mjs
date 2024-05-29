@@ -15,6 +15,7 @@ if (isBuild) {
 export default defineConfig({
   server: { port: SERVER_PORT },
   site: BASE_URL,
+  base: 'mrodriguez.tech',
   integrations: [
     tailwind({
       config: { applyBaseStyles: false },

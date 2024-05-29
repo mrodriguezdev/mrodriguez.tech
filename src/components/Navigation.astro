@@ -7,7 +7,10 @@ import siteConfig from "../data/site-config";
         {
             siteConfig.headerNavLinks?.map((item) => (
                 <li>
-                    <a href={item.href} class="hover:underline">
+                    <a
+                        href={`mrodriguez.tech/blog/${item.href}/`}
+                        class="hover:underline"
+                    >
                         {item.text}
                     </a>
                 </li>
