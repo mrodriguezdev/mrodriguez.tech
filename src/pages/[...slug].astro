@@ -14,8 +14,9 @@ export async function getStaticPaths() {
 }
 
 const { slug } = Astro.params;
+const cleanSlug = slug.replace(/^blog\//, "");
 
-const cleanSlug = slug.replace(/^.*blog\//, "");
+//const cleanSlug = slug.replace(/^.*blog\//, "");
 
 const entry = await getEntryBySlug("posts", cleanSlug);
 ---
