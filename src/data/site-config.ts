@@ -38,7 +38,7 @@ const siteConfig: SiteConfig = {
     headerNavLinks: [
         {
             text: 'Blog',
-            href: '//mrodriguez.tech/'
+            href: '/'
         },
         {
             text: 'Projects',
