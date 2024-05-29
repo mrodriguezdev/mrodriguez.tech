@@ -1,7 +1,7 @@
 import { renderers } from './renderers.mjs';
-import { l as levels, g as getEventPrefix, L as Logger, A as AstroIntegrationLogger, manifest } from './manifest_DWQ8jU0k.mjs';
-import { e as appendForwardSlash, j as joinPaths, t as trimSlashes, f as fileExtension, s as slash, p as prependForwardSlash, g as removeTrailingForwardSlash, h as collapseDuplicateSlashes } from './chunks/astro/assets-service_BXfy4nth.mjs';
-import { R as ROUTE_TYPE_HEADER, q as REROUTE_DIRECTIVE_HEADER, A as AstroError, t as ResponseSentError, v as MiddlewareNoDataOrNextCalled, w as MiddlewareNotAResponse, G as GetStaticPathsRequired, x as InvalidGetStaticPathsReturn, y as InvalidGetStaticPathsEntry, z as GetStaticPathsExpectedParams, B as GetStaticPathsInvalidRouteParam, P as PageNumberParamNotFound, D as DEFAULT_404_COMPONENT, N as NoMatchingStaticPathFound, C as PrerenderDynamicEndpointPathCollide, H as ReservedSlotName, J as renderSlotToString, K as renderJSX, O as chunkToString, Q as isRenderInstruction, S as LocalsNotAnObject, T as clientLocalsSymbol, V as clientAddressSymbol$1, W as PrerenderClientAddressNotAvailable, X as ClientAddressNotAvailable, Y as StaticClientAddressNotAvailable, Z as renderPage, _ as renderEndpoint, $ as ASTRO_VERSION, a0 as AstroResponseHeadersReassigned, a1 as responseSentSymbol$1, a2 as REROUTABLE_STATUS_CODES } from './chunks/astro_DepveNR5.mjs';
+import { l as levels, g as getEventPrefix, L as Logger, A as AstroIntegrationLogger, manifest } from './manifest_DIYgBvR2.mjs';
+import { e as appendForwardSlash, j as joinPaths, t as trimSlashes, f as fileExtension, s as slash, p as prependForwardSlash, g as removeTrailingForwardSlash, h as collapseDuplicateSlashes } from './chunks/astro/assets-service_BcSh0FJs.mjs';
+import { R as ROUTE_TYPE_HEADER, q as REROUTE_DIRECTIVE_HEADER, A as AstroError, t as ResponseSentError, v as MiddlewareNoDataOrNextCalled, w as MiddlewareNotAResponse, G as GetStaticPathsRequired, x as InvalidGetStaticPathsReturn, y as InvalidGetStaticPathsEntry, z as GetStaticPathsExpectedParams, B as GetStaticPathsInvalidRouteParam, P as PageNumberParamNotFound, D as DEFAULT_404_COMPONENT, N as NoMatchingStaticPathFound, C as PrerenderDynamicEndpointPathCollide, H as ReservedSlotName, J as renderSlotToString, K as renderJSX, O as chunkToString, Q as isRenderInstruction, S as LocalsNotAnObject, T as clientLocalsSymbol, V as clientAddressSymbol$1, W as PrerenderClientAddressNotAvailable, X as ClientAddressNotAvailable, Y as StaticClientAddressNotAvailable, Z as renderPage, _ as renderEndpoint, $ as ASTRO_VERSION, a0 as AstroResponseHeadersReassigned, a1 as responseSentSymbol$1, a2 as REROUTABLE_STATUS_CODES } from './chunks/astro_D9YdhADS.mjs';
 import { serialize, parse } from 'cookie';
 import 'clsx';
 import 'kleur/colors';
@@ -2330,12 +2330,12 @@ const createExports = (manifest, { middlewareSecret, skewProtection }) => {
   return { default: handler };
 };
 
-const _page0 = () => import('./chunks/generic_uTaWtC4S.mjs');
-const _page1 = () => import('./chunks/about_CUi5Zy7I.mjs');
-const _page2 = () => import('./chunks/projects_JIRleJ1h.mjs');
-const _page3 = () => import('./chunks/rss_TZSBmint.mjs');
-const _page4 = () => import('./chunks/index_vg5rsWaD.mjs');
-const _page5 = () => import('./chunks/_.._DxbJ6Fpf.mjs');
+const _page0 = () => import('./chunks/generic_1nTOBmvC.mjs');
+const _page1 = () => import('./chunks/about_BtyNPPOL.mjs');
+const _page2 = () => import('./chunks/projects_C1VW4vTV.mjs');
+const _page3 = () => import('./chunks/rss_CFAZIFpF.mjs');
+const _page4 = () => import('./chunks/index_D-9PagUf.mjs');
+const _page5 = () => import('./chunks/_.._DOZDjWXT.mjs');
 const pageMap = new Map([
     ["node_modules/astro/dist/assets/endpoint/generic.js", _page0],
     ["src/pages/about.astro", _page1],
@@ -2351,7 +2351,7 @@ const _manifest = Object.assign(manifest, {
     middleware: onRequest
 });
 const _args = {
-    "middlewareSecret": "4f87eb48-bbd6-4bc6-b18f-0095b8eca786",
+    "middlewareSecret": "c9fa2315-0ecb-4184-9aa7-102df05ba442",
     "skewProtection": false
 };
 const _exports = createExports(_manifest, _args);

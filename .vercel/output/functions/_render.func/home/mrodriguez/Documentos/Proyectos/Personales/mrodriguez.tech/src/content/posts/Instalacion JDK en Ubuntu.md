@@ -1,7 +1,7 @@
 ---
 title: Instalación JDK en Ubuntu
-excerpt: In the competitive world of front-end development, a strong portfolio is your ticket to showcasing your skills, making a lasting impression on potential employers or clients, and advancing your career.
-publishDate: 2024-05-01
+excerpt: Domina la instalación del JDK en Ubuntu con esta guía paso a paso. Desde la descarga hasta la configuración de las variables de entorno, te guiaré a través de cada paso para que puedas comenzar a desarrollar en Java sin problemas. 
+publishDate: 2024-05-29
 image:
     url: 'https://docs.astro.build/assets/full-logo-light.png'
     alt: 'El logotipo completo de Astro.'

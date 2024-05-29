@@ -1,5 +1,5 @@
 import rss from '@astrojs/rss';
-import { g as getCollection } from './__Dfhzbs7s.mjs';
+import { g as getCollection } from './index_hv8us1x4.mjs';
 
 async function GET(context) {
     const posts = await getCollection("posts");
@@ -9,8 +9,8 @@ async function GET(context) {
         site: context.site,
         items: posts.map((post) => ({
             title: post.data.title,
-            publishDate: post.data.publishDate,
-            description: post.data.description,
+            pubDate: post.data.publishDate,
+            description: post.data.excerpt,
             link: `/posts/${post.slug}/`,
         })),
         customData: `<language>es-us</language>`,

@@ -1,5 +1,5 @@
 async function getMod() {
-						return import('./Instalación JDK en Ubuntu_DZAKQ7DD.mjs');
+						return import('./Inicia una nueva aventura_Neh7dp_e.mjs');
 					}
 					const collectedLinks = [];
 					const collectedStyles = [];
