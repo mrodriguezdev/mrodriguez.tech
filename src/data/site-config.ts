@@ -55,7 +55,7 @@ const siteConfig: SiteConfig = {
     socialLinks: [
         {
             name: 'RSS Feed',
-            url: site,
+            url: `${site}/rss.xml`,
             icon: RssIcon
         },
         {
