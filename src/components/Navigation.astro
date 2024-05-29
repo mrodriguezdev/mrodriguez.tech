@@ -1,0 +1,23 @@
+---
+import siteConfig from "../data/site-config";
+---
+
+<nav class="py-2">
+    <ul class="flex gap-x-4">
+        {
+            siteConfig.headerNavLinks?.map((item) => (
+                <li>
+                    <a href={item.href} class="hover:underline">
+                        {item.text}
+                    </a>
+                </li>
+            ))
+        }
+    </ul>
+</nav>
+
+<style>
+    a {
+        color: #73ba30;
+    }
+</style>

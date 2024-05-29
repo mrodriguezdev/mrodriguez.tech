@@ -1,0 +1,33 @@
+---
+import ArrowRightIcon from "./icons/ArrowRight.astro";
+import FormattedDate from "./FormattedDate.astro";
+import { slugify } from "../utils/common-utils";
+
+type Props = {
+    post: any;
+    class?: string;
+    headingLevel?: "h2" | "h3";
+};
+
+const { post, headingLevel = "h2" } = Astro.props;
+const { title, publishDate, excerpt } = post.data;
+const TitleTag = headingLevel;
+---
+
+<div class="flex flex-col justify-center items-start gap-2 my-8">
+    <div class="grow">
+        <TitleTag class="text-xs leading-tight font-medium sm:text-2xl">
+            {title}
+        </TitleTag>
+        <div class="mt-1 text-sm leading-normal">
+            <FormattedDate date={publishDate} />
+        </div>
+        {excerpt && <div class="mt-3 text-sm leading-normal">{excerpt}</div>}
+    </div>
+    <a
+        href={`blog/${slugify(title)}/`}
+        class="text-[#73ba30] hover:underline flex items-center"
+    >
+        Leer más <ArrowRightIcon class="fill-current w-4 h-4 ml-1" />
+    </a>
+</div>

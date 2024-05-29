@@ -1,0 +1,22 @@
+---
+import siteConfig from "../data/site-config";
+
+export type Props = {
+    title?: string;
+    description?: string;
+    image?: { src: string; alt?: string };
+    pageType?: "website" | "article";
+};
+
+const title = [Astro.props.title, siteConfig.title].filter(Boolean).join(" | ");
+const image = [Astro.props.image?.src, siteConfig.image?.src]
+    .filter(Boolean)
+    .join(" | ");
+---
+
+<meta charset="utf-8" />
+<meta name="description" content={siteConfig.description} />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="icon" type="image/jpeg" href={image} />
+<title>{title}</title>
+<meta name="generator" content={Astro.generator} />
