@@ -42,11 +42,11 @@ const siteConfig: SiteConfig = {
         },
         {
             text: 'Projects',
-            href: '/mrodriguez.tech/projects'
+            href: '/projects'
         },
         {
             text: 'About',
-            href: '/mrodriguez.tech/about'
+            href: '/about'
         }
     ],
     socialLinks: [
