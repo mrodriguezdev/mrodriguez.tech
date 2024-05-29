@@ -1,5 +1,5 @@
 async function getMod() {
-						return import('./Instalacion JDK en Ubuntu_qZlDKmEh.mjs');
+						return import('./Instalacion JDK en Ubuntu_6gZFiWPr.mjs');
 					}
 					const collectedLinks = [];
 					const collectedStyles = [];

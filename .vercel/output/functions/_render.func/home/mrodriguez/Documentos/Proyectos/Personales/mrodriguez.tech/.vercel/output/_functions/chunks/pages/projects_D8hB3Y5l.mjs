@@ -1,7 +1,7 @@
 /* empty css                           */
-import { d as createComponent, r as renderTemplate, f as renderComponent, m as maybeRenderHead } from '../astro_D9YdhADS.mjs';
+import { c as createComponent, r as renderTemplate, f as renderComponent, m as maybeRenderHead } from '../astro_Bp5FequK.mjs';
 import 'kleur/colors';
-import { $ as $$BaseLayout } from './about_CEb8XiST.mjs';
+import { $ as $$BaseLayout } from './__Cv5pDtnf.mjs';
 
 const $$Projects = createComponent(($$result, $$props, $$slots) => {
   return renderTemplate`${renderComponent($$result, "BaseLayout", $$BaseLayout, { "title": "Projects - Mario Rodr\xEDguez", "description": "Explora mi sitio web para descubrir mis proyectos y mi blog personal, reflejando mi pasi\xF3n y habilidades en el dsarrollo de software." }, { "default": ($$result2) => renderTemplate` ${maybeRenderHead()}<main><h1>Hello from Projects page!</h1></main> ` })}`;

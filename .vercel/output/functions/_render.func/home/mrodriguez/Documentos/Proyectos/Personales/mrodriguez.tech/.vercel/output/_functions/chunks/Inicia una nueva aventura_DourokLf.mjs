@@ -1,5 +1,5 @@
 async function getMod() {
-						return import('./Inicia una nueva aventura_Neh7dp_e.mjs');
+						return import('./Inicia una nueva aventura_Bt-w1f3h.mjs');
 					}
 					const collectedLinks = [];
 					const collectedStyles = [];
