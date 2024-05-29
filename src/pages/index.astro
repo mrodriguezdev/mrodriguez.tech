@@ -3,8 +3,11 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import siteConfig from "../data/site-config";
 import PostPreview from "../components/PostPreview.astro";
 import { getCollection } from "astro:content";
+import { sortItemsByDateDesc } from "../utils/data-utils";
 
-const posts = await getCollection("posts");
+const posts = (await getCollection("posts")).sort(sortItemsByDateDesc);
+
+const pageTitle = "Publicaciones recientes";
 ---
 
 <BaseLayout
@@ -13,7 +16,7 @@ const posts = await getCollection("posts");
 	image={siteConfig.image}
 >
 	<main>
-		<h1 class="text-2sm text-gray-600 my-3">Recent Posts</h1>
+		<h1 class="text-2sm text-gray-600 my-3">{pageTitle.toUpperCase()}</h1>
 		{
 			posts.map((post) => (
 				<PostPreview post={post} class="mb-10 sm:mb-12" />

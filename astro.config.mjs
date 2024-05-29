@@ -8,5 +8,10 @@ export default defineConfig({
   integrations: [tailwind()],
   site: "https://mrodriguez-tech.vercel.app/",
   output: "server",
-  adapter: vercel()
+  adapter: vercel({
+    webAnalytics: {
+      enabled: true,
+    },
+    maxDuration: 8,
+  }),
 });

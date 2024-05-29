@@ -1,18 +1,26 @@
 ---
 import { getCollection } from "astro:content";
+import { sortItemsByDateDesc } from "../utils/data-utils";
+import { getEntryBySlug } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
 
 export async function getStaticPaths() {
-    const blogEntries = await getCollection("posts");
+    const blogEntries = (await getCollection("posts")).sort(
+        sortItemsByDateDesc,
+    );
+    console.log(blogEntries);
     return blogEntries.map((entry) => ({
         params: { slug: entry.slug },
-        props: { entry },
     }));
 }
 
-const { entry } = Astro.props;
-/* const { Content } = await entry.render(); */
+const { slug } = Astro.params;
+const cleanSlug = slug.replace(/^blog\//, "");
+const entry = await getEntryBySlug("posts", cleanSlug);
 ---
 
-<!-- <PostLayout frontmatter={entry.data}>
-    <Content />
-</PostLayout> -->
+<BaseLayout title={entry?.data.title}>
+    <div>
+        {entry?.data.excerpt}
+    </div>
+</BaseLayout>
