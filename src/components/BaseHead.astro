@@ -8,10 +8,8 @@ export type Props = {
     pageType?: "website" | "article";
 };
 
-const title = [Astro.props.title, siteConfig.title].filter(Boolean).join(" | ");
-const image = [Astro.props.image?.src, siteConfig.image?.src]
-    .filter(Boolean)
-    .join(" | ");
+const title = Astro.props.title || siteConfig.title;
+const image = Astro.props.image?.src || siteConfig.image?.src;
 ---
 
 <meta charset="utf-8" />
