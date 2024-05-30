@@ -1,6 +1,5 @@
 import { defineConfig } from "astro/config";
 import tailwind from "@astrojs/tailwind";
-import sitemap from "@astrojs/sitemap";
 import vercel from "@astrojs/vercel/serverless";
 
 const SERVER_PORT = 3000;
@@ -24,7 +23,7 @@ export default defineConfig({
     config: {
       applyBaseStyles: false
     }
-  }), sitemap()],
+  })],
   output: "server",
   adapter: vercel({
     webAnalytics: {

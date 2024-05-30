@@ -120,8 +120,8 @@ const $$Astro$2 = createAstro("https://mrodriguez-tech.vercel.app");
 const $$BaseHead = createComponent(($$result, $$props, $$slots) => {
   const Astro2 = $$result.createAstro($$Astro$2, $$props, $$slots);
   Astro2.self = $$BaseHead;
-  const title = [Astro2.props.title, siteConfig.title].filter(Boolean).join(" | ");
-  const image = [Astro2.props.image?.src, siteConfig.image?.src].filter(Boolean).join(" | ");
+  const title = Astro2.props.title || siteConfig.title;
+  const image = Astro2.props.image?.src || siteConfig.image?.src;
   return renderTemplate`<meta charset="utf-8"><meta name="description"${addAttribute(siteConfig.description, "content")}><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" type="image/jpeg"${addAttribute(image, "href")}><title>${title}</title><meta name="generator"${addAttribute(Astro2.generator, "content")}>`;
 }, "/home/mrodriguez/Documentos/Proyectos/Personales/mrodriguez.tech/src/components/BaseHead.astro", void 0);
 
