@@ -1,8 +1,9 @@
 ---
 import { getCollection } from "astro:content";
-import { sortItemsByDateDesc } from "../utils/data-utils";
+import { sortItemsByDateDesc } from "@/utils/data-utils";
 import { getEntryBySlug } from "astro:content";
-import BaseLayout from "../layouts/BaseLayout.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PostLayout from "@/layouts/PostLayout.astro";
 
 export async function getStaticPaths() {
     const blogEntries = (await getCollection("posts")).sort(
@@ -15,11 +16,28 @@ export async function getStaticPaths() {
 
 const { slug } = Astro.params;
 const cleanSlug = slug.replace(/^blog\//, "");
-const entry = await getEntryBySlug("posts", cleanSlug);
+let entry;
+try {
+    entry = await getEntryBySlug("posts", cleanSlug);
+} catch (error) {
+    console.error("Ocurrió un error obteniendo la entrada: ", error);
+}
+
+let Content;
+if (entry) {
+    try {
+        const renderedEntry = await entry.render();
+        Content = renderedEntry.Content;
+    } catch (error) {
+        console.error("Ocurrió un error renderizando la entrada: ", error);
+    }
+} else {
+    console.error("Entrada no encontrada");
+}
 ---
 
-<BaseLayout title={entry?.data.title}>
-    <div>
-        {entry?.data.excerpt}
-    </div>
+<BaseLayout title={entry?.data.title} description={entry?.data.excerpt}>
+    <PostLayout title={entry?.data.title} publishDate={entry?.data.publishDate}>
+        {Content && <Content />}
+    </PostLayout>
 </BaseLayout>

@@ -1,11 +1,12 @@
 import rss from '@astrojs/rss';
 import { getCollection } from 'astro:content';
+import siteConfig from '@/data/site-config';
 
 export async function GET(context) {
     const posts = await getCollection("posts");
     return rss({
-        title: 'Blog de Buzz',
-        description: 'Guía de un humilde astronauta a las estrellas',
+        title: siteConfig.title,
+        description: siteConfig.description,
         site: context.site,
         items: posts.map((post) => ({
             title: post.data.title,
