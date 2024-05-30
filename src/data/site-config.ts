@@ -27,15 +27,16 @@ export type SiteConfig = {
     image?: Image;
     headerNavLinks?: Link[];
     socialLinks?: Social[];
+    url?: string;
 };
 
-const site = "https://mrodriguez-tech.vercel.app";
+const site: string = "https://mrodriguez-tech.vercel.app";
 
 const siteConfig: SiteConfig = {
     title: 'Mario Rodríguez - Desarrollador de Software',
     description: 'Explora mi sitio web para descubrir mis proyectos y mi blog personal, reflejando mi pasión y habilidades en el desarrollo de software.',
     image: {
-        src: './public/me.jpeg',
+        src: '/me.jpeg',
         alt: 'Mario Rodríguez - Photo'
     },
     headerNavLinks: [
@@ -74,6 +75,7 @@ const siteConfig: SiteConfig = {
             icon: MailIcon
         }
     ],
+    url: site
 };
 
 export default siteConfig;

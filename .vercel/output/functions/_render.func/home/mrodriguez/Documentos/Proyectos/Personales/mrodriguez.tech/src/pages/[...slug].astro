@@ -15,11 +15,29 @@ export async function getStaticPaths() {
 
 const { slug } = Astro.params;
 const cleanSlug = slug.replace(/^blog\//, "");
-const entry = await getEntryBySlug("posts", cleanSlug);
+let entry;
+try {
+    entry = await getEntryBySlug("posts", cleanSlug);
+} catch (error) {
+    console.error("Error fetching entry:", error);
+}
+
+let Content;
+if (entry) {
+    try {
+        const renderedEntry = await entry.render();
+        Content = renderedEntry.Content;
+    } catch (error) {
+        console.error("Error rendering entry:", error);
+    }
+} else {
+    console.error("Entry not found");
+}
 ---
 
 <BaseLayout title={entry?.data.title}>
     <div>
         {entry?.data.excerpt}
+        {Content && <Content />}
     </div>
 </BaseLayout>

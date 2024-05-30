@@ -1,11 +1,10 @@
 ---
-import siteConfig from "../data/site-config";
+import siteConfig from "@/data/site-config";
 
 export type Props = {
     title?: string;
     description?: string;
     image?: { src: string; alt?: string };
-    pageType?: "website" | "article";
 };
 
 const title = Astro.props.title || siteConfig.title;

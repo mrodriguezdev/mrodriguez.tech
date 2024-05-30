@@ -1,0 +1,21 @@
+---
+import FormattedDate from "@/components/FormattedDate.astro";
+
+const { title, publishDate } = Astro.props;
+---
+
+<article class="mb-12 sm:mb-24">
+    <header class="my-3 flex flex-col justify-start">
+        <h1
+            class="text-xl leading-tight font-medium sm:text-4xl sm:leading-tight"
+        >
+            {title}
+        </h1>
+        <p class="mt-1 text-sm leading-normal">
+            {publishDate && <FormattedDate date={publishDate} />}
+        </p>
+    </header>
+    <div class="max-w-full overflow-x-auto whitespace-pre-wrap p-2 box-border">
+        <slot />
+    </div>
+</article>

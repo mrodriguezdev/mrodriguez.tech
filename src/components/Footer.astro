@@ -1,4 +1,5 @@
 ---
+import siteConfig from "@/data/site-config";
 const currentYear = new Date().getFullYear();
 const creationYear = 2024;
 ---
@@ -6,10 +7,10 @@ const creationYear = 2024;
 <footer class="text-center">
     <span class="text-sm text-zinc-800/90 dark:text-zinc-200/90">
         &copy; {creationYear} - {currentYear}
-        <a href="https://mrodriguezdev.me/" class="text-sm hover:underline"
+        <a href={siteConfig.url} class="text-sm hover:underline"
             >mrodriguezdev</a
         >
-        | Todos los derechos reservados
+        | Todos los derechos reservados.
     </span>
 </footer>
 

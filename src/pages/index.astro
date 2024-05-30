@@ -1,9 +1,9 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
-import siteConfig from "../data/site-config";
-import PostPreview from "../components/PostPreview.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import siteConfig from "@/data/site-config";
+import PostPreview from "@/components/PostPreview.astro";
 import { getCollection } from "astro:content";
-import { sortItemsByDateDesc } from "../utils/data-utils";
+import { sortItemsByDateDesc } from "@/utils/data-utils";
 
 const posts = (await getCollection("posts")).sort(sortItemsByDateDesc);
 
