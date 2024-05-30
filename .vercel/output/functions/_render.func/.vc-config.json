@@ -1,0 +1,6 @@
+{
+	"runtime": "nodejs18.x",
+	"handler": "home/mrodriguez/Documentos/Proyectos/Personales/mrodriguez.tech/.vercel/output/_functions/entry.mjs",
+	"launcherType": "Nodejs",
+	"supportsResponseStreaming": true
+}
