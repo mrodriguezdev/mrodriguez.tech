@@ -1,7 +1,7 @@
 /* empty css                           */
 import { c as createAstro, d as createComponent, r as renderTemplate, m as maybeRenderHead, s as spreadAttributes, e as addAttribute, f as renderComponent } from '../astro_DepveNR5.mjs';
 import 'kleur/colors';
-import { g as getCollection, s as sortItemsByDateDesc, a as siteConfig, $ as $$BaseLayout } from './__8ZGS49i3.mjs';
+import { g as getCollection, s as sortItemsByDateDesc, a as siteConfig, $ as $$BaseLayout } from './__Bpyek7_w.mjs';
 import 'clsx';
 
 const $$Astro$2 = createAstro("https://mrodriguez-tech.vercel.app");
