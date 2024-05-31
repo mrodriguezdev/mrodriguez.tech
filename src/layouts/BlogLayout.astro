@@ -1,0 +1,13 @@
+---
+import PostPreview from "@/components/PostPreview.astro";
+import { sortItemsByDateDesc } from "@/utils/data-utils";
+import { getCollection } from "astro:content";
+const posts = (await getCollection("posts")).sort(sortItemsByDateDesc);
+
+const title = "Publicaciones recientes";
+---
+
+<main>
+    <h1 class="text-2sm text-gray-600 my-3">{title.toUpperCase()}</h1>
+    {posts.map((post) => <PostPreview post={post} class="mb-10 sm:mb-12" />)}
+</main>
