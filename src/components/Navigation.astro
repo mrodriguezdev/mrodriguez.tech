@@ -7,7 +7,10 @@ import siteConfig from "@/data/site-config";
         {
             siteConfig.headerNavLinks?.map((item) => (
                 <li>
-                    <a href={item.href} class="hover:underline">
+                    <a
+                        href={item.href}
+                        class="text-customer-green hover:underline"
+                    >
                         {item.text}
                     </a>
                 </li>
@@ -15,9 +18,3 @@ import siteConfig from "@/data/site-config";
         }
     </ul>
 </nav>
-
-<style>
-    a {
-        color: #73ba30;
-    }
-</style>
