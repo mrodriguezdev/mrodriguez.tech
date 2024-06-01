@@ -2,6 +2,9 @@
 export default {
 	content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
 	theme: {
+		colors: {
+			'customer-green': '#73ba30',
+		},
 		extend: {},
 	},
 	plugins: [],

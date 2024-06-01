@@ -8,7 +8,7 @@ import siteConfig from "@/data/site-config";
             siteConfig.socialLinks?.map((item) => (
                 <li>
                     <a href={item.url} target="_blank" title={item.name}>
-                        <item.icon color="#73ba30" />
+                        <item.icon class:list={"text-customer-green"} />
                     </a>
                 </li>
             ))
