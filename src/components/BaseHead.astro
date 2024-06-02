@@ -4,17 +4,13 @@ import siteConfig from "@/data/site-config";
 export type Props = {
     title?: string;
     description?: string;
-    image?: { src: string; alt?: string };
 };
 
 const title = Astro.props.title || siteConfig.title;
-const image = Astro.props.image?.src || siteConfig.image?.src;
 ---
 
 <meta charset="utf-8" />
 <meta name="description" content={siteConfig.description} />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<!-- <link rel="icon" type="image/jpeg" href={image} /> -->
-<link rel="stylesheet" href="main.css" />
 <title>{title}</title>
 <meta name="generator" content={Astro.generator} />

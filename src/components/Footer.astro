@@ -4,14 +4,30 @@ const currentYear = new Date().getFullYear();
 const creationYear = 2024;
 ---
 
-<div class="text-center">
-    <span class="text-sm text-zinc-800/90 dark:text-zinc-200/90">
+<footer>
+    <span>
         &copy; {creationYear} - {currentYear}
-        <a
-            style="color: var(--main-color);"
-            href={siteConfig.url}
-            class="text-sm hover:underline">mrodriguezdev</a
-        >
+        <a href={siteConfig.url}>mrodriguezdev</a>
         | Todos los derechos reservados.
     </span>
-</div>
+</footer>
+
+<style>
+    footer {
+        text-align: center;
+    }
+
+    footer span {
+        font-size: 0.875rem;
+        color: var(--color-gris-medio);
+    }
+
+    a {
+        color: var(--color-verde-lima);
+        transition: 0.5s ease-in-out;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+</style>

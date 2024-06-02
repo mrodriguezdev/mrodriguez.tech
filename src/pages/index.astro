@@ -4,10 +4,6 @@ import siteConfig from "@/data/site-config";
 import BlogLayout from "@/layouts/BlogLayout.astro";
 ---
 
-<BaseLayout
-	title={siteConfig.title}
-	description={siteConfig.description}
-	image={siteConfig.image}
->
+<BaseLayout title={siteConfig.title} description={siteConfig.description}>
 	<BlogLayout />
 </BaseLayout>
