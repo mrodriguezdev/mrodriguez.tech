@@ -10,6 +10,7 @@ import Navigation from "./Navigation.astro";
         <img src={siteConfig.image?.src} alt={siteConfig.image?.alt} />
         <SiteTitle />
     </div>
+    <hr />
     <div class="navigation">
         <Social />
         <Navigation />
@@ -44,5 +45,12 @@ import Navigation from "./Navigation.astro";
     .navigation {
         display: grid;
         grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+
+    hr {
+        margin: 1rem 0;
+        height: 0.5px;
+        border: none;
+        background-color: var(--color-gris-claro);
     }
 </style>
