@@ -7,7 +7,7 @@ const posts = (await getCollection("posts")).sort(sortItemsByDateDesc);
 const title = "Publicaciones recientes";
 ---
 
-<main>
+<section>
     <h1 class="text-2sm text-gray-600 my-3">{title.toUpperCase()}</h1>
     {posts.map((post) => <PostPreview post={post} class="mb-10 sm:mb-12" />)}
-</main>
+</section>

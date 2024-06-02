@@ -5,20 +5,33 @@ import PostComments from "@/components/PostComments.astro";
 const { title, publishDate } = Astro.props;
 ---
 
-<article class="mb-12 sm:mb-24">
-    <header class="my-3 flex flex-col justify-start">
-        <h1
-            class="text-xl leading-tight font-medium sm:text-4xl sm:leading-tight"
-        >
+<article>
+    <header>
+        <h1>
             {title}
         </h1>
-        <p class="mt-1 text-sm leading-normal">
-            {publishDate && <FormattedDate date={publishDate} />}
-        </p>
+        {publishDate && <FormattedDate date={publishDate} />}
     </header>
-    <div class="max-w-full overflow-x-auto whitespace-pre-wrap p-2 box-border">
+    <div>
         <slot />
     </div>
 
     <PostComments />
 </article>
+
+<style>
+    article {
+        margin: 35px 0 48px 0;
+    }
+
+    header h1 {
+        color: var(--color-blanco-puro);
+        font-size: 1.8rem;
+        text-wrap: pretty;
+    }
+
+    div {
+        max-width: 100%;
+        white-space: pre-wrap;
+    }
+</style>

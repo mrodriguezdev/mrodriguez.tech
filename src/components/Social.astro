@@ -2,17 +2,12 @@
 import siteConfig from "@/data/site-config";
 ---
 
-<nav class="flex justify-end py-2">
-    <ul class="flex gap-x-2">
+<nav>
+    <ul>
         {
             siteConfig.socialLinks?.map((item) => (
                 <li>
-                    <a
-                        href={item.url}
-                        target="_blank"
-                        title={item.name}
-                        style="color: var(--main-color);"
-                    >
+                    <a href={item.url} target="_blank" title={item.name}>
                         <item.icon />
                     </a>
                 </li>
@@ -20,3 +15,20 @@ import siteConfig from "@/data/site-config";
         }
     </ul>
 </nav>
+
+<style>
+    nav {
+        display: flex;
+        justify-content: flex-end;
+        padding: 0.5rem 0 0.5rem 0;
+    }
+
+    ul {
+        display: flex;
+        column-gap: 0.5rem;
+    }
+
+    a {
+        color: var(--color-verde-lima);
+    }
+</style>

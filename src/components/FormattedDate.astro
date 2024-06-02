@@ -4,7 +4,7 @@ type Props = { date: Date };
 const { date } = Astro.props;
 ---
 
-<time class="text-gray-400" datetime={date.toISOString()}>
+<time datetime={date.toISOString()}>
     {
         date.toLocaleDateString("es-ES", {
             timeZone: "UTC",

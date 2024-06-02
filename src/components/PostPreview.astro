@@ -5,29 +5,72 @@ import FormattedDate from "./FormattedDate.astro";
 type Props = {
     post: any;
     class?: string;
-    headingLevel?: "h2" | "h3";
 };
 
-const { post, headingLevel = "h2" } = Astro.props;
+const { post } = Astro.props;
 const { title, publishDate, excerpt } = post.data;
-const TitleTag = headingLevel;
 ---
 
-<div class="flex flex-col justify-center items-start gap-2 my-8">
-    <div class="grow">
-        <TitleTag class="text-xl leading-tight font-medium sm:text-2xl">
+<article>
+    <header>
+        <h3>
             {title}
-        </TitleTag>
-        <div class="mt-1 text-sm leading-normal">
-            <FormattedDate date={publishDate} />
-        </div>
-        {excerpt && <div class="mt-3 text-sm leading-normal">{excerpt}</div>}
-    </div>
-    <a
-        style="color: var(--main-color);"
-        href={`blog/${post.slug}/`}
-        class="hover:underline flex items-center"
-    >
-        Leer más <ArrowRightIcon class="fill-current w-4 h-4 ml-1" />
+        </h3>
+        <FormattedDate date={publishDate} />
+        {excerpt && <div>{excerpt}</div>}
+    </header>
+    <a href={`blog/${post.slug}/`}>
+        Leer más <ArrowRightIcon />
     </a>
-</div>
+</article>
+
+<style>
+    article {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 0.5rem;
+        margin: 2rem 0 2rem 0;
+    }
+
+    header {
+        flex-grow: 1;
+    }
+
+    h3 {
+        font-size: 1.25rem;
+        color: var(--color-blanco-puro);
+        line-height: 1.25;
+        font-weight: 500;
+    }
+
+    @media (min-width: 640px) {
+        h3 {
+            font-size: 1.5rem;
+            line-height: 2rem;
+        }
+    }
+
+    div {
+        margin-top: 0.75rem;
+        line-height: 1.25rem;
+        color: var(--color-gris-claro);
+        font-size: 0.975rem;
+    }
+
+    time {
+        font-size: 0.75rem;
+    }
+
+    a {
+        color: var(--color-verde-lima);
+        transition: 0.5s ease-in-out;
+        display: flex;
+        align-items: center;
+    }
+
+    a:hover {
+        text-decoration-line: underline;
+    }
+</style>

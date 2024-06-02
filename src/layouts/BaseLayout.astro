@@ -18,16 +18,12 @@ const { showHeader = true, ...head } = Astro.props;
 		<ViewTransitions />
 	</head>
 	<body>
-		<div class="flex flex-col min-h-screen px-4 md:px-8">
-			<header class="w-full max-w-3xl mx-auto">
-				<Header />
-			</header>
+		<div class="wrapper">
+			<Header />
 			<main class="grow w-full max-w-3xl mx-auto">
 				<slot />
 			</main>
-			<footer class="w-full max-w-3xl mx-auto">
-				<Footer />
-			</footer>
+			<Footer />
 		</div>
 	</body>
 </html>
