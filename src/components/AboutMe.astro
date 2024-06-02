@@ -1,5 +1,4 @@
 ---
-import siteConfig from "@/data/site-config";
 const nacimiento = new Date("1999-11-12");
 const hoy = new Date();
 const edad =
@@ -16,9 +15,7 @@ const { title } = Astro.props;
 <article
     class="flex flex-col items-center justify-center gap-8 text-gray-700 md:flex-row my-8"
 >
-    <div
-        class="[&>p]:mb-3 [&>p>strong]:text-customer-green [&>p>strong]:font-normal [&>p>strong]:font-mono text-pretty order-2 md:order-1"
-    >
+    <div class="[&>p]:mb-3 text-pretty order-2 md:order-1">
         <h1
             class="text-xl leading-tight font-medium sm:text-4xl sm:leading-tight mb-5"
         >
@@ -30,21 +27,23 @@ const { title } = Astro.props;
             tengo una pasión especial por el desarrollo backend, también disfruto
             trabajando en el frontend.
         </p>
-        <!--         <p>
-            Tengo experiencia profesional trabajando con Java, desarrollando
-            servicios web y APIs RESTful, así como creando microservicios que se
-            comunican a través de eventos utilizando Apache Kafka. En el ámbito
-            del frontend, he desarrollado aplicaciones web con Angular,
-            empleando bibliotecas de componentes como PrimeNG y suites de
-            controles como SyncFusion para crear interfaces modernas y
-            funcionales.
-        </p> -->
         <p>
             Mi enfoque en el desarrollo backend incluye una sólida comprensión
-            de la arquitectura de <strong>microservicios </strong> y la integración
-            de sistemas mediante mensajería de <strong>eventos</strong>. Me
-            esfuerzo por crear soluciones escalables y eficientes, asegurando un
-            rendimiento óptimo y una fácil mantenibilidad.
+            de la arquitectura de <a
+                href="https://www.redhat.com/es/topics/microservices"
+                style="text-decoration: none; color: var(--main-color);"
+                onmouseover="this.style.textDecoration='underline';"
+                onmouseout="this.style.textDecoration='none';"
+                target="_blank">microservicios</a
+            > y la arquitectura basada en
+            <a
+                href="https://www.redhat.com/es/topics/integration/what-is-event-driven-architecture"
+                style="text-decoration: none; color: var(--main-color);"
+                onmouseover="this.style.textDecoration='underline';"
+                onmouseout="this.style.textDecoration='none';"
+                target="_blank">eventos</a
+            >. Me esfuerzo por crear soluciones escalables y eficientes,
+            asegurando un rendimiento óptimo y una fácil mantenibilidad.
         </p>
         <p>
             En el desarrollo frontend, me apasiona crear experiencias de usuario
@@ -54,10 +53,8 @@ const { title } = Astro.props;
             ambos campos del desarrollo.
         </p>
         <p>
-            Soy un profesional <strong>dedicado</strong> y <strong
-                >motivado</strong
-            >, con un compromiso constante hacia la excelencia en todos mis
-            proyectos.
+            Soy un profesional dedicado y motivado, con un compromiso constante
+            hacia la excelencia en todos mis proyectos.
         </p>
     </div>
 </article>
