@@ -2,20 +2,29 @@
 import siteConfig from "@/data/site-config";
 ---
 
-<nav class="py-2">
-    <ul class="flex gap-x-4">
+<nav>
+    <ul>
         {
             siteConfig.headerNavLinks?.map((item) => (
                 <li>
-                    <a
-                        style="color: var(--color-verde-lima);"
-                        href={item.href}
-                        class="hover:underline"
-                    >
-                        {item.text}
-                    </a>
+                    <a href={item.href}>{item.text}</a>
                 </li>
             ))
         }
     </ul>
 </nav>
+
+<style>
+    ul {
+        display: flex;
+        column-gap: 1rem;
+    }
+
+    a {
+        color: var(--color-verde-lima);
+    }
+
+    a:hover {
+        text-decoration-line: underline;
+    }
+</style>

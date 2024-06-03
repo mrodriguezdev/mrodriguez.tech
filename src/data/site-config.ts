@@ -45,12 +45,12 @@ const siteConfig: SiteConfig = {
             href: '/'
         },
         {
-            text: 'Projects',
-            href: '/projects'
+            text: 'Proyectos',
+            href: '/proyectos'
         },
         {
-            text: 'About',
-            href: '/about'
+            text: 'Sobre mí',
+            href: '/sobre-mi'
         }
     ],
     socialLinks: [

@@ -1,10 +1,11 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
+const title = "Proyectos";
 ---
 
 <BaseLayout
-    title="Projects - Mario Rodríguez"
+    title=`${title} - Mario Rodríguez`
     description="Explora mi sitio web para descubrir mis proyectos y mi blog personal, reflejando mi pasión y habilidades en el dsarrollo de software."
 >
-    <section><h1>Hello from Projects page!</h1></section>
+    <section><h1>Hello from {title} page!</h1></section>
 </BaseLayout>
