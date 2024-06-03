@@ -1,5 +1,6 @@
 ---
 import siteConfig from "@/data/site-config";
+import ResetCSS from "@appzic/astro-reset-css";
 
 export type Props = {
     title?: string;
@@ -11,6 +12,13 @@ const title = Astro.props.title || siteConfig.title;
 
 <meta charset="utf-8" />
 <meta name="description" content={siteConfig.description} />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>{title}</title>
 <meta name="generator" content={Astro.generator} />
+<meta
+    name="keywords"
+    content="programación, desarrollo de software, instalación de JDK en Ubuntu, Docker, tips de programación, proyectos de programación, blog de programación, configuración de JDK, uso de Docker en desarrollo, guía de instalación de software, ejemplos de código, tutoriales de Java, scripts de programación, comunidad de desarrollo, recursos para programadores, portafolio de desarrollo, mejores prácticas de programación, cómo instalar JDK en Ubuntu paso a paso, blog para programadores"
+/>
+<meta name="author" content="Mario Rodríguez" />
+<meta name="robots" content="index, follow" />
+<ResetCSS />

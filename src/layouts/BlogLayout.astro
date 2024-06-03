@@ -8,6 +8,19 @@ const title = "Publicaciones recientes";
 ---
 
 <section>
-    <h1 class="text-2sm text-gray-600 my-3">{title.toUpperCase()}</h1>
-    {posts.map((post) => <PostPreview post={post} class="mb-10 sm:mb-12" />)}
+    <h1>{title.toUpperCase()}</h1>
+    {posts.map((post) => <PostPreview post={post} />)}
 </section>
+
+<style>
+    h1 {
+        font-size: 1.4rem;
+        margin: 1rem 0 0 0;
+    }
+
+    @media (max-width: 767px) {
+        h1 {
+            font-size: 1.2rem;
+        }
+    }
+</style>

@@ -1,5 +1,4 @@
 import { defineConfig } from "astro/config";
-import tailwind from "@astrojs/tailwind";
 import vercel from "@astrojs/vercel/serverless";
 const SERVER_PORT = 3000;
 const LOCALHOST_URL = `http://localhost:${SERVER_PORT}`;
@@ -18,11 +17,6 @@ export default defineConfig({
     port: SERVER_PORT
   },
   site: BASE_URL,
-  integrations: [tailwind({
-    config: {
-      applyBaseStyles: false
-    }
-  })],
   output: "server",
   adapter: vercel({
     webAnalytics: {
