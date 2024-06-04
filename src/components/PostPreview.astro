@@ -1,6 +1,6 @@
 ---
 import ArrowRightIcon from "./icons/ArrowRight.astro";
-import FormattedDate from "./FormattedDate.astro";
+import FormattedDate from "./PostTimeAndDate.astro";
 
 type Props = {
     post: any;
@@ -8,7 +8,7 @@ type Props = {
 };
 
 const { post } = Astro.props;
-const { title, publishDate, excerpt } = post.data;
+const { title, publishDate, excerpt, time } = post.data;
 ---
 
 <article>
@@ -16,8 +16,10 @@ const { title, publishDate, excerpt } = post.data;
         <h3>
             {title}
         </h3>
-        <FormattedDate date={publishDate} />
-        {excerpt && <div>{excerpt}</div>}
+        <div class="time">
+            <FormattedDate date={publishDate} time={time} />
+        </div>
+        {excerpt && <div class="extract">{excerpt}</div>}
     </header>
     <a href={`blog/${post.slug}/`}>
         Leer más <ArrowRightIcon />
@@ -52,7 +54,7 @@ const { title, publishDate, excerpt } = post.data;
         }
     }
 
-    div {
+    .extract {
         margin-top: 0.75rem;
         line-height: 1.25rem;
         color: var(--color-gris-claro);
@@ -72,5 +74,8 @@ const { title, publishDate, excerpt } = post.data;
 
     a:hover {
         text-decoration-line: underline;
+    }
+
+    .time {
     }
 </style>

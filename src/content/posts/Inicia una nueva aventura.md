@@ -2,7 +2,9 @@
 title: 'Mi Nueva Aventura Tecnológica: Blog Personal'
 excerpt: Después de mucho tiempo, finalmente comienzo mi blog personal. Usaré Astro y SSG para compartir mis experiencias y conocimientos en tecnología. ¡Bienvenidos a esta nueva aventura!
 publishDate: 2024-05-28
+updateDate: 2024-05-28
 tags: ["NuevoComienzo", "PrimeraEntrada"]
+time: 3
 ---
 
 Ha pasado mucho tiempo desde que pensé en empezar un blog personal, pero finalmente he decidido dar el salto. Hasta ahora, he estado enfocado en otros proyectos, pero recientemente tuve algunas ideas para cosas sobre las que quería escribir. Así que aquí estamos, iniciando esta nueva aventura.
