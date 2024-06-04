@@ -1,11 +1,9 @@
 ---
+import type { CollectionEntry } from "astro:content";
 import ArrowRightIcon from "./icons/ArrowRight.astro";
 import FormattedDate from "./PostTimeAndDate.astro";
 
-type Props = {
-    post: any;
-    class?: string;
-};
+type Props = { post: CollectionEntry<"posts"> };
 
 const { post } = Astro.props;
 const { title, publishDate, excerpt, time } = post.data;
@@ -21,7 +19,7 @@ const { title, publishDate, excerpt, time } = post.data;
         </div>
         {excerpt && <div class="extract">{excerpt}</div>}
     </header>
-    <a href={`blog/${post.slug}/`}>
+    <a href={`blog/${post.slug}`}>
         Leer más <ArrowRightIcon />
     </a>
 </article>
