@@ -37,7 +37,11 @@ if (entry) {
 ---
 
 <BaseLayout title={entry?.data.title} description={entry?.data.excerpt}>
-    <PostLayout title={entry?.data.title} publishDate={entry?.data.publishDate}>
+    <PostLayout
+        title={entry?.data.title}
+        publishDate={entry?.data.publishDate}
+        time={entry?.data.time}
+    >
         {Content && <Content />}
     </PostLayout>
 </BaseLayout>
