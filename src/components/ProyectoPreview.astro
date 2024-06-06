@@ -1,0 +1,70 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { getEntryBySlug } from "astro:content";
+
+type Props = { project: CollectionEntry<"projects"> };
+
+const { project } = Astro.props;
+const { title, url } = project.data;
+
+let entry;
+try {
+    entry = await getEntryBySlug("projects", project.slug);
+} catch (error) {
+    console.error("Ocurrió un error obteniendo el proyecto: ", error);
+}
+
+let Content;
+if (entry) {
+    try {
+        const renderedEntry = await entry.render();
+        Content = renderedEntry.Content;
+    } catch (error) {
+        console.error("Ocurrió un error renderizando el proyecto: ", error);
+    }
+} else {
+    console.error("Proyecto no encontrado");
+}
+---
+
+<article>
+    <a href={url} target="_blank"><h3>{title}</h3></a>
+    <div>
+        <p>{Content && <Content />}</p>
+    </div>
+</article>
+
+<style>
+    article {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: start;
+        gap: 0.5rem;
+        margin: 2rem 0 2rem 0;
+    }
+
+    div {
+        margin-left: 2.2rem;
+    }
+
+    a h3 {
+        font-size: 1.2rem;
+        color: var(--color-blanco-puro);
+        line-height: 1.25;
+        font-weight: 500;
+        cursor: pointer;
+        transition: 0.6s ease-in-out;
+    }
+
+    a h3:hover {
+        text-decoration-line: underline;
+    }
+
+    @media (min-width: 640px) {
+        a h3 {
+            font-size: 1.3rem;
+            line-height: 2rem;
+        }
+    }
+</style>
