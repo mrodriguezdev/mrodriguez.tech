@@ -10,7 +10,7 @@ const { date, time } = Astro.props;
     <div class="reading-time">
         <TimeIcon />
         {time}
-        {time > 1 ? "minutes" : "minute"}
+        {time > 1 ? "minutos" : "minut"}
     </div>
     <div class="post-date">
         <CalendarIcon />
@@ -31,6 +31,7 @@ const { date, time } = Astro.props;
     .post-info {
         display: flex;
         justify-content: space-between;
+        padding: 0.6rem 0 0 0;
     }
     .reading-time,
     .post-date {
