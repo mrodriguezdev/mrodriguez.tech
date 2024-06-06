@@ -1,0 +1,39 @@
+---
+import { getCollection } from "astro:content";
+import ProyectoPreview from "@/components/ProyectoPreview.astro";
+import { sortItemsByOrderAsc } from "@/utils/data-utils";
+
+const { title } = Astro.props;
+
+const projects = (await getCollection("projects")).sort(sortItemsByOrderAsc);
+---
+
+<section>
+    <h1>{title.toUpperCase()}</h1>
+    <p>
+        He desarrollado una serie de proyectos, incluyendo trabajos para
+        clientes y proyectos personales, en los cuales he aplicado conocimientos
+        en áreas como patrones de diseño y arquitecturas de software. A
+        continuación, presento una selección de proyectos destacados.
+    </p>
+
+    {projects.map((project) => <ProyectoPreview project={project} />)}
+</section>
+
+<style>
+    h1 {
+        font-size: 1.4rem;
+        margin: 1rem 0 0 0;
+    }
+
+    @media (max-width: 767px) {
+        h1 {
+            font-size: 1.2rem;
+        }
+    }
+
+    p {
+        line-height: 1.5;
+        margin: 1rem 0 0 0;
+    }
+</style>
