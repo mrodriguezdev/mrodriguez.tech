@@ -1,5 +1,6 @@
 ---
 import siteConfig from "@/data/site-config";
+import ThemeToggle from "./ThemeToggle.astro";
 ---
 
 <nav>
@@ -12,9 +13,16 @@ import siteConfig from "@/data/site-config";
             ))
         }
     </ul>
+
+    <ThemeToggle />
 </nav>
 
 <style>
+    nav {
+        display: flex;
+        justify-content: space-between;
+    }
+
     ul {
         display: flex;
         column-gap: 1rem;

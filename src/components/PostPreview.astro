@@ -11,9 +11,9 @@ const { title, publishDate, excerpt, time } = post.data;
 
 <article>
     <header>
-        <h3>
+        <h2>
             {title}
-        </h3>
+        </h2>
         <div class="time">
             <FormattedDate date={publishDate} time={time} />
         </div>
@@ -38,15 +38,19 @@ const { title, publishDate, excerpt, time } = post.data;
         flex-grow: 1;
     }
 
-    h3 {
+    .dark h2 {
         font-size: 1.25rem;
         color: var(--color-blanco-puro);
         line-height: 1.25;
-        font-weight: 500;
+    }
+
+    h2 {
+        font-size: 1.25rem;
+        line-height: 1.25;
     }
 
     @media (min-width: 640px) {
-        h3 {
+        h2 {
             font-size: 1.5rem;
             line-height: 2rem;
         }

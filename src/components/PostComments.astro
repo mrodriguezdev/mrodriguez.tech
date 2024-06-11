@@ -1,4 +1,4 @@
-<section class="giscus mx-auto mt-10 w-full"></section>
+<div id="giscus-container"></div>
 
 <script
     src="https://giscus.app/client.js"
@@ -15,5 +15,48 @@
     data-lang="es"
     data-loading="lazy"
     crossorigin="anonymous"
-    async
-></script>
+    async></script>
+
+<script is:inline>
+    const updateGiscusTheme = (theme) => {
+        const giscusContainer = document.getElementById("giscus-container");
+        if (!giscusContainer) {
+            console.error("Error: Giscus container not found");
+            return;
+        }
+
+        // Remove existing giscus iframe and script
+        while (giscusContainer.firstChild) {
+            giscusContainer.removeChild(giscusContainer.firstChild);
+        }
+
+        // Add new giscus script with updated theme
+        const script = document.createElement("script");
+        script.src = "https://giscus.app/client.js";
+        script.setAttribute("data-repo", "mrodriguezdev/mrodriguez.tech");
+        script.setAttribute("data-repo-id", "R_kgDOMA6e3Q");
+        script.setAttribute("data-category", "Announcements");
+        script.setAttribute("data-category-id", "DIC_kwDOMA6e3c4CfpjY");
+        script.setAttribute("data-mapping", "pathname");
+        script.setAttribute("data-strict", "0");
+        script.setAttribute("data-reactions-enabled", "1");
+        script.setAttribute("data-emit-metadata", "0");
+        script.setAttribute("data-input-position", "top");
+        script.setAttribute("data-theme", theme);
+        script.setAttribute("data-lang", "es");
+        script.setAttribute("data-loading", "lazy");
+        script.crossOrigin = "anonymous";
+        script.async = true;
+
+        giscusContainer.appendChild(script);
+    };
+
+    window.addEventListener("themeChange", (event) => {
+        const { theme } = event.detail;
+        updateGiscusTheme(theme);
+    });
+
+    // Set initial theme based on localStorage
+    const initialTheme = localStorage.getItem("theme") || "dark";
+    updateGiscusTheme(initialTheme);
+</script>
