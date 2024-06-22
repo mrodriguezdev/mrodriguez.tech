@@ -6,23 +6,15 @@
     --color-gris-medio: #999;
     --color-gris-oscuro: #333;
 
-    --background-color-light: var(--color-blanco-puro);
-    --text-color-light: var(--color-gris-oscuro);
-
-    --background-color-dark: var(--color-negro-profundo);
-    --text-color-dark: var(--color-blanco-puro);
+    --bg: var(--color-negro-profundo);
+    --text: var(--color-gris-claro);
 }
 
 body {
-    background-color: var(--background-color-light);
-    color: var(--text-color-light);
-    transition: background-color 0.3s, color 0.3s;
+    background-color: var(--bg);
+    color: var(--text);
+    transition: background-color 0.3s ease-in, color 0.3s ease-in;
     margin: 0;
-}
-
-.dark body {
-    background-color: var(--background-color-dark);
-    color: var(--text-color-dark);
 }
 
 html {
@@ -59,22 +51,20 @@ h1,
 h2,
 h3,
 h4 {
-    color: var(--color-gris-oscuro);
+    color: var(--color-blanco-puro);
     font-weight: 200;
 }
 
-.dark h1,
-.dark h2,
-.dark h3,
-.dark h4 {
-    color: var(--color-blanco-puro);
-}
-
 p {
-    color: var(--color-gris-oscuro);
+    color: var(--color-gris-claro);
     text-wrap: pretty;
 }
 
-.dark p {
-    color: var(--color-gris-claro);
+.referencias {
+    text-decoration: none;
+    color: var(--color-verde-lima);
+}
+
+.referencias:hover {
+    text-decoration: underline;
 }
