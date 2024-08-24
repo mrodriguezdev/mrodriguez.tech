@@ -1,0 +1,41 @@
+---
+import type { Link } from "@/config/site.config";
+
+export interface Props {
+    navLinks: Link[];
+}
+
+const { navLinks } = Astro.props;
+---
+
+<nav>
+    <ul>
+        {
+            navLinks.map((item) => (
+                <li>
+                    <a href={item.href}>{item.text}</a>
+                </li>
+            ))
+        }
+    </ul>
+</nav>
+
+<style>
+    nav {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    ul {
+        display: flex;
+        column-gap: 1rem;
+    }
+
+    a {
+        color: var(--color-verde-lima);
+    }
+
+    a:hover {
+        text-decoration-line: underline;
+    }
+</style>

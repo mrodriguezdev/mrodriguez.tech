@@ -1,0 +1,64 @@
+---
+import SiteTitle from "./SiteTitle.astro";
+import Navigation from "./Navigation.astro";
+import siteConfig, { type SocialMedia, type Image } from "@/config/site.config";
+import Social from "./Social.astro";
+
+export interface Props {
+    image: Image;
+    url: string;
+    social: SocialMedia[];
+}
+
+const { image, url, social } = Astro.props;
+---
+
+<header>
+    <div class="p-information">
+        <img src={image?.src} alt={image?.alt} />
+        <SiteTitle url={url} />
+    </div>
+    <div class="navigation">
+        <Social social={social} />
+        <hr />
+        <Navigation navLinks={siteConfig.headerNavLinks} />
+    </div>
+</header>
+
+<style>
+    header {
+        display: flex;
+        flex-direction: column;
+        padding-top: 2rem;
+    }
+
+    @media (min-width: 767px) {
+        body {
+            padding-top: 2.4rem;
+        }
+    }
+
+    .p-information {
+        display: flex;
+        align-items: center;
+        gap: 1.25rem;
+    }
+
+    .p-information img {
+        width: 8rem;
+        height: 8rem;
+        border-radius: 50%;
+    }
+
+    .navigation {
+        display: grid;
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+
+    hr {
+        margin: 0.5rem 0;
+        height: 0.5px;
+        border: none;
+        background-color: var(--color-gris-claro);
+    }
+</style>

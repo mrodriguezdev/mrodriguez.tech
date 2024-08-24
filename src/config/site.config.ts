@@ -5,7 +5,7 @@ import RssIcon from "@/components/icons/Rss.astro";
 
 export type Image = {
     src: string;
-    alt?: string;
+    alt: string;
     caption?: string;
 };
 
@@ -14,7 +14,7 @@ export type Link = {
     href: string;
 };
 
-export type Social = {
+export type SocialMedia = {
     name: string;
     url: string;
     icon: any;
@@ -24,12 +24,12 @@ export type SiteConfig = {
     logo?: Image;
     title: string;
     description: string;
-    image?: Image;
-    author?: string;
-    developer?: string;
-    headerNavLinks?: Link[];
-    socialLinks?: Social[];
-    url?: string;
+    image: Image;
+    author: string;
+    developer: string;
+    headerNavLinks: Link[];
+    socialLinks: SocialMedia[];
+    url: string;
 };
 
 const site: string = "https://mrodriguez.tech";

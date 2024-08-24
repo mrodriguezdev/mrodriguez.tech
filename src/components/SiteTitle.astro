@@ -1,0 +1,38 @@
+---
+export interface Props {
+    url: string;
+}
+
+const { url } = Astro.props;
+---
+
+<div>
+    <h1>
+        <a href={url} target="_blank">Mario Rodríguez</a>
+    </h1>
+    <h2>Temas y Tips sobre Programación y Tecnología</h2>
+</div>
+
+<style>
+    h1 {
+        color: var(--color-blanco-puro);
+        text-align: justify;
+        font-size: 1.5rem;
+        font-weight: 600;
+        transition: 0.5s ease-in-out;
+    }
+
+    h1:hover {
+        color: var(--color-gris-claro);
+    }
+
+    h2 {
+        font-size: 1.125rem;
+        color: var(--color-gris-claro);
+    }
+
+    div {
+        display: flex;
+        flex-direction: column;
+    }
+</style>
