@@ -4,6 +4,7 @@ import "../styles/main.css";
 import { ViewTransitions } from "astro:transitions";
 import BaseHead from "@/components/BaseHead.astro";
 import Footer from "@/components/Footer.astro";
+import siteConfig from "@/config/site.config";
 
 export interface Props {
     title: string;
@@ -16,13 +17,16 @@ const { title, description } = Astro.props;
 <!doctype html>
 <html lang="es">
     <head>
-        <BaseHead title={title} description={description} />
+        <BaseHead
+            title={title ? title : siteConfig.title}
+            description={description ? description : siteConfig.description}
+        />
         <ViewTransitions />
     </head>
     <body class="wrapper">
         <main>
             <slot />
         </main>
-        <Footer url="https://mrodriguezdev.me" author="mrodriguezdev" />
+        <Footer url={siteConfig.url} developer={siteConfig.developer} />
     </body>
 </html>

@@ -4,16 +4,16 @@ const creationYear = 2024;
 
 export interface Props {
     url?: string;
-    author?: string;
+    developer?: string;
 }
 
-const { url, author } = Astro.props;
+const { url, developer } = Astro.props;
 ---
 
 <footer>
     <span>
         &copy; {creationYear} - {currentYear}
-        <a href={url}>{author}</a>
+        <a href={url}>{developer}</a>
         | Todos los derechos reservados.
     </span>
 </footer>

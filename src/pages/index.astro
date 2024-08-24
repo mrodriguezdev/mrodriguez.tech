@@ -1,10 +1,8 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import siteConfig from "@/config/site.config";
 ---
 
-<BaseLayout
-	title="Mario Rodríguez - Desarrollador de Software"
-	description="Explora mi sitio web para descubrir mis proyectos y mi blog personal, reflejando mi pasión y habilidades en el desarrollo de software."
->
+<BaseLayout title={siteConfig.title} description={siteConfig.description}>
 	<h1>Test</h1>
 </BaseLayout>
