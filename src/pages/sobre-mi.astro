@@ -1,0 +1,12 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import AboutMe from "@/components/AboutMe.astro";
+const title = "Sobre Mí";
+---
+
+<BaseLayout
+    title=`${title} - Mario Rodríguez`
+    description="Desarrollador de software, actualmente trabajando en Asesoría y Servicios Técnicos, S.A. de C.V."
+>
+    <section><AboutMe title={title} /></section>
+</BaseLayout>

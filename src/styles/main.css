@@ -65,3 +65,12 @@ ol {
         padding: 1.2rem 1.6rem 0;
     }
 }
+
+.referencias {
+    text-decoration: none;
+    color: var(--color-verde-lima);
+}
+
+.referencias:hover {
+    text-decoration: underline;
+}
