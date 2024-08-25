@@ -12,7 +12,5 @@ const posts = (await getCollection("blog")).sort(
 <BaseLayout title={siteConfig.title} description={siteConfig.description}>
 	<section>
 		{posts.map((post) => <PostPreview post={post} />)}
-
-		<a href="/blog/2">Next</a>
 	</section>
 </BaseLayout>
