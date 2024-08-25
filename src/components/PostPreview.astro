@@ -1,0 +1,77 @@
+---
+import type { CollectionEntry } from "astro:content";
+import ArrowRightIcon from "./icons/ArrowRight.astro";
+import FormattedDate from "@/components/FormattedDate.astro";
+
+type Props = { post: CollectionEntry<"blog"> };
+
+const { post } = Astro.props;
+const { title, pubDate, description, time } = post.data;
+---
+
+<article>
+    <header>
+        <h2>
+            {title}
+        </h2>
+        <div class="time">
+            <FormattedDate date={pubDate} time={time} />
+        </div>
+        <div class="description">{description}</div>
+    </header>
+    <a href={`post/${post.slug}`}> Leer más <ArrowRightIcon /></a>
+</article>
+
+<style>
+    article {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 0.5rem;
+        margin: 1.7rem 0 1.7rem 0;
+    }
+
+    header {
+        flex-grow: 1;
+    }
+
+    h2 {
+        font-size: 1.25rem;
+        line-height: 1.25;
+    }
+
+    h2 {
+        font-size: 1.25rem;
+        line-height: 1.25;
+    }
+
+    @media (min-width: 640px) {
+        h2 {
+            font-size: 1.5rem;
+            line-height: 2rem;
+        }
+    }
+
+    .description {
+        margin-top: 0.75rem;
+        line-height: 1.25rem;
+        color: var(--color-gris-claro);
+        font-size: 0.975rem;
+    }
+
+    time {
+        font-size: 0.75rem;
+    }
+
+    a {
+        color: var(--color-verde-lima);
+        transition: 0.5s ease-in-out;
+        display: flex;
+        align-items: center;
+    }
+
+    a:hover {
+        text-decoration-line: underline;
+    }
+</style>

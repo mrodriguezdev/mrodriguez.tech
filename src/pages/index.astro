@@ -1,8 +1,18 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import siteConfig from "@/config/site.config";
+import { getCollection } from "astro:content";
+import PostPreview from "@/components/PostPreview.astro";
+
+const posts = (await getCollection("blog")).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
 ---
 
 <BaseLayout title={siteConfig.title} description={siteConfig.description}>
-	<h1>Test</h1>
+	<section>
+		{posts.map((post) => <PostPreview post={post} />)}
+
+		<a href="/blog/2">Next</a>
+	</section>
 </BaseLayout>

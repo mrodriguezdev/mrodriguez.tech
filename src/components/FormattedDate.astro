@@ -1,0 +1,50 @@
+---
+import CalendarIcon from "./icons/Calendar.astro";
+import TimeIcon from "./icons/Time.astro";
+type Props = { date: Date; time: number };
+
+const { date, time } = Astro.props;
+---
+
+<div class="post-info">
+    <div class="reading-time">
+        <TimeIcon />
+        {time}
+        {time > 1 ? "minutos" : "minut"}
+    </div>
+    <div class="post-date">
+        <CalendarIcon />
+        <time datetime={date.toISOString()}>
+            {
+                date.toLocaleDateString("es-ES", {
+                    timeZone: "UTC",
+                    year: "numeric",
+                    month: "short",
+                    day: "2-digit",
+                })
+            }
+        </time>
+    </div>
+</div>
+
+<style>
+    .post-info {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.6rem 0 0 0;
+    }
+    .reading-time,
+    .post-date {
+        display: flex;
+        align-items: center;
+        column-gap: 0.7rem;
+        font-size: 0.875rem;
+        color: var(--color-gris-medio);
+    }
+    svg {
+        color: var(--color-gris-medio);
+        font-size: inherit;
+        width: 1.25rem;
+        height: 1.25rem;
+    }
+</style>
