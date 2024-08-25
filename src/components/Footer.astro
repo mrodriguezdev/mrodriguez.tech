@@ -5,12 +5,13 @@ const creationYear = 2024;
 export interface Props {
     url: string;
     developer: string;
+    className: string;
 }
 
-const { url, developer } = Astro.props;
+const { url, developer, className } = Astro.props;
 ---
 
-<footer>
+<footer class={className}>
     <span>
         &copy; {creationYear} - {currentYear}
         <a href={url}>{developer}</a>

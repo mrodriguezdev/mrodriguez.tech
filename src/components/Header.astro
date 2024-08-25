@@ -8,12 +8,13 @@ export interface Props {
     image: Image;
     url: string;
     social: SocialMedia[];
+    className: string;
 }
 
-const { image, url, social } = Astro.props;
+const { image, url, social, className } = Astro.props;
 ---
 
-<header>
+<header class={className}>
     <div class="p-information">
         <img src={image?.src} alt={image?.alt} />
         <SiteTitle url={url} />

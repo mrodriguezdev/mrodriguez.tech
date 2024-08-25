@@ -24,15 +24,20 @@ const { title, description } = Astro.props;
         />
         <ViewTransitions />
     </head>
-    <body class="wrapper">
+    <body>
         <Header
             url={siteConfig.url}
             image={siteConfig.image}
             social={siteConfig.socialLinks}
+            className={"wrapper"}
         />
-        <main>
+        <main class="wrapper">
             <slot />
         </main>
-        <Footer url={siteConfig.url} developer={siteConfig.developer} />
+        <Footer
+            url={siteConfig.url}
+            developer={siteConfig.developer}
+            className={"wrapper"}
+        />
     </body>
 </html>
