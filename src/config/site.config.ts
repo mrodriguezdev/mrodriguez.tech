@@ -33,7 +33,7 @@ export type SiteConfig = {
     pageSize: number;
 };
 
-const site: string = "http://localhost:4321";
+const site: string = "https://mrodriguez.tech";
 
 const siteConfig: SiteConfig = {
     title: 'Mario Rodríguez - Desarrollador de Software',
