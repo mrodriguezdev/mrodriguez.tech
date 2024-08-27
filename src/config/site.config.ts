@@ -2,6 +2,7 @@ import GitHubIcon from "@/components/icons/GitHub.astro";
 import LinkedInIcon from "@/components/icons/LinkedIn.astro";
 import MailIcon from "@/components/icons/Mail.astro";
 import RssIcon from "@/components/icons/Rss.astro";
+const URL = import.meta.env.URL;
 
 export type Image = {
     src: string;
@@ -33,7 +34,7 @@ export type SiteConfig = {
     pageSize: number;
 };
 
-const site: string = "https://mrodriguez.tech";
+const site: string = URL;
 
 const siteConfig: SiteConfig = {
     title: 'Mario Rodríguez - Desarrollador de Software',
