@@ -1,0 +1,40 @@
+---
+const currentYear = new Date().getFullYear();
+const creationYear = 2024;
+
+export interface Props {
+    url: string;
+    developer: string;
+    className: string;
+}
+
+const { url, developer, className } = Astro.props;
+---
+
+<footer class={className}>
+    <span>
+        &copy; {creationYear} - {currentYear}
+        <a href={url}>{developer}</a>
+        | Todos los derechos reservados.
+    </span>
+</footer>
+
+<style>
+    footer {
+        text-align: center;
+    }
+
+    footer span {
+        font-size: 0.875rem;
+        color: var(--color-gris-medio);
+    }
+
+    a {
+        color: var(--color-verde-lima);
+        transition: 0.5s ease-in-out;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+</style>

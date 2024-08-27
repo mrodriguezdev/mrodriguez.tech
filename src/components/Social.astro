@@ -1,0 +1,40 @@
+---
+import type { SocialMedia } from "@/config/site.config";
+
+export interface Props {
+    social: SocialMedia[];
+}
+
+const { social } = Astro.props;
+---
+
+<nav>
+    <ul>
+        {
+            social.map((item) => (
+                <li>
+                    <a href={item.url} target="_blank" title={item.name}>
+                        <item.icon />
+                    </a>
+                </li>
+            ))
+        }
+    </ul>
+</nav>
+
+<style>
+    nav {
+        display: flex;
+        justify-content: flex-end;
+        padding: 0.5rem 0 0.5rem 0;
+    }
+
+    ul {
+        display: flex;
+        column-gap: 0.5rem;
+    }
+
+    a {
+        color: var(--color-verde-lima);
+    }
+</style>

@@ -1,16 +1,28 @@
 ---
+import Pagination from "@/components/Pagination.astro";
+import PostPreview from "@/components/PostPreview.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import siteConfig from "@/config/site.config";
 
+const pageSize = siteConfig.pageSize;
+const allPosts = (await getCollection("blog")).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+
+const currentPage = 1;
+
+const start = (currentPage - 1) * pageSize;
+const end = start + pageSize;
+const paginatedPosts = allPosts.slice(start, end);
+
+const nextPage = currentPage + 1;
+const nextUrl = allPosts.length > pageSize ? `/page/${nextPage}` : null;
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout>
+	<section>
+		{paginatedPosts.map((post) => <PostPreview post={post} />)}
+		{nextUrl && <Pagination nextUrl={nextUrl} />}
+	</section>
+</BaseLayout>

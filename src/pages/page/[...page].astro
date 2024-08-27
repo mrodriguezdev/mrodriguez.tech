@@ -1,0 +1,28 @@
+---
+import Pagination from "@/components/Pagination.astro";
+import PostPreview from "@/components/PostPreview.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import siteConfig from "@/config/site.config";
+
+export async function getStaticPaths({ paginate }) {
+    const allPosts = await getCollection("blog");
+
+    return paginate(allPosts, {
+        pageSize: siteConfig.pageSize,
+    });
+}
+
+const { page } = Astro.props;
+console.log(page);
+---
+
+<BaseLayout>
+    <section>
+        {page.data.map((post) => <PostPreview post={post} />)}
+        <Pagination
+            prevUrl={page.url.prev === "/page" ? "/" : page.url.prev}
+            nextUrl={page.url.next}
+        />
+    </section>
+</BaseLayout>

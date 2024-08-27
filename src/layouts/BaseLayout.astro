@@ -1,0 +1,43 @@
+---
+import "@fontsource-variable/onest";
+import "../styles/main.css";
+import { ViewTransitions } from "astro:transitions";
+import BaseHead from "@/components/BaseHead.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import siteConfig from "@/config/site.config";
+
+export interface Props {
+    title?: string;
+    description?: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+    <head>
+        <BaseHead
+            title={title ? title : siteConfig.title}
+            description={description ? description : siteConfig.description}
+        />
+        <ViewTransitions />
+    </head>
+    <body>
+        <Header
+            url={siteConfig.url}
+            image={siteConfig.image}
+            social={siteConfig.socialLinks}
+            className={"wrapper"}
+        />
+        <main class="wrapper">
+            <slot />
+        </main>
+        <Footer
+            url={siteConfig.url}
+            developer={siteConfig.developer}
+            className={"wrapper"}
+        />
+    </body>
+</html>
