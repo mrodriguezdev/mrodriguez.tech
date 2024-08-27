@@ -1,0 +1,44 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import ProyectoPost from "@/layouts/ProyectoPost.astro";
+import { getCollection } from "astro:content";
+
+const projects = (await getCollection("project")).sort();
+const title = "Proyectos";
+---
+
+<BaseLayout
+    title=`${title} - Mario Rodríguez`
+    description="Explora mi sitio web para descubrir mis proyectos y mi blog personal, reflejando mi pasión y habilidades en el dsarrollo de software."
+>
+    <section>
+        <h1>{title.toUpperCase()}</h1>
+        <p>
+            He desarrollado una serie de proyectos, incluyendo trabajos para
+            clientes y proyectos personales, en los cuales he aplicado
+            conocimientos en áreas como patrones de diseño y arquitecturas de
+            software. A continuación, presento una selección de proyectos
+            destacados.
+        </p>
+
+        {projects.map((project) => <ProyectoPost project={project} />)}
+    </section>
+</BaseLayout>
+
+<style>
+    h1 {
+        font-size: 1.4rem;
+        margin: 1rem 0 0 0;
+    }
+
+    @media (max-width: 767px) {
+        h1 {
+            font-size: 1.2rem;
+        }
+    }
+
+    p {
+        line-height: 1.5;
+        margin: 1rem 0 0 0;
+    }
+</style>
