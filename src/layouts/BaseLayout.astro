@@ -8,8 +8,8 @@ import Footer from "@/components/Footer.astro";
 import siteConfig from "@/config/site.config";
 
 export interface Props {
-    title: string;
-    description: string;
+    title?: string;
+    description?: string;
 }
 
 const { title, description } = Astro.props;

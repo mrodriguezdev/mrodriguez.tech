@@ -30,9 +30,10 @@ export type SiteConfig = {
     headerNavLinks: Link[];
     socialLinks: SocialMedia[];
     url: string;
+    pageSize: number;
 };
 
-const site: string = "https://mrodriguez.tech";
+const site: string = "http://localhost:4321";
 
 const siteConfig: SiteConfig = {
     title: 'Mario Rodríguez - Desarrollador de Software',
@@ -79,7 +80,8 @@ const siteConfig: SiteConfig = {
             icon: MailIcon
         }
     ],
-    url: site
+    url: site,
+    pageSize: 3
 };
 
 export default siteConfig;

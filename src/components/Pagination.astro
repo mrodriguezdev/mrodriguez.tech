@@ -1,0 +1,63 @@
+---
+import ArrowRightIcon from "./icons/ArrowRight.astro";
+import ArrowLeftIcon from "./icons/ArrowLeft.astro";
+
+const { prevUrl, nextUrl } = Astro.props;
+---
+
+<div class="pagination">
+    <div class="prev-link">
+        {
+            prevUrl && (
+                <a href={prevUrl}>
+                    <ArrowLeftIcon /> Página anterior
+                </a>
+            )
+        }
+    </div>
+    <div class="next-link">
+        {
+            nextUrl && (
+                <a href={nextUrl}>
+                    Siguiente página <ArrowRightIcon />
+                </a>
+            )
+        }
+    </div>
+</div>
+
+<style>
+    .pagination {
+        display: flex;
+        justify-content: space-between;
+        padding: 1.8rem 0 1.5rem;
+    }
+
+    .prev-link {
+        flex: 1;
+        display: flex;
+        justify-content: flex-start;
+    }
+
+    .next-link {
+        flex: 1;
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .prev-link:empty,
+    .next-link:empty {
+        flex: none;
+    }
+
+    a {
+        color: var(--color-verde-lima);
+        transition: 0.5s ease-in-out;
+        display: flex;
+        align-items: center;
+    }
+
+    a:hover {
+        text-decoration-line: underline;
+    }
+</style>

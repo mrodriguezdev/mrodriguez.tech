@@ -1,16 +1,28 @@
 ---
-import BaseLayout from "@/layouts/BaseLayout.astro";
-import siteConfig from "@/config/site.config";
-import { getCollection } from "astro:content";
+import Pagination from "@/components/Pagination.astro";
 import PostPreview from "@/components/PostPreview.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import siteConfig from "@/config/site.config";
 
-const posts = (await getCollection("blog")).sort(
+const pageSize = siteConfig.pageSize;
+const allPosts = (await getCollection("blog")).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
+
+const currentPage = 1;
+
+const start = (currentPage - 1) * pageSize;
+const end = start + pageSize;
+const paginatedPosts = allPosts.slice(start, end);
+
+const nextPage = currentPage + 1;
+const nextUrl = allPosts.length > pageSize ? `/page/${nextPage}` : null;
 ---
 
-<BaseLayout title={siteConfig.title} description={siteConfig.description}>
+<BaseLayout>
 	<section>
-		{posts.map((post) => <PostPreview post={post} />)}
+		{paginatedPosts.map((post) => <PostPreview post={post} />)}
+		{nextUrl && <Pagination nextUrl={nextUrl} />}
 	</section>
 </BaseLayout>
