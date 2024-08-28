@@ -1,5 +1,6 @@
 ---
 import FormattedDate from "@/components/FormattedDate.astro";
+import PostComments from "@/components/PostComments.astro";
 import type { CollectionEntry } from "astro:content";
 
 type Props = CollectionEntry<"blog">["data"];
@@ -10,4 +11,5 @@ const { pubDate, time } = Astro.props;
 <article>
     {pubDate && time && <FormattedDate date={pubDate} time={time} />}
     <div><slot /></div>
+    <PostComments />
 </article>
