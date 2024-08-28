@@ -3,7 +3,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import ProyectoPost from "@/layouts/ProyectoPost.astro";
 import { getCollection } from "astro:content";
 
-const projects = (await getCollection("project")).sort();
+const projects = await getCollection("project");
 const title = "Proyectos";
 ---
 
@@ -14,15 +14,21 @@ const title = "Proyectos";
     <section>
         <h1>{title.toUpperCase()}</h1>
         <p>
-            He desarrollado una serie de proyectos, incluyendo trabajos para
-            clientes y proyectos personales, en los cuales he aplicado
-            conocimientos en áreas como patrones de diseño y arquitecturas de
-            software. A continuación, presento una selección de proyectos
-            destacados.
+            He trabajado en una variedad de proyectos, tanto para clientes como
+            en iniciativas personales, donde he aplicado conocimientos en
+            patrones de diseño y arquitecturas de software. A continuación,
+            presento una selección de proyectos destacados que reflejan mi
+            enfoque en la creación de soluciones eficientes y bien
+            estructuradas. Cada proyecto muestra mi compromiso con la calidad
+            técnica y la innovación en el desarrollo de software.
         </p>
 
         <div>
-            {projects.map((project) => <ProyectoPost project={project} />)}
+            {
+                projects
+                    .sort((a, b) => a.data.order - b.data.order)
+                    .map((project) => <ProyectoPost project={project} />)
+            }
         </div>
     </section>
 </BaseLayout>
