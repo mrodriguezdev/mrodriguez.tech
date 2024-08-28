@@ -1,10 +1,10 @@
 import { defineConfig } from 'astro/config';
 import vercel from '@astrojs/vercel/serverless';
-const URL = import.meta.env.URL;
+import siteConfig from '@/config/site.config';
 
 export default defineConfig({
     // ...
-    site: URL,
+    site: siteConfig.url,
     output: 'server',
     adapter: vercel({
         webAnalytics: {
