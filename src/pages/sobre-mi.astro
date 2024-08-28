@@ -1,6 +1,16 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import AboutMe from "@/components/AboutMe.astro";
+
+const nacimiento = new Date("1999-11-12");
+const hoy = new Date();
+const edad =
+    hoy.getFullYear() -
+    nacimiento.getFullYear() -
+    (hoy <
+    new Date(hoy.getFullYear(), nacimiento.getMonth(), nacimiento.getDate())
+        ? 1
+        : 0);
+
 const title = "Sobre Mí";
 ---
 
@@ -8,5 +18,56 @@ const title = "Sobre Mí";
     title=`${title} - Mario Rodríguez`
     description="Desarrollador de software, actualmente trabajando en Asesoría y Servicios Técnicos, S.A. de C.V."
 >
-    <section><AboutMe title={title} /></section>
+    <section>
+        <h1>{title.toUpperCase()}</h1>
+        <p>
+            Hola, mi nombre es Mario. Tengo {edad} años y soy de La Libertad, El
+            Salvador 🇸🇻. Me gradué como Ingeniero en Sistemas en el año 2024. Aunque
+            tengo una pasión especial por el desarrollo backend, también disfruto
+            trabajando en el frontend.
+        </p>
+        <p>
+            Mi enfoque en el desarrollo backend incluye una sólida comprensión
+            de la arquitectura de <a
+                href="https://www.redhat.com/es/topics/microservices"
+                class="referencias"
+                target="_blank">microservicios</a
+            > y la arquitectura basada en
+            <a
+                href="https://www.redhat.com/es/topics/integration/what-is-event-driven-architecture"
+                class="referencias"
+                target="_blank">eventos</a
+            >. Me esfuerzo por crear soluciones escalables y eficientes,
+            asegurando un rendimiento óptimo y una fácil mantenibilidad.
+        </p>
+        <p>
+            En el desarrollo frontend, me apasiona crear experiencias de usuario
+            atractivas y accesibles, utilizando las últimas tecnologías y
+            prácticas recomendadas. Me adapto rápidamente a nuevos entornos y
+            siempre estoy buscando mejorar mis habilidades y conocimientos en
+            ambos campos del desarrollo.
+        </p>
+        <p>
+            Soy un profesional dedicado y motivado, con un compromiso constante
+            hacia la excelencia en todos mis proyectos.
+        </p>
+    </section>
 </BaseLayout>
+
+<style>
+    section {
+        display: flex;
+        flex-direction: column;
+    }
+
+    h1 {
+        font-size: 1.4rem !important;
+        margin: 1rem 0 1rem 0;
+    }
+
+    p {
+        padding: 0.6rem 0 0.6rem;
+        margin: 0;
+        line-height: 1.55;
+    }
+</style>

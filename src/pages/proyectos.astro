@@ -21,24 +21,31 @@ const title = "Proyectos";
             destacados.
         </p>
 
-        {projects.map((project) => <ProyectoPost project={project} />)}
+        <div>
+            {projects.map((project) => <ProyectoPost project={project} />)}
+        </div>
     </section>
 </BaseLayout>
 
 <style>
-    h1 {
-        font-size: 1.4rem;
-        margin: 1rem 0 0 0;
+    section {
+        display: flex;
+        flex-direction: column;
     }
 
-    @media (max-width: 767px) {
-        h1 {
-            font-size: 1.2rem;
-        }
+    h1 {
+        font-size: 1.4rem !important;
+        margin: 1rem 0 1rem 0;
+    }
+
+    div {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
     }
 
     p {
         line-height: 1.5;
-        margin: 1rem 0 0 0;
+        margin-bottom: 2rem;
     }
 </style>
