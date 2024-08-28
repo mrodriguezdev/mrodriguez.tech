@@ -41,6 +41,12 @@ p {
     text-wrap: pretty;
 }
 
+div p {
+    color: var(--color-gris-claro);
+    text-wrap: pretty;
+    padding: 0.6rem 0;
+}
+
 a {
     color: inherit;
     text-decoration: none;

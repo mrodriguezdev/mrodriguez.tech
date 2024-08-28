@@ -29,27 +29,17 @@ const { title, pubDate, description, time } = post.data;
         justify-content: center;
         align-items: flex-start;
         gap: 0.5rem;
-        margin: 1.7rem 0 1.7rem 0;
-    }
-
-    header {
-        flex-grow: 1;
     }
 
     h2 {
-        font-size: 1.25rem;
-        line-height: 1.25;
-    }
-
-    h2 {
-        font-size: 1.25rem;
-        line-height: 1.25;
+        color: var(--color-blanco-puro);
+        margin-bottom: 0;
+        font-size: 1.4rem !important;
     }
 
     @media (min-width: 640px) {
         h2 {
-            font-size: 1.5rem;
-            line-height: 2rem;
+            font-size: 1.3rem !important;
         }
     }
 
@@ -57,11 +47,12 @@ const { title, pubDate, description, time } = post.data;
         margin-top: 0.75rem;
         line-height: 1.25rem;
         color: var(--color-gris-claro);
-        font-size: 0.975rem;
+        font-size: 1rem;
     }
 
     .time {
         font-size: 0.75rem;
+        margin-top: 0.6rem;
     }
 
     a {

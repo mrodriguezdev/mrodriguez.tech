@@ -1,36 +1,15 @@
 ---
 import FormattedDate from "@/components/FormattedDate.astro";
+import PostComments from "@/components/PostComments.astro";
 import type { CollectionEntry } from "astro:content";
 
 type Props = CollectionEntry<"blog">["data"];
 
-const { title, pubDate, time } = Astro.props;
+const { pubDate, time } = Astro.props;
 ---
 
 <article>
-    <header>
-        <h1>
-            {title}
-        </h1>
-        {pubDate && time && <FormattedDate date={pubDate} time={time} />}
-    </header>
-    <div>
-        <slot />
-    </div>
+    {pubDate && time && <FormattedDate date={pubDate} time={time} />}
+    <div><slot /></div>
+    <PostComments />
 </article>
-
-<style>
-    article {
-        margin: 35px 0 48px 0;
-    }
-
-    h1 {
-        font-size: 1.5rem;
-        text-wrap: pretty;
-    }
-
-    div {
-        max-width: 100%;
-        white-space: pre-wrap;
-    }
-</style>

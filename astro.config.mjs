@@ -5,7 +5,7 @@ const URL = import.meta.env.URL;
 export default defineConfig({
     // ...
     site: URL,
-    output: 'hybrid',
+    output: 'server',
     adapter: vercel({
         webAnalytics: {
             enabled: true,

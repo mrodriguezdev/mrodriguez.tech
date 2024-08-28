@@ -18,11 +18,34 @@ const paginatedPosts = allPosts.slice(start, end);
 
 const nextPage = currentPage + 1;
 const nextUrl = allPosts.length > pageSize ? `/page/${nextPage}` : null;
+
+const title = "Publicaciones recientes";
 ---
 
 <BaseLayout>
 	<section>
-		{paginatedPosts.map((post) => <PostPreview post={post} />)}
+		<h1>{title.toUpperCase()}</h1>
+		<div>
+			{paginatedPosts.map((post) => <PostPreview post={post} />)}
+		</div>
 		{nextUrl && <Pagination nextUrl={nextUrl} />}
 	</section>
 </BaseLayout>
+
+<style>
+	section {
+		display: flex;
+		flex-direction: column;
+	}
+
+	h1 {
+		font-size: 1.4rem !important;
+		margin: 1rem 0 1rem 0;
+	}
+
+	div {
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
+	}
+</style>

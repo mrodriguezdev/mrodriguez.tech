@@ -1,4 +1,5 @@
 ---
+export const prerender = true;
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import BlogPost from "@/layouts/BlogPost.astro";
 import { type CollectionEntry, getCollection } from "astro:content";
@@ -17,7 +18,22 @@ const { Content } = await post.render();
 ---
 
 <BaseLayout title={post.data.title} description={post.data.description}>
-    <BlogPost {...post.data}>
-        <Content />
-    </BlogPost>
+    <section>
+        <h1>{post.data.title.toUpperCase()}</h1>
+        <BlogPost {...post.data}>
+            <Content />
+        </BlogPost>
+    </section>
 </BaseLayout>
+
+<style>
+    section {
+        display: flex;
+        flex-direction: column;
+    }
+
+    h1 {
+        font-size: 1.4rem !important;
+        margin: 1rem 0 1rem 0;
+    }
+</style>
