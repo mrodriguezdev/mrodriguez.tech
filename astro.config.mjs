@@ -6,8 +6,6 @@ export default defineConfig({
     site: 'https://mrodriguez.tech',
     output: 'server',
     adapter: vercel({
-        webAnalytics: {
-            enabled: true,
-        },
+        webAnalytics: { enabled: true }
     }),
 });
