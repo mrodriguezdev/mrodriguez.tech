@@ -18,6 +18,11 @@ const { title, description } = Astro.props;
 <!doctype html>
 <html lang="es">
     <head>
+        <script is:inline>
+            if (localStorage.getItem("theme") === "light") {
+                document.documentElement.classList.add("light");
+            }
+        </script>
         <BaseHead
             title={title ? title : siteConfig.title}
             description={description ? description : siteConfig.description}
