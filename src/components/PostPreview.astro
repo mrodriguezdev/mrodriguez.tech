@@ -37,6 +37,10 @@ const { title, pubDate, description, time } = post.data;
         font-size: 1.4rem !important;
     }
 
+    html.light h2 {
+        color: var(--color-gris-oscuro);
+    }
+
     @media (min-width: 640px) {
         h2 {
             font-size: 1.3rem !important;
@@ -48,6 +52,10 @@ const { title, pubDate, description, time } = post.data;
         line-height: 1.25rem;
         color: var(--color-gris-claro);
         font-size: 1rem;
+    }
+
+    html.light .description {
+        color: var(--color-gris-oscuro);
     }
 
     .time {
