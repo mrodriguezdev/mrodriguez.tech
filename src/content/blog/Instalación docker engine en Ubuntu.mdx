@@ -1,0 +1,100 @@
+---
+title: 'Instalación de Docker Engine en Ubuntu 20.04: Guía Paso a Paso'
+description: 'En este artículo, te guiaré a través del proceso de instalación de Docker Engine en Ubuntu 20.04. Aprenderás desde los conceptos básicos de qué es Docker y cómo funciona, hasta los pasos detallados para poner en marcha tu entorno de contenedores. ¡Prepárate para comenzar tu aventura con Docker!'
+pubDate: 2024-09-25
+updatedDate: 2024-09-25
+tags: ["Docker", "Ubuntu", "Contenedores", "Linux", "Guía"]
+time: 6
+---
+import CodeBlock from '@/components/CodeBlock.astro';
+
+## Introducción
+
+En el mundo del desarrollo de software y la administración de sistemas, la capacidad de ejecutar aplicaciones de manera rápida y eficiente es esencial. <a target="_blank" href="https://www.docker.com" class="referencias">Docker</a> se ha convertido en una herramienta imprescindible al permitir la creación de contenedores, que son entornos ligeros y portátiles donde las aplicaciones pueden ejecutarse de forma aislada del sistema operativo. Esto permite evitar problemas de compatibilidad entre entornos de desarrollo y producción, simplificando el despliegue de aplicaciones.
+
+A diferencia de las máquinas virtuales tradicionales, que requieren un sistema operativo completo para cada instancia, los contenedores Docker comparten el kernel del sistema operativo, lo que los hace más ligeros y rápidos. Esto los convierte en una opción ideal tanto para desarrolladores que buscan entornos consistentes, como para administradores de sistemas que desean optimizar el uso de recursos.
+
+En este artículo, aprenderás cómo instalar Docker Community Edition (CE) en Ubuntu 20.04.
+
+
+## Instalación usando el repositorio `apt`.
+
+1. **Configurar los repositorios `apt` de Docker.**
+    - Agregar las llaves GPG oficiales de Docker.  
+
+    <CodeBlock code={`
+    sudo apt update
+    sudo apt install ca-certificates curl
+    sudo install -m 0755 -d /etc/apt/keyrings
+    sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+    sudo chmod a+r /etc/apt/keyrings/docker.asc`} 
+    />
+
+    - Agregar el repositorio `apt` a los recursos.  
+    
+    <CodeBlock code={`
+    echo \
+    "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+    $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+    sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+    sudo apt update`} 
+    />
+
+    
+2. **Instalar los paquetes de Docker.**
+    - Para instalar la última versión de docker, ejecutar el siguiente comando.  
+
+    <CodeBlock code={`
+    sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin`} />
+
+    - Para instalar una versión específica de Docker.
+        - Primero, listar las versiones disponibles en el repositorio.
+        
+        <CodeBlock code={`
+        apt-cache madison docker-ce | awk '{ print $3 }'`} />
+        
+        - Seleccionar la versión deseada e instalarla.
+
+        <CodeBlock code={`
+        VERSION_STRING=5:26.1.0-1~ubuntu.24.04~noble
+        sudo apt install docker-ce=$VERSION_STRING docker-ce-cli=$VERSION_STRING containerd.io docker-buildx-plugin docker-compose-plugin`} />
+        
+3. **Verificar la instalación de Docker Engine.**
+    - Ejecutar la imagen **`hello-world`** para verificar que la instalación fue exitosa.
+        
+        <CodeBlock code={`
+        sudo docker run hello-world`} />
+        
+
+## Post-Instalación.
+
+💡 **Opcional:** Para evitar tener que usar **`sudo`** en cada comando de Docker, realizar los siguientes pasos.
+
+1. **Crear el grupo de docker.**
+
+    <CodeBlock code={`
+    sudo groupadd docker`} />
+    
+2. **Agregar nuestro usuario al grupo de Docker.**
+    
+    <CodeBlock code={`
+    sudo usermod -aG docker \${USER}`} />
+    
+3. **Actualizar la sesión de usuario.**
+    - Necesitarás cerrar sesión y volver a iniciarla para que se reevalúe la membresía de tu grupo, o puedes ejecutar el siguiente comando
+
+    <CodeBlock code={`
+    su -s \${USER}`} />
+        
+4. **Verificar la configuración.**
+    - Cerrar la terminal, abrir una nueva y ejecutar el siguiente comando para verificar que Docker funcione sin **`sudo`.**
+    
+    <CodeBlock code={`
+    docker run hello-world`} />
+
+
+## Conclusión
+
+Las ventajas que ofrece Docker han revolucionado la implementación de software, haciéndola considerablemente más eficiente. Con Docker, los desarrolladores pueden estar seguros de que su aplicación se ejecutará de manera consistente, independientemente del entorno en el que se despliegue. Por su parte, los administradores de sistemas se benefician al evitar las complicaciones asociadas con cambios de entorno o la búsqueda de bibliotecas específicas.
+
+En próximos artículos, exploraremos cómo administrar contenedores de Docker, ejecutar contenedores de forma efectiva y gestionar imágenes. Para aprovechar al máximo esta poderosa herramienta, te recomiendo  explorar la <a target="_blank" href="https://docs.docker.com/" class="referencias">documentación oficial de Docker</a>.
