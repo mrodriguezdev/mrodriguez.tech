@@ -1,20 +1,21 @@
 ---
-title: 'Instalación de Docker Engine en Ubuntu 20.04: Guía Paso a Paso'
+title: 'Instalación de Docker Engine en Ubuntu 22.04: Guía Paso a Paso'
 description: 'En este artículo, te guiaré a través del proceso de instalación de Docker Engine en Ubuntu 20.04. Aprenderás desde los conceptos básicos de qué es Docker y cómo funciona, hasta los pasos detallados para poner en marcha tu entorno de contenedores. ¡Prepárate para comenzar tu aventura con Docker!'
 pubDate: 2024-09-25
-updatedDate: 2024-09-25
+updatedDate: 2024-09-28
 tags: ["Docker", "Ubuntu", "Contenedores", "Linux", "Guía"]
 time: 6
 ---
 import CodeBlock from '@/components/CodeBlock.astro';
+import ExternalLink from '@/components/ExternalLink.astro';
 
 ## Introducción
 
-En el mundo del desarrollo de software y la administración de sistemas, la capacidad de ejecutar aplicaciones de manera rápida y eficiente es esencial. <a target="_blank" href="https://www.docker.com" class="referencias">Docker</a> se ha convertido en una herramienta imprescindible al permitir la creación de contenedores, que son entornos ligeros y portátiles donde las aplicaciones pueden ejecutarse de forma aislada del sistema operativo. Esto permite evitar problemas de compatibilidad entre entornos de desarrollo y producción, simplificando el despliegue de aplicaciones.
+En el mundo del desarrollo de software y la administración de sistemas, la capacidad de ejecutar aplicaciones de manera rápida y eficiente es esencial. <ExternalLink href='https://www.docker.com' text='Docker' /> se ha convertido en una herramienta imprescindible al permitir la creación de contenedores, que son entornos ligeros y portátiles donde las aplicaciones pueden ejecutarse de forma aislada del sistema operativo. Esto permite evitar problemas de compatibilidad entre entornos de desarrollo y producción, simplificando el despliegue de aplicaciones.
 
 A diferencia de las máquinas virtuales tradicionales, que requieren un sistema operativo completo para cada instancia, los contenedores Docker comparten el kernel del sistema operativo, lo que los hace más ligeros y rápidos. Esto los convierte en una opción ideal tanto para desarrolladores que buscan entornos consistentes, como para administradores de sistemas que desean optimizar el uso de recursos.
 
-En este artículo, aprenderás cómo instalar Docker Community Edition (CE) en Ubuntu 20.04.
+En este artículo, aprenderás cómo instalar Docker Community Edition (CE) en Ubuntu 22.04.
 
 
 ## Instalación usando el repositorio `apt`.
@@ -97,4 +98,4 @@ En este artículo, aprenderás cómo instalar Docker Community Edition (CE) en U
 
 Las ventajas que ofrece Docker han revolucionado la implementación de software, haciéndola considerablemente más eficiente. Con Docker, los desarrolladores pueden estar seguros de que su aplicación se ejecutará de manera consistente, independientemente del entorno en el que se despliegue. Por su parte, los administradores de sistemas se benefician al evitar las complicaciones asociadas con cambios de entorno o la búsqueda de bibliotecas específicas.
 
-En próximos artículos, exploraremos cómo administrar contenedores de Docker, ejecutar contenedores de forma efectiva y gestionar imágenes. Para aprovechar al máximo esta poderosa herramienta, te recomiendo  explorar la <a target="_blank" href="https://docs.docker.com/" class="referencias">documentación oficial de Docker</a>.
+En próximos artículos, exploraremos cómo administrar contenedores de Docker, ejecutar contenedores de forma efectiva y gestionar imágenes. Para aprovechar al máximo esta poderosa herramienta, te recomiendo  explorar la <ExternalLink href='https://docs.docker.com/' text='documentación oficial de Docker' />. 
