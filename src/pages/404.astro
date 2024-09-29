@@ -1,0 +1,16 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import ExternalLink from "@/components/ExternalLink.astro";
+
+const title = "404 Página no encontrada";
+---
+
+<BaseLayout title={`${title} - Mario Rodríguez`}>
+    <h1>Página No Encontrada</h1>
+
+    Llegaste hasta aquí, pero la página que buscas no está disponible. Si crees
+    que esto es un error, quizás puedas <ExternalLink
+        href="https://github.com/mrodriguezdev/mrodriguez.tech/issues"
+        text="ayudarme"
+    /> a solucionarlo.
+</BaseLayout>
