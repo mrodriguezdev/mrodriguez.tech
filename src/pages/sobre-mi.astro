@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import ExternalLink from "@/components/ExternalLink.astro";
 
 const nacimiento = new Date("1999-11-12");
 const hoy = new Date();
@@ -29,15 +30,14 @@ const title = "Sobre Mí";
         </p>
         <p>
             Mi verdadera pasión reside en el desarrollo backend, donde me
-            destaco por mi conocimiento en arquitecturas de <a
+            destaco por mi conocimiento en arquitecturas de <ExternalLink
                 href="https://www.redhat.com/es/topics/microservices"
-                class="referencias"
-                target="_blank">microservicios</a
-            > y basadas en <a
+                text="microservicios"
+            />
+            y basadas en <ExternalLink
                 href="https://www.redhat.com/es/topics/integration/what-is-event-driven-architecture"
-                class="referencias"
-                target="_blank">eventos</a
-            >. Me esfuerzo por diseñar sistemas escalables, robustos y fáciles
+                text="eventos"
+            />. Me esfuerzo por diseñar sistemas escalables, robustos y fáciles
             de mantener, siempre con la eficiencia y el rendimiento como
             prioridad. Para mí, cada proyecto es una oportunidad para superar
             desafíos y aportar soluciones que realmente marquen la diferencia.
