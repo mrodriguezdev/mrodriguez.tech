@@ -23,6 +23,10 @@ html.light h2 {
     color: var(--color-gris-oscuro)
 }
 
+html.light h3 {
+    color: var(--color-gris-oscuro)
+}
+
 html.light p {
     color: var(--color-gris-oscuro)
 }

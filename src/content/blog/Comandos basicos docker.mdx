@@ -1,0 +1,135 @@
+---
+title: 'Comandos básicos de Docker: Guía para principiantes'
+description: 'Aprende los comandos esenciales de Docker para gestionar contenedores de forma sencilla. 
+En esta guía para principiantes, cubro desde la descarga de imágenes hasta la ejecución y administración de contenedores. 
+¡Comienza a usar Docker y mejora tus habilidades en DevOps!'
+pubDate: 2024-11-06
+updatedDate: 2024-11-06
+tags: ["Docker", "Comandos Docker", "Contenedores", "Guía para principiantes", "DevOps", "Docker tutorial", "Gestión de contenedores"]
+time: 4
+---
+import CodeBlock from '@/components/CodeBlock.astro';
+import ExternalLink from '@/components/ExternalLink.astro';
+
+## Introducción
+En el mundo del desarrollo moderno, <ExternalLink href='https://www.docker.com' text='Docker' /> se ha convertido en una herramienta fundamental 
+para facilitar la creación, despliegue y gestión de aplicaciones en contenedores. 
+Si estás comenzando con Docker, esta guía te ayudará a entender los comandos básicos que necesitas para trabajar de manera efectiva.
+
+> **Nota:** Si aún no has instalado Docker, consulta primero mi <ExternalLink href='https://mrodriguez.tech' text='guía de instalación de Docker' />  para asegurarte de que todo esté listo antes de comenzar con estos comandos básicos.
+
+## ¿Qué es Docker?
+<ExternalLink href='https://www.docker.com' text='Docker' /> es una plataforma que permite a los desarrolladores empaquetar sus aplicaciones en contenedores, 
+los cuales son entornos aislados que incluyen todo lo necesario para ejecutar una aplicación: código, dependencias, y configuraciones. 
+Esto hace que el despliegue y la escalabilidad sean mucho más fáciles.
+
+## Comandos esenciales de Docker
+A continuación, encontrarás los comandos más útiles que necesitarás en tus primeros pasos con Docker:
+  
+### 1. **docker --version**  
+   Este comando muestra la versión de Docker instalada en tu sistema. Es útil para verificar si Docker está correctamente instalado.
+
+   <CodeBlock code={`
+   docker --version`}/>
+
+### 2. **docker pull**  
+   Este comando permite descargar una imagen de Docker desde el repositorio de Docker Hub (o desde cualquier otro registro configurado). 
+   Las imágenes son plantillas de sistemas operativos con aplicaciones instaladas.
+
+   <CodeBlock code={`
+   docker pull nombre-imagen 
+   # Ejemplo: docker pull nginx`}/>
+  
+### 3. **docker images**  
+    Muestra todas las imágenes que tienes almacenadas localmente. Este comando es útil para comprobar qué imágenes tienes disponibles.
+
+    <CodeBlock code={`
+    docker images`}/>
+
+### 4. **docker run**  
+   Es uno de los comandos más importantes. Permite iniciar un contenedor a partir de una imagen. Puedes añadir varias opciones al comando `docker run`, pero en su forma más simple, basta con especificar el nombre de la imagen.
+    
+   <CodeBlock code={`
+   docker run nombre-imagen
+   # Ejemplo: docker run nginx
+   `}/>
+
+   Algunos parámetros útiles:
+
+   - **`-d`**: **Ejecuta el contenedor en modo de fondo.** Esto significa que el contenedor funcionará en segundo plano, permitiéndote seguir usando la terminal para otros comandos. Si no usas `-d`, el contenedor se ejecutará en primer plano y ocupará la terminal hasta que lo detengas manualmente.
+
+   - **`-p`**: **Permite exponer puertos desde el contenedor al host.** Esto significa que puedes mapear un puerto del contenedor a un puerto específico en el sistema host, lo que permite acceder a los servicios del contenedor desde fuera de él. La sintaxis es `-p <puerto_host>:<puerto_contenedor>`. 
+
+     Por ejemplo, si tienes una aplicación que escucha en el puerto 80 dentro del contenedor (como Nginx), puedes exponer ese puerto en el puerto 8080 de tu host, de modo que puedas acceder a la aplicación en `http://localhost:8080`.
+
+   Ejemplo de ejecución en modo de fondo y exponiendo un puerto:
+
+   <CodeBlock code={`
+   docker run -d -p 8080:80 nginx`}/>
+
+   En este ejemplo:
+   - **`-d`** indica que el contenedor debe ejecutarse en segundo plano.
+   - **`-p 8080:80`** expone el puerto 80 del contenedor en el puerto 8080 del host. Esto permite que cualquier solicitud a `http://localhost:8080` se redirija al puerto 80 dentro del contenedor, donde Nginx está escuchando.
+
+### 5. **docker ps**  
+   Este comando muestra una lista de todos los contenedores activos en el sistema. Para ver todos los contenedores, incluidos los que están detenidos, usa `docker ps -a`.
+
+   <CodeBlock code={`
+   docker ps
+   docker ps -a
+   `}/>
+
+### 6. **docker stop**  
+   Si necesitas detener un contenedor en ejecución, usa `docker stop` seguido del ID o nombre del contenedor. Esto lo apagará de manera segura.
+
+   <CodeBlock code={`
+   docker stop <container_id>
+   `}/>
+
+   Para obtener el `<container_id>`, puedes usar el comando `docker ps`.
+
+### 7. **docker rm**  
+   Cuando ya no necesitas un contenedor, puedes eliminarlo con este comando. Recuerda que el contenedor debe estar detenido antes de eliminarlo.
+
+   <CodeBlock code={`
+   docker rm <container_id>
+   `}/>
+
+   Si quieres eliminar todos los contenedores detenidos de una vez, puedes ejecutar:
+   <CodeBlock code={`
+   docker rm $(docker ps -a -q)
+   `}/>
+
+### 8. **docker rmi**  
+   Este comando permite eliminar imágenes. Es útil para liberar espacio o deshacerte de imágenes obsoletas. 
+
+   <CodeBlock code={`
+   docker rmi nombre-imagen
+   `}/>
+
+   Para eliminar varias imágenes a la vez, puedes listar sus IDs y pasarlas todas de una vez:
+   <CodeBlock code={`
+   docker rmi $(docker images -q)
+   `}/>
+
+### 9. **docker build**  
+   Si necesitas crear una imagen a partir de un `Dockerfile`, este comando te permite construirla. La opción `-t` te permite etiquetar la imagen con un nombre personalizado.
+
+   <CodeBlock code={`
+   docker build -t nombre-imagen .
+   `}/>
+
+### 10. **docker exec**  
+    Este comando te permite ejecutar un comando dentro de un contenedor en ejecución. Es útil para acceder a la línea de comandos dentro del contenedor y realizar tareas de administración.
+
+    <CodeBlock code={`
+    docker exec -it <container_id> /bin/bash
+    `}/>
+
+    La opción `-it` abre una sesión interactiva dentro del contenedor, permitiéndote ejecutar comandos directamente como si estuvieras dentro de la máquina.
+
+## Conclusión 
+
+Con estos comandos básicos, tienes las herramientas necesarias para empezar a trabajar con Docker. Desde gestionar imágenes y contenedores hasta crear y 
+ejecutar tus propias aplicaciones, Docker ofrece un entorno flexible y potente. Más adelante, abordaré temas más avanzados, como la configuración de redes, 
+el uso de volúmenes y la orquestación de contenedores. **¡Este es solo el comienzo de lo que puedes hacer con Docker!**
