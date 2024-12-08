@@ -1,0 +1,83 @@
+---
+title: 'Introducción a Docker Hub: Repositorios Públicos y Privados'
+description: 'Descubre qué es Docker Hub y cómo funcionan sus repositorios públicos y privados. Aprende a identificar cuál usar según tus necesidades con ejemplos claros y prácticos.'
+pubDate: 2024-12-07
+updatedDate: 2024-12-07
+tags: ["Docker", "Docker Hub", "Contenedores", "DevOps"]
+time: 7
+---
+import CodeBlock from '@/components/CodeBlock.astro';
+import ExternalLink from '@/components/ExternalLink.astro';
+
+## Introducción
+En el desarrollo de software moderno, <ExternalLink href='https://www.docker.com' text='Docker' /> ha transformado la forma en que construimos, desplegamos y gestionamos aplicaciones al introducir la tecnología de contenedores. 
+Una pieza clave en este ecosistema es <ExternalLink href='https://hub.docker.com/' text='Docker Hub' />, una plataforma que permite almacenar, organizar y compartir imágenes Docker de manera eficiente.
+
+<ExternalLink href='https://hub.docker.com/' text='Docker Hub' />, ofrece flexibilidad a los desarrolladores al proporcionar dos tipos de repositorios: 
+**públicos**, ideales para colaborar con la comunidad, y **privados**, diseñados para proteger proyectos sensibles. 
+En este artículo, exploraremos las características y casos de uso de ambos tipos de repositorios, ayudándote a elegir el más adecuado para tus necesidades.
+
+## ¿Qué es Docker Hub?
+<ExternalLink href='https://hub.docker.com/' text='Docker Hub' /> es una plataforma en la nube diseñada para almacenar y distribuir imágenes Docker. 
+Piensa en Docker Hub como una especie de "GitHub" o "Gitlab", pero dedicado exclusivamente a imágenes de contenedores. Desde este servicio, puedes:
+
+ <ul style={{ listStyleType: 'disc', marginLeft: '1.5rem' }}>
+  <li>Guardar tus imágenes Docker.</li>
+  <li>Compartir imágenes con tu equipo o la comunidad.</li>
+  <li>Descargar imágenes públicas creadas por otros desarrolladores.</li>
+</ul>
+
+Docker Hub también es la fuente principal para obtener imágenes oficiales, como <ExternalLink href='https://nodejs.org/en' text='node' />, 
+<ExternalLink href='https://nginx.org/' text='nginx' />, <ExternalLink href='hhttps://www.postgresql.org/' text='postgres' />, y muchas más, que puedes usar en tus proyectos.
+
+ ## Tipos de Repositorios en Docker Hub
+
+Docker Hub proporciona dos tipos principales de repositorios para almacenar y gestionar tus imágenes, adaptándose a diferentes necesidades y casos de uso:
+
+### **1. Repositorios Públicos**
+Los repositorios públicos en Docker Hub son accesibles para cualquier usuario de la plataforma. Estos repositorios son ideales 
+para proyectos que buscan visibilidad global y están diseñados para fomentar la colaboración en la comunidad de desarrolladores.
+
+<ul style={{ listStyleType: 'disc', marginLeft: '1.5rem' }}>
+  <li>Compartir aplicaciones o herramientas con la comunidad de desarrolladores.</li>
+  <li>Proyectos de código abierto que necesitan ser accesibles globalmente.</li>
+</ul>
+
+**Ejemplo de repositorio público:**  
+
+Repositorio: nginx
+<ul style={{ listStyleType: 'disc', marginLeft: '1.5rem' }}>
+  <li>Contiene imágenes oficiales de NGINX.</li>
+  <li>Usado por miles de desarrolladores para crear servidores web rápidos y ligeros.</li>
+</ul>
+
+Comando para descargar una imagen de un repositorio público:
+<CodeBlock code={`
+docker pull nginx:latest`}/>
+
+### **2. Repositorios Privados**
+Los repositorios privados son la opción ideal para proyectos que manejan información sensible o que están destinados exclusivamente para equipos de trabajo. 
+A diferencia de los repositorios públicos, estos permiten un control completo sobre quién puede acceder a las imágenes, lo que los convierte en una 
+solución segura para aplicaciones internas o despliegues en entornos controlados.
+
+<ul style={{ listStyleType: 'disc', marginLeft: '1.5rem' }}>
+  <li>Aplicaciones internas o datos sensibles que no deseas exponer al público.</li>
+  <li>Imágenes personalizadas usadas por tu equipo o empresa.</li>
+</ul>
+
+**Ejemplo de repositorio privado:**
+
+Imagina que tienes un repositorio llamado mrodrigueztech/myapp, donde almacenas imágenes de una aplicación personalizada.  
+Comando para usar un repositorio privado **(requiere iniciar sesión)**:
+<CodeBlock code={`
+docker pull mrodrigueztech/myapp:1.0`}/>
+> **Nota:** En el plan gratuito de Docker Hub, puedes tener un repositorio privado. Para más repositorios privados, necesitas optar por un plan pago.
+
+## Conclusión 
+
+<ExternalLink href='https://hub.docker.com/' text='Docker Hub' /> es una herramienta clave para gestionar y distribuir imágenes Docker, ofreciendo flexibilidad tanto para proyectos abiertos como cerrados. 
+Los repositorios públicos son perfectos para colaborar con la comunidad y promover proyectos de código abierto, mientras que los repositorios privados 
+aseguran que las aplicaciones sensibles permanezcan protegidas y bajo control.
+
+Si estás listo para dar el siguiente paso, en el próximo artículo exploraremos cómo crear, subir y compartir imágenes Docker en Docker Hub. 
+A través de una guía práctica, aprenderás a aprovechar al máximo esta plataforma, ya sea para colaborar en equipo o para gestionar tus proyectos personales.
