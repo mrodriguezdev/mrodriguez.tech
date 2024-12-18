@@ -40,7 +40,7 @@ const siteConfig: SiteConfig = {
     title: 'Mario Rodríguez - Desarrollador de Software',
     description: 'Explora mi sitio web para descubrir mis proyectos y mi blog personal, reflejando mi pasión y habilidades en el desarrollo de software.',
     image: {
-        src: '/me.jpeg',
+        src: '/me.webp',
         alt: 'Mario Rodríguez - Photo'
     },
     author: "Mario Rodríguez",
