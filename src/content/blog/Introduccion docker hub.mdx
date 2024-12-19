@@ -8,6 +8,7 @@ time: 7
 ---
 import CodeBlock from '@/components/CodeBlock.astro';
 import ExternalLink from '@/components/ExternalLink.astro';
+import siteConfig from "@/config/site.config";
 
 ## Introducción
 En el desarrollo de software moderno, <ExternalLink href='https://www.docker.com' text='Docker' /> ha transformado la forma en que construimos, desplegamos y gestionamos aplicaciones al introducir la tecnología de contenedores. 
@@ -79,5 +80,5 @@ docker pull mrodrigueztech/myapp:1.0`}/>
 Los repositorios públicos son perfectos para colaborar con la comunidad y promover proyectos de código abierto, mientras que los repositorios privados 
 aseguran que las aplicaciones sensibles permanezcan protegidas y bajo control.
 
-Si estás listo para dar el siguiente paso, en el próximo artículo exploraremos cómo crear, subir y compartir imágenes Docker en Docker Hub. 
+Si estás listo para dar el siguiente paso, en el próximo artículo exploramos <ExternalLink href={`${siteConfig.url}/post/como-crear-y-subir-imagenes-docker`} text='cómo crear, subir y compartir imágenes Docker en Docker Hub' />. 
 A través de una guía práctica, aprenderás a aprovechar al máximo esta plataforma, ya sea para colaborar en equipo o para gestionar tus proyectos personales.
