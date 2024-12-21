@@ -1,47 +1,51 @@
-# Astro Starter Kit: Minimal
+# mrodriguez.tech
 
-```sh
-npm create astro@latest -- --template minimal
-```
+Este repositorio contiene el código fuente del sitio web **mrodriguez.tech**. Es un blog personal creado con [**Astro**](https://astro.build/) y contenido en **Markdown** para compartir conocimientos sobre desarrollo de software. El sitio está hosteado en [Vercel](https://vercel.com/).
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/minimal)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/minimal)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/minimal/devcontainer.json)
+## Configuración
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+### Requisitos previos
 
-## 🚀 Project Structure
+- Tener [Node.js](https://nodejs.org/) (versión 16 o superior) instalado.
 
-Inside of your Astro project, you'll see the following folders and files:
+### Instalación
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+1. Clona este repositorio:
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+   ```bash
+   git clone https://github.com/mrodriguezdev/mrodriguez.tech.git
+   cd mrodriguez.tech
+   ```
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+2. Instala las dependencias
 
-Any static assets, like images, can be placed in the `public/` directory.
+   ```bash
+   npm install
+   ```
 
-## 🧞 Commands
+3. Inicia el servidor de desarrollo:
 
-All commands are run from the root of the project, from a terminal:
+   ```bash
+    npm run dev
+   ```
+   El sitio estará disponible en http://localhost:4321.
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
 
-## 👀 Want to learn more?
+### Despliegue
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+1. Genera el sitio para producción:
+
+   ```bash
+   npm run build
+   ```
+
+2. Sirve los archivos estáticos generados o despliega en tu servidor favorito, como Vercel.
+
+## Estructura del proyecto
+
+- **`public/`**: Archivos estáticos accesibles directamente.
+- **`src/components/`**: Componentes reutilizables del sitio (como navegación, encabezados, pie de página, etc.).
+- **`src/content/`**: Archivos Markdown para las publicaciones y contenido del blog.
+- **`src/layouts/`**: Plantillas y diseños utilizados en las páginas y publicaciones.
+- **`src/pages/`**: Páginas principales del sitio web.
+- **`src/styles/`**: Estilos personalizados y definiciones CSS.
