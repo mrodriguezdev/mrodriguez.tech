@@ -27,6 +27,10 @@ html.light h3 {
     color: var(--color-gris-oscuro)
 }
 
+html.light h4 {
+    color: var(--color-gris-oscuro)
+}
+
 html.light p {
     color: var(--color-gris-oscuro)
 }
