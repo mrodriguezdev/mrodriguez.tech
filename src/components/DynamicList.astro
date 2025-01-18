@@ -1,0 +1,91 @@
+---
+interface ListItem {
+    title?: string;
+    description: string;
+}
+
+export interface Props {
+    items: ListItem[];
+    listType?: "numbered" | "bulleted" | "plain";
+}
+
+const { items, listType = "numbered" } = Astro.props;
+
+const isNumbered = listType === "numbered";
+const isBulleted = listType === "bulleted";
+const listClass = listType === "plain" ? "plain-list" : "";
+---
+
+{
+    isNumbered && (
+        <ol class={listClass}>
+            {items.map((item, index) => (
+                <li>
+                    {item.title && (
+                        <strong>
+                            {index + 1}. {item.title}
+                            {item.description ? ": " : ""}
+                        </strong>
+                    )}
+                    {item.description}
+                </li>
+            ))}
+        </ol>
+    )
+}
+{
+    isBulleted && (
+        <ul class={listClass}>
+            {items.map((item) => (
+                <li>
+                    <span>- </span>
+                    {item.title && (
+                        <strong>
+                            {item.title}
+                            {item.description ? ": " : ""}
+                        </strong>
+                    )}
+                    {item.description}
+                </li>
+            ))}
+        </ul>
+    )
+}
+{
+    listType === "plain" && (
+        <ul class="plain-list">
+            {items.map((item) => (
+                <li>
+                    {item.title && (
+                        <strong>
+                            {item.title}
+                            {item.description ? ": " : ""}
+                        </strong>
+                    )}
+                    {item.description}
+                </li>
+            ))}
+        </ul>
+    )
+}
+
+<style>
+    ol,
+    ul {
+        margin: 0;
+        padding: 0;
+    }
+
+    li {
+        margin-bottom: 1rem;
+    }
+
+    ul li span {
+        margin-right: 0.5rem;
+    }
+
+    .plain-list {
+        list-style: none;
+        padding: 0;
+    }
+</style>
