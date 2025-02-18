@@ -1,0 +1,101 @@
+---
+title: 'Introducción a los Patrones de Diseño: Conceptos esenciales y su impacto en el desarrollo'
+description: 'Desde hace un tiempo he estado aprendiendo sobre patrones de diseño y me he dado cuenta de que entenderlos bien es clave para escribir mejor código. En este artículo, comparto qué son, cómo funcionan y por qué vale la pena conocerlos. Si alguna vez te has encontrado con los mismos problemas una y otra vez en tu código, seguro estos patrones te van a ayudar. ¡Dale un vistazo y ponlos en práctica!'
+pubDate: 2025-02-16
+updatedDate: 2025-02-16
+tags: ['buenas prácticas', 'código limpio', 'desarrollo de software', 'patrones de diseño']
+time: 8
+---
+import CodeBlock from '@/components/CodeBlock.astro';
+import ExternalLink from '@/components/ExternalLink.astro';
+import siteConfig from "@/config/site.config";
+
+import DynamicList from '@/components/DynamicList.astro';
+
+## Introducción
+
+Desde hace tiempo he estado leyendo sobre <ExternalLink href="https://profile.es/blog/patrones-de-diseno-de-software/" text="patrones de diseño"></ExternalLink>  y me he dado cuenta de que la mejor manera de entenderlos es escribiendo sobre ellos y poniéndolos en práctica. 
+Si alguna vez has trabajado en un proyecto grande, seguramente te has encontrado con problemas recurrentes en el código. En esos casos, en lugar de reinventar la rueda, los patrones de diseño pueden ayudarte a encontrar soluciones ya probadas.
+Estos patrones son estrategias reutilizables que facilitan el desarrollo de software más estructurado y mantenible. 
+En este artículo, quiero darte una visión general de qué son los patrones de diseño, cómo se clasifican y por qué son tan útiles en el día a día de un desarrollador.
+
+## ¿Qué son los Patrones de Diseño?
+
+Básicamente, los patrones de diseño son soluciones generales a problemas comunes en el desarrollo de software. No son fragmentos de código que puedas copiar y pegar directamente, sino más bien guías o modelos que puedes adaptar a diferentes situaciones.
+Este concepto fue popularizado por el libro <ExternalLink href="https://a.co/d/8eWeTwb" text="Design Patterns: Elements of Reusable Object-Oriented Software"></ExternalLink>, escrito por los <ExternalLink href="https://www.geeksforgeeks.org/gang-of-four-gof-design-patterns/" text="Gang of Four"></ExternalLink> (Erich Gamma, Richard Helm, Ralph Johnson y John Vlissides). 
+Desde entonces, estos patrones han sido adoptados ampliamente en la industria del software.
+
+## Clasificación de los Patrones de Diseño
+
+Los patrones de diseño se pueden agrupar en tres categorías principales:
+
+### **1. Patrones Creacionales**
+
+Estos patrones están relacionados con la forma en que se crean los objetos. En muchos casos, ayudan a reducir la dependencia del código con las clases específicas. Algunos de los más utilizados son:
+
+<DynamicList
+  items={[
+    { title: "Singleton", description: " Si necesitas que una clase tenga una única instancia en toda la aplicación, este es el patrón ideal. ", url: "https://refactoring.guru/es/design-patterns/singleton" },
+    { title: "Factory Method", description: " En lugar de crear instancias directamente, delegas la responsabilidad a una fábrica que decide qué clase concreta instanciar.", url: "https://refactoring.guru/es/design-patterns/factory-method"},
+    { title: "Abstract Factory", description: " Similar al Factory Method, pero permite crear familias de objetos relacionados sin especificar sus clases exactas. ", url: "https://refactoring.guru/es/design-patterns/abstract-factory" }, 
+    { title: "Builder", description: " Útil cuando tienes objetos complejos con muchas configuraciones posibles. ", url: "https://refactoring.guru/es/design-patterns/builder" },
+    { title: "Prototype", description: " Permite clonar objetos en lugar de crearlos desde cero. ", url: "https://refactoring.guru/es/design-patterns/prototype" }
+  ]}
+  listType="bulleted"
+/>  
+
+### **2. Patrones Estructurales**
+
+Estos patrones ayudan a organizar la estructura del código y la relación entre objetos y clases. Algunos de los más utilizados son:
+
+<DynamicList
+  items={[
+    { title: "Adapter", description: " Permite que dos clases con interfaces incompatibles trabajen juntas. ", url: "https://refactoring.guru/es/design-patterns/adapter" },
+    { title: "Bridge", description: " Separa la abstracción de la implementación para que ambas puedan evolucionar por separado.", url: "https://refactoring.guru/es/design-patterns/bridge"},
+    { title: "Composite", description: " Permite manejar objetos individuales y colecciones de objetos de la misma manera. ", url: "https://refactoring.guru/es/design-patterns/composite" }, 
+    { title: "Decorator", description: " Agrega funcionalidades a un objeto sin modificar su estructura interna. ", url: "https://refactoring.guru/es/design-patterns/decorator" },
+    { title: "Facade", description: " Crea una interfaz simplificada para sistemas complejos. ", url: "https://refactoring.guru/es/design-patterns/facade" },
+    { title: "Proxy", description: " Controla el acceso a otro objeto, útil cuando necesitas aplicar validaciones o caché. ", url: "https://refactoring.guru/es/design-patterns/proxy" }
+  ]}
+  listType="bulleted"
+/>  
+
+
+### **3. Patrones de Comportamiento**
+
+Estos patrones están enfocados en cómo los objetos interactúan entre sí. Algunos ejemplos son:
+
+<DynamicList
+  items={[
+    { title: "Chain of Responsability", description: " Permite pasar una solicitud a través de una cadena de manejadores hasta que alguno la procese. ", url: "https://refactoring.guru/es/design-patterns/chain-of-responsibility" },
+    { title: "Command", description: " Encapsula una acción en un objeto, útil para deshacer o registrar operaciones. ", url: "https://refactoring.guru/es/design-patterns/command"},
+    { title: "Iterator", description: " Proporciona una forma uniforme de recorrer estructuras de datos sin exponer su implementación interna. ", url: "https://refactoring.guru/es/design-patterns/iterator" }, 
+    { title: "Mediator", description: " Reduce las dependencias directas entre objetos facilitando la comunicación a través de un intermediario. ", url: "https://refactoring.guru/es/design-patterns/mediator" },
+    { title: "Observer", description: " Permite que múltiples objetos reaccionen a cambios en otro objeto sin acoplamientos fuertes. ", url: "https://refactoring.guru/es/design-patterns/observer" },
+    { title: "State", description: " Permite que un objeto cambie su comportamiento cuando su estado interno cambia. ", url: "https://refactoring.guru/es/design-patterns/state" },
+    { title: "Strategy", description: " Define un conjunto de algoritmos intercambiables en tiempo de ejecución. ", url: "https://refactoring.guru/es/design-patterns/strategy" },
+    { title: "Template Method", description: " Permite definir la estructura de un algoritmo dejando detalles a las subclases. ", url: "https://refactoring.guru/es/design-patterns/template-method" },
+    { title: "Visitor", description: " Facilita agregar nuevas operaciones a estructuras de objetos sin modificar sus clases. ", url: "https://refactoring.guru/es/design-patterns/visitor" },
+
+
+  ]}
+  listType="bulleted"
+/>  
+
+## ¿Por qué Usar Patrones de Diseño?
+
+Seguramente te preguntas si realmente necesitas aprender todos estos patrones. La respuesta es que no es obligatorio conocerlos de memoria, pero sí es importante entender cuándo pueden ser útiles. Aquí algunas razones para utilizarlos:
+
+<DynamicList
+  items={[
+    { title: "Reutilización de soluciones probadas", description: " No tienes que inventar nuevas formas de resolver problemas comunes. " },
+    { title: "Código más mantenible y escalable", description: " Facilitan la evolución del software sin afectar su funcionalidad actual. " },
+    { title: "Mejor organización y claridad", description: " Los patrones ayudan a que el código sea más comprensible para otros desarrolladores. " },
+    { title: "Fomentan el desacoplamiento", description: " Ayudan a evitar dependencias rígidas entre componentes. " }
+  ]}
+  listType="bulleted"
+/>  
+
+## Conclusión
+
+Los patrones de diseño son herramientas valiosas para cualquier desarrollador que quiera escribir código más limpio y eficiente. En este artículo, hemos visto un resumen general de su clasificación y ventajas. En futuros artículos, abordaré cada patrón con más detalle y ejemplos prácticos.
