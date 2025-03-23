@@ -1,0 +1,36 @@
+---
+export interface Props {
+    src: string;
+    alt: string;
+    caption?: string;
+}
+
+const { src, alt, caption } = Astro.props;
+---
+
+<figure class="post-image">
+    <img src={src} alt={alt} class="post-image__img" />
+    {caption && <figcaption class="post-image__caption">{caption}</figcaption>}
+</figure>
+
+<style>
+    .post-image {
+        margin: 2rem auto;
+        text-align: center;
+        max-width: 100%;
+    }
+
+    .post-image__img {
+        max-width: 100%;
+        height: auto;
+        border-radius: .8rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    }
+
+    .post-image__caption {
+        margin-top: 0.5rem;
+        font-size: 0.9rem;
+        font-style: italic;
+        color: var(--color-gris-medio);
+    }
+</style>
