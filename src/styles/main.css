@@ -74,7 +74,7 @@ p {
 div p {
     color: var(--color-gris-claro);
     text-wrap: pretty;
-    padding: 0.6rem 0;
+    padding: 0.2rem 0;
 }
 
 a {
