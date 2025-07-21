@@ -82,7 +82,7 @@ const siteConfig: SiteConfig = {
         }
     ],
     url: site,
-    pageSize: 3
+    pageSize: 6
 };
 
 export default siteConfig;
