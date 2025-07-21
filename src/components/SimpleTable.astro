@@ -1,0 +1,52 @@
+---
+interface SimpleTableProps {
+  headers: string[];
+  rows: string[][];
+}
+
+const { headers, rows } = Astro.props as SimpleTableProps;
+---
+<table class="simple-table">
+  <thead>
+    <tr>
+      {headers.map((header) => (
+        <th>{header}</th>
+      ))}
+    </tr>
+  </thead>
+  <tbody>
+    {rows.map((row) => (
+      <tr>
+        {row.map((cell) => (
+          <td>{cell}</td>
+        ))}
+      </tr>
+    ))}
+  </tbody>
+</table>
+
+<style>
+  .simple-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: var(--text);
+    background-color: var(--bg);
+  }
+
+  .simple-table th,
+  .simple-table td {
+    border: 1px solid var(--color-gris-oscuro);
+    padding: 8px 12px;
+    text-align: left;
+  }
+
+  .simple-table thead {
+    background-color: var(--color-gris-oscuro);
+  }
+
+  .simple-table th {
+    color: var(--color-blanco-puro);
+  }
+</style>

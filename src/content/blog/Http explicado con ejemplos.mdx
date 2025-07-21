@@ -1,0 +1,189 @@
+---
+title: 'HTTP explicado con ejemplos: lo que me habría gustado entender antes de hacer APIs'
+description: 'Este artículo nace de mi experiencia como desarrollador backend que comenzó creando APIs sin entender realmente HTTP. Explico de forma práctica y sin tecnicismos lo que aprendí con el tiempo: cómo funciona una petición, qué significan los métodos, por qué los códigos de estado importan, y cómo todo esto mejora tu día a día como desarrollador.'
+pubDate: 2025-07-20
+updatedDate: 2025-07-20
+tags: ['HTTP', 'backend', 'API', 'REST', 'principiantes', 'web']
+time: 8
+---
+import CodeBlock from '@/components/CodeBlock.astro';
+import ExternalLink from '@/components/ExternalLink.astro';
+import DynamicList from '@/components/DynamicList.astro';
+import PostImage from '@/components/PostImage.astro';
+import SimpleTable from '@/components/SimpleTable.astro';
+
+
+## Introducción
+
+Cuando comencé a desarrollar backend, empecé a construir endpoints REST sin entender realmente cómo funcionaba <ExternalLink href="https://www.cloudflare.com/es-es/learning/ddos/glossary/hypertext-transfer-protocol-http/" text="HTTP" /> —lo que con el tiempo me di cuenta fue un **grave error**.
+
+Además, el framework con el que trabajo trae embebido su propio servidor, y eso me confundía todavía más: no entendía cómo era posible que mis endpoints **“levantaran”**
+sin necesidad de desplegarlos en un servidor aparte.
+Estaba acostumbrado a trabajar con un <ExternalLink href="https://es.wikipedia.org/wiki/Servidor_de_aplicaciones" text="servidor de aplicaciones" /> independiente, donde subías el proyecto ya empaquetado. Cambiar esa lógica me costó bastante.
+
+Usaba **POST** y **GET** como si fueran comandos mágicos, copiaba respuestas sin preguntarme qué significaban los códigos, y muchas veces no sabía por qué algo fallaba.
+
+Con el tiempo entendí que mis errores no venían del código en sí, sino de no comprender realmente el trasfondo que conlleva un endpoint REST.
+Descubrí que HTTP es mucho más que un detalle técnico: es la base de toda comunicación entre cliente y servidor.
+
+En este artículo quiero explicarte —de forma clara y práctica— lo que me habría gustado entender desde el principio.
+Sin teorías complicadas ni conceptos llenos de palabras técnicas que, sinceramente, lo único que hacían era confundirme más.
+
+## ¿Qué es HTTP y por qué importa en el backend?
+
+<ExternalLink href="https://www.cloudflare.com/es-es/learning/ddos/glossary/hypertext-transfer-protocol-http/" text="HTTP (Hypertext Transfer Protocol)" /> es un protocolo de comunicación entre un cliente (como tu navegador, Postman o una app móvil) y un servidor. 
+Su principal función es definir cómo deben estructurarse las solicitudes y respuestas para que ambas partes se entiendan.
+
+Características clave:
+
+<DynamicList
+  items={[
+    { title: "Cliente-servidor", description: "Quien inicia la comunicación es el cliente. " },
+    { title: "Sin estado (stateless)", description: "El servidor no recuerda solicitudes anteriores. " },
+    { title: "Basado en texto", description: "Las peticiones/respuestas son legibles y estructuradas. " },
+  ]}
+  listType="bulleted"
+/> 
+
+<PostImage
+  src="/posts/http-flujo-peticion.png"
+  alt="Diagrama de flujo básico de una petición HTTP"
+  caption="Así es como me habría gustado que me explicaran HTTP desde el principio: simple, directo y con flechas."
+/>
+
+## Verbos HTTP: no todo es POST
+
+HTTP define una serie de métodos —también llamados verbos— que indican la intención del cliente. Acá te muestro los más comunes:
+
+<SimpleTable
+  headers={["Método", "Propósito", "¿Es idempotente?"]}
+  rows={[
+    ["GET", "Solicita datos al servidor sin modificar nada.", "Sí"],
+    ["POST", "Envía datos para crear un nuevo recurso en el servidor.", "No"],
+    ["PUT", "Reemplaza por completo un recurso existente con uno nuevo.", "Sí"],
+    ["PATCH", "Modifica parcialmente un recurso existente.", "Depende*"],
+    ["DELETE", "Elimina un recurso identificado por su URL.", "Sí"]
+  ]}
+/>
+
+Un método HTTP se considera <ExternalLink href="https://developer.mozilla.org/en-US/docs/Glossary/Idempotent" text="idempotente" /> cuando puede ejecutarse múltiples veces sin cambiar el resultado más allá de la primera ejecución.  
+Por ejemplo, eliminar el mismo recurso varias veces con <code>DELETE</code> no lo borra más de una vez.
+
+Además de la idempotencia, hay otros aspectos importantes como los métodos <em>safe</em> (seguros, que no modifican nada) o los <em>cacheables</em> (cuyas respuestas pueden almacenarse para futuras solicitudes).
+
+Si querés profundizar más en cada uno —qué hacen, cuáles son seguros, idempotentes o cacheables— te recomiendo esta guía buenísima, clara y en español: <ExternalLink href="https://developer.mozilla.org/es/docs/Web/HTTP/Methods" text="Métodos HTTP en MDN" />
+
+Ejemplos de uso con la herramienta <code>curl</code>:
+
+<CodeBlock code={`
+# GET: Obtener usuarios
+curl https://api.mrodriguez.tech/usuarios
+
+# POST: Crear un usuario
+curl -X POST https://api.mrodriguez.tech/usuarios \
+  -H "Content-Type: application/json" \
+  -d '{"nombre": "Mario"}'
+
+# PUT: Reemplazar usuario
+curl -X PUT https://api.mrodriguez.tech/usuarios/1 \
+  -H "Content-Type: application/json" \
+  -d '{"nombre": "Mario actualizado"}'
+`} />
+
+## Códigos de estado: no todo es 200 OK
+
+Cuando hacés una solicitud HTTP, el servidor siempre devuelve un <ExternalLink href="https://developer.mozilla.org/es/docs/Web/HTTP/Reference/Status" text="código de estado HTTP" />.  
+Ese número de tres cifras te dice si todo salió bien, si algo falló, o si el servidor ni siquiera entendió lo que pediste.
+
+Acá te muestro los más comunes, agrupados por categoría:
+
+<SimpleTable
+  headers={["Código", "Descripción"]}
+  rows={[
+    ["200 OK", "Todo salió bien. Es la respuesta más común cuando todo funciona como se espera."],
+    ["201 Created", "Recurso creado correctamente. Se usa normalmente después de un POST."],
+    ["204 No Content", "La solicitud fue exitosa pero no hay nada que devolver (útil para DELETE)."],
+    ["400 Bad Request", "La solicitud estaba mal formada o faltaba algo. Error del cliente."],
+    ["401 Unauthorized", "Faltan credenciales o el token no es válido."],
+    ["403 Forbidden", "Las credenciales están bien, pero no tenés permisos para acceder al recurso."],
+    ["404 Not Found", "El recurso que estás buscando no existe (o la URL está mal escrita)."],
+    ["500 Internal Server Error", "Algo falló del lado del servidor. Generalmente es un bug o error inesperado."]
+  ]}
+/>
+
+Aunque todos hemos celebrado un **200 OK**, la verdad es que no siempre es la respuesta correcta.
+Usar el código adecuado no solo hace tu API más clara, también le facilita la vida a quien la consume.
+Por ejemplo, si alguien envía datos incompletos o inválidos, un <strong>400 Bad Request</strong> dice mucho más que un 200 fingiendo que todo está bien.
+
+## Headers HTTP: pequeños pero importantes
+
+Los <ExternalLink href="https://developer.mozilla.org/es/docs/Web/HTTP/Reference/Headers" text="headers o encabezados" /> son pequeñas piezas de información que acompañan cada solicitud o respuesta HTTP. Aunque a veces pasen desapercibidos, son clave para que el cliente y el servidor se entiendan bien.
+
+Acá te dejo algunos headers comunes que vas a encontrarte muy seguido:
+
+<SimpleTable
+  headers={["Header", "¿Para qué sirve?"]}
+  rows={[
+    ["Content-Type", "Le dice al servidor el tipo de contenido que está enviando el cliente. Por ejemplo: application/json."],
+    ["Accept", "Le indica al servidor qué formato de respuesta espera el cliente (JSON, HTML, etc.)."],
+    ["Authorization", "Se usa para enviar credenciales o tokens. Por ejemplo: Bearer abc123."],
+    ["User-Agent", "Identifica al cliente que hace la solicitud (navegador, app, Postman...)."],
+    ["Cache-Control", "Controla cómo se almacenan en caché las respuestas."]
+  ]}
+/>
+
+Un header mal configurado puede hacer que una API falle o que el servidor no entienda lo que estás enviando.  
+Por ejemplo, si mandás JSON pero no ponés <code>Content-Type: application/json</code>, el servidor podría ignorar completamente el cuerpo de tu solicitud.
+
+## El cuerpo, la URL y los parámetros
+
+Cuando hacés una solicitud HTTP, tenés varias formas de enviar datos.  
+Cada una tiene su propósito y se usa en contextos diferentes.
+
+<SimpleTable
+  headers={["Parte", "Ejemplo", "¿Cuándo se usa?"]}
+  rows={[
+    ["Path Params", "/usuarios/42", "Cuando querés identificar un recurso específico por su ID o nombre."],
+    ["Query Params", "/usuarios?activo=true&pagina=2", "Cuando necesitás filtrar, buscar o paginar resultados."],
+    ["Body", '{ "nombre": "Mario", "email": "mario@email.com" }', "Cuando enviás datos estructurados, como al crear o actualizar un recurso."]
+  ]}
+/>
+
+Una buena práctica es usar los path params para identificar recursos, los query params para filtros u opciones, y el cuerpo (body) para enviar los datos en sí.  
+Y algo clave: no todos los métodos permiten body. Por ejemplo, <code>GET</code> no debería usarse con cuerpo, aunque técnicamente algunos clientes lo permitan.
+
+
+## Ejemplo completo: mini API REST
+
+Supongamos que tenés una API de usuarios. Así se vería un flujo básico de operaciones comunes:
+
+<CodeBlock code={`
+# Crear un usuario
+curl -X POST https://api.mrodriguez.tech/usuarios \
+  -H "Content-Type: application/json" \
+  -d '{"nombre": "Mario"}'
+
+# Obtener todos los usuarios
+curl -X GET https://api.mrodriguez.tech/usuarios
+
+# Obtener usuario por ID
+curl -X GET https://api.mrodriguez.tech/usuarios/1
+
+# Actualizar usuario
+curl -X PUT https://api.mrodriguez.tech/usuarios/1 \
+  -H "Content-Type: application/json" \
+  -d '{"nombre": "Mario actualizado"}'
+
+# Eliminar usuario
+curl -X DELETE https://api.mrodriguez.tech/usuarios/1
+`} />
+
+Este ejemplo cubre lo básico: creación, lectura, actualización y eliminación de recursos (lo que normalmente se conoce como CRUD).  
+Si querés practicar este tipo de solicitudes de forma más visual, además de <code>curl</code> o Postman, te recomiendo probar <ExternalLink href="https://cartero.danirod.es/" text="Cartero" />, un cliente HTTP de escritorio liviano, creado como proyecto open source.
+
+## Conclusión 
+
+HTTP no es solo para navegadores: también es el lenguaje de las APIs. Mientras escribía este artículo me di cuenta de lo mucho que me habría servido entender algunas cosas desde el principio: que GET no lleva body (aunque lo intenté), que los códigos de estado no son decorativos, y que usar bien los verbos y headers hace una gran diferencia.
+
+Este artículo terminó siendo un poco más largo porque al escribirlo me tocó investigar y repasar varios conceptos.
+Y si algo puedo recomendarte, es esto: consultá fuentes oficiales. Sitios como <ExternalLink href="https://developer.mozilla.org/es/" text="MDN" /> o <ExternalLink href="https://www.cloudflare.com/es-es/learning/" text="Cloudflare" /> son excelentes para aclarar dudas. Porque seamos honestos: no nos vamos a saber todo, y está bien.
