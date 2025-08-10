@@ -1,0 +1,46 @@
+---
+export const prerender = true;
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import BlogPost from "@/layouts/BlogPost.astro";
+import { getCollection } from "astro:content";
+
+
+export async function getStaticPaths() {
+  try {
+    const blogEntries = await getCollection("blog", ({ data }) => {
+      return import.meta.env.PROD ? !data.draft : true;
+    });
+
+    return blogEntries.map(entry => ({
+      params: { slug: entry.slug },
+      props: { entry },
+    }));
+  } catch (error) {
+    return [];
+  }
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+---
+
+<BaseLayout title={entry.data.title} description={entry.data.description}>
+    <section>
+        <h1>{entry.data.title.toUpperCase()}</h1>
+        <BlogPost {...entry.data}>
+            <Content />
+        </BlogPost>
+    </section>
+</BaseLayout>
+
+<style>
+    section {
+        display: flex;
+        flex-direction: column;
+    }
+
+    h1 {
+        font-size: 1.4rem !important;
+        margin: 1rem 0 1rem 0;
+    }
+</style>

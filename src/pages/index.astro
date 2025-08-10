@@ -6,7 +6,11 @@ import { getCollection } from "astro:content";
 import siteConfig from "@/config/site.config";
 
 const pageSize = siteConfig.pageSize;
-const allPosts = (await getCollection("blog")).sort(
+const allPosts = await getCollection("blog", ({ data }) => {
+  return import.meta.env.PROD ? !data.draft : true;
+});
+
+const posts = allPosts.sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
 
@@ -14,10 +18,10 @@ const currentPage = 1;
 
 const start = (currentPage - 1) * pageSize;
 const end = start + pageSize;
-const paginatedPosts = allPosts.slice(start, end);
+const paginatedPosts = posts.slice(start, end);
 
 const nextPage = currentPage + 1;
-const nextUrl = allPosts.length > pageSize ? `/page/${nextPage}` : null;
+const nextUrl = posts.length > pageSize ? `/page/${nextPage}` : null;
 
 const title = "Publicaciones recientes";
 ---
