@@ -1,36 +1,95 @@
 ---
 export interface Props {
-    src: string;
-    alt: string;
-    caption?: string;
+  src: string;
+  alt: string;
+  caption?: string;
+  zoom?: boolean;
 }
 
-const { src, alt, caption } = Astro.props;
+const { src, alt, caption, zoom = true } = Astro.props;
 ---
 
 <figure class="post-image">
-    <img src={src} alt={alt} class="post-image__img" />
-    {caption && <figcaption class="post-image__caption">{caption}</figcaption>}
+  <img
+    src={src}
+    alt={alt}
+    loading="lazy"
+    class:list={{
+      "post-image__img": true,
+      "zoomable": zoom,
+    }}
+    data-zoomable={zoom ? "true" : undefined}
+  />
+  {caption && <figcaption class="post-image__caption">{caption}</figcaption>}
 </figure>
 
+{zoom && (
+  <script type="module" is:inline>
+    import mediumZoom from "https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.esm.min.js";
+
+    const init = () => {
+      const selector = '[data-zoomable="true"]';
+      const imgs = document.querySelectorAll(selector);
+      if (!imgs.length) return;
+
+      const zoom = mediumZoom(imgs, {
+        background: "rgba(0, 0, 0, 0.85)",
+        margin: 24,
+        scrollOffset: 0,
+      });
+
+      imgs.forEach(img => {
+        if (!img.complete) {
+          img.addEventListener("load", () => zoom.refresh());
+        }
+      });
+    };
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", init);
+    } else {
+      init();
+    }
+
+    document.addEventListener("astro:page-load", init);
+    document.addEventListener("astro:after-swap", init);
+  </script>
+)}
+
 <style>
-    .post-image {
-        margin: 2rem auto;
-        text-align: center;
-        max-width: 100%;
-    }
+  .post-image {
+    margin: 2rem auto;
+    text-align: center;
+    max-width: 100%;
+    position: relative;
+    z-index: 0;
+  }
 
-    .post-image__img {
-        max-width: 100%;
-        height: auto;
-        border-radius: .8rem;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-    }
+  .post-image__img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.8rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    transition: transform 0.3s ease;
+    z-index: 2;
+  }
 
-    .post-image__caption {
-        margin-top: 0.5rem;
-        font-size: 0.9rem;
-        font-style: italic;
-        color: var(--color-gris-medio);
-    }
+  .zoomable {
+    cursor: zoom-in;
+  }
+
+  .post-image__caption {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    font-style: italic;
+    color: var(--color-gris-medio);
+  }
+  .medium-zoom-overlay {
+    z-index: 9999 !important;
+  }
+
+  .medium-zoom-image--opened {
+    z-index: 10000 !important;
+    transition: transform 0.25s ease, opacity 0.25s ease;
+  }
 </style>
