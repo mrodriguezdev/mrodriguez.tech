@@ -1,0 +1,224 @@
+---
+title: 'Conflictos en Git explicados: lo que aprendí antes de resolver uno'
+slug: 'conflictos-en-git-explicados-guia-practica'
+description: 'Antes de aprender a resolver conflictos en Git, entendí qué son, por qué ocurren y cómo identificarlos. En este artículo te explico todo eso paso a paso, con ejemplos claros y una base sólida para que el próximo conflicto no te agarre por sorpresa.'
+pubDate: 2025-11-05
+tags: ['git']
+time: 10
+---
+import ExternalLink from '@/components/ExternalLink.astro';
+import CodeBlock from '@/components/CodeBlock.astro';
+import PostImage from '@/components/PostImage.astro';
+import SimpleTable from '@/components/SimpleTable.astro';
+import DynamicList from '@/components/DynamicList.astro';
+
+## Introducción
+
+Hace un tiempo escribí sobre mis <ExternalLink href="https://www.mrodriguez.tech/blog/git-lecciones-aprendidas-y-buenas-practicas" text="lecciones aprendidas con Git" />, y entre todas las cosas que mencioné, hubo una que me costó especialmente entender: los **conflictos**.
+
+No son errores, pero se sienten como tal.  
+Recuerdo que la primera vez que me pasó, leí el mensaje en la consola:
+
+<CodeBlock code={`
+Auto-merging Main.java
+CONFLICT (content): Merge conflict in Main.java
+Automatic merge failed; fix conflicts and then commit the result.`} />
+
+y pensé que había roto todo. Pero no era así, solo necesitaba entender **qué estaba pasando realmente**.
+
+En este artículo quiero explicarte, paso a paso, **qué es un conflicto en Git, por qué ocurre, cómo detectarlo y qué tipos existen**, antes de entrar en cómo resolverlo (que será la segunda parte).
+
+---
+
+## ¿Qué es un conflicto en Git?
+
+Un **conflicto en Git** ocurre cuando el sistema no puede determinar automáticamente qué versión de un archivo conservar.
+
+Esto suele pasar cuando dos ramas han modificado la **misma línea de código** o la **misma sección de un archivo**, y Git necesita tu intervención para decidir cuál es la correcta.
+
+<CodeBlock code={`
+<<<<<<< HEAD
+System.out.println("Hola desde la rama actual");
+=======
+System.out.println("Hola desde la nueva funcionalidad");
+>>>>>>> nueva-funcionalidad`} />
+
+<DynamicList
+  items={[
+    { title: 'HEAD', description: "Representa los cambios actuales en tu rama local. " },
+    { title: '=======', description: "Separa ambas versiones. " },
+    { title: '>>>>>>>', description: "Muestra los cambios de la rama que estás intentando fusionar. " },
+  ]}
+  listType="bulleted"
+/> 
+
+Git detiene el proceso y espera que vos —el desarrollador— elijas cómo continuar.  
+En otras palabras, no es un error: **es una pregunta que Git te hace**.
+
+---
+
+## ¿Por qué ocurren los conflictos?
+
+Los conflictos suelen aparecer durante operaciones de integración como un <ExternalLink href="https://git-scm.com/docs/git-merge" text="merge" /> o un <ExternalLink href="https://git-scm.com/docs/git-rebase" text="rebase" />.  
+En ambos casos, Git intenta combinar los cambios de diferentes ramas, pero si detecta modificaciones incompatibles —por ejemplo, la misma línea editada de formas distintas— detiene el proceso para que intervengas manualmente.
+
+Hay varias razones por las que esto puede ocurrir, y todas tienen algo en común: Git necesita tu ayuda para decidir cómo combinar los cambios.  
+Las más comunes son:
+
+<SimpleTable
+  headers={["Causa", "Descripción"]}
+  rows={[
+    ["Cambios simultáneos en la misma línea", "Dos ramas modifican el mismo fragmento de código."],
+    ["Edición y eliminación", "Una rama edita un archivo que la otra elimina."],
+    ["Creación duplicada", "Dos ramas crean un archivo con el mismo nombre o ruta."],
+    ["Rebase o cherry-pick conflictivo", "Cuando se reescribe el historial y las diferencias chocan."]
+  ]}
+/>
+
+En esencia, los conflictos ocurren **porque Git protege tu trabajo**: antes de sobreescribir algo, te pide que confirmes qué versión tiene sentido conservar.
+
+---
+
+## Tipos de conflictos
+
+Aunque todos los conflictos en Git se sienten igual cuando aparecen, no todos tienen la misma causa ni se resuelven del mismo modo.  
+Podemos agruparlos en dos grandes categorías:
+
+### 1. Conflictos de contenido
+
+Son los más comunes.  
+Ocurren cuando dos ramas modifican la **misma línea o bloque de código**, y <ExternalLink href="https://git-scm.com/docs/git-merge" text="git merge" /> no puede decidir automáticamente cuál conservar.
+
+<CodeBlock code={`
+<<<<<<< HEAD
+System.out.println("Hola desde la rama main");
+=======
+System.out.println("Hola desde la nueva funcionalidad");
+>>>>>>> nueva-funcionalidad`} />
+
+En este caso, Git marca el archivo como conflictivo y detiene la fusión para que elijas qué versión tiene sentido mantener o si querés combinar ambas.
+
+También pueden aparecer conflictos de contenido cuando hacés un <ExternalLink href="https://git-scm.com/docs/git-rebase" text="git rebase" /> y aplicás commits sobre una base que cambió desde la última vez que actualizaste tu rama.
+
+---
+
+### 2. Conflictos estructurales
+
+Son menos frecuentes, pero más tediosos de resolver.  
+Aparecen cuando los cambios no se limitan al contenido del archivo, sino a su **estructura o ubicación** dentro del proyecto.
+
+Algunos ejemplos:
+
+<DynamicList
+  items={[
+    { description: "Una rama renombra un archivo mientras la otra lo modifica. " },
+    { description: "Una elimina una clase que la otra sigue usando. " },
+    { description: "O ambas mueven el mismo archivo a directorios distintos. " },
+  ]}
+  listType="bulleted"
+/> 
+
+En estos casos, Git no puede inferir la intención detrás de cada cambio, por lo que interrumpe la operación y espera que tomes una decisión manual.
+
+La <ExternalLink href="https://git-scm.com/docs/git-mv" text="documentación de git mv" /> explica cómo Git rastrea los archivos movidos, y por qué a veces no puede hacerlo automáticamente durante una fusión.
+
+Entender qué tipo de conflicto tenés es clave, porque no todos se resuelven igual.  
+Mientras los conflictos de contenido suelen resolverse directamente en el código, los estructurales requieren ajustar nombres, rutas o dependencias antes de continuar.
+
+---
+
+## Cómo saber que estás frente a un conflicto
+
+Cuando ocurre un conflicto, Git no lo oculta: te lo dice de forma directa y sin rodeos.  
+El mensaje suele aparecer justo después de intentar un <ExternalLink href="https://git-scm.com/docs/git-merge" text="merge" /> o un <ExternalLink href="https://git-scm.com/docs/git-rebase" text="rebase" />:
+
+<CodeBlock code={`
+Auto-merging src/main/java/com/example/Main.java
+CONFLICT (content): Merge conflict in src/main/java/com/example/Main.java
+Automatic merge failed; fix conflicts and then commit the result.`} />
+
+En este punto, el proceso se detiene. Git no puede continuar hasta que revises los archivos en conflicto y le confirmes cómo querés proceder.
+
+Podés comprobar rápidamente qué archivos quedaron en ese estado con:
+
+<CodeBlock code={`
+git status`} />
+
+El resultado muestra una lista clara de los archivos afectados:
+
+<CodeBlock code={`
+both modified:   src/main/java/com/example/Main.java
+both added:      src/main/resources/application.properties`} />
+
+Si querés ver exactamente **qué partes del archivo entraron en conflicto**, podés usar:
+
+<CodeBlock code={`
+git diff`} />
+
+Esto mostrará las secciones delimitadas por los marcadores:
+
+<CodeBlock code={`
+<<<<<<< HEAD
+return "Hola desde la rama main";
+=======
+return "Hola desde la rama nueva";
+>>>>>>> feature/nueva-funcionalidad`} />
+
+Cuando el proyecto es grande o incluye varios archivos, también podés identificar los commits involucrados en el conflicto con:
+
+<CodeBlock code={`
+git log --merge`} />
+
+Esto te da un contexto útil sobre qué cambios chocaron y en qué momento del historial ocurrieron.
+
+---
+
+## Ver conflictos desde un entorno visual
+
+Si usás un IDE como <ExternalLink href="https://www.jetbrains.com/idea/" text="IntelliJ IDEA" />, Git muestra los conflictos directamente en el panel de control de versión.  
+Podés abrir el archivo afectado y ver los marcadores resaltados, o usar la herramienta de **Merge Changes**, que presenta una vista comparativa en tres columnas:
+
+<DynamicList
+  items={[
+    { title: 'Local (HEAD)', description: "Tu versión actual. " },
+    { title: 'Base', description: "El punto común entre ambas ramas. " },
+    { title: 'Incoming', description: "Los cambios provenientes de la otra rama." },
+  ]}
+  listType="bulleted"
+/> 
+
+Para ser honesto —o al menos en mi caso— rara vez resuelvo conflictos únicamente desde la terminal.  
+Prefiero hacerlo desde el IDE, porque me permite ver claramente qué cambió en cada versión y elegir qué conservar con un par de clics.  
+Además, la interfaz visual reduce mucho la posibilidad de cometer errores al editar manualmente las marcas de conflicto.
+
+<PostImage
+  src="/posts/git-conflicto-intellij-merge-editor.png"
+  alt="Vista de IntelliJ IDEA mostrando un conflicto de merge en tres columnas"
+  caption="IntelliJ IDEA señala los conflictos en el panel de Version Control y permite abrir el editor visual de merges."
+/>
+
+Este tipo de vista te ayuda a comprender **qué cambió, dónde y por qué**, antes de siquiera resolverlo.  
+En el siguiente artículo veremos cómo hacerlo paso a paso con un ejemplo en Java dentro de IntelliJ IDEA.
+
+---
+
+## Qué hacer (y qué no hacer) cuando aparece un conflicto
+
+<SimpleTable
+  headers={["Buena práctica", "Por qué importa"]}
+  rows={[
+    ["Leer con calma el mensaje de Git", "Git te dice exactamente qué archivos y líneas están en conflicto."],
+    ["No borrar los marcadores manualmente sin entender", "Podés perder partes del código si lo hacés a ciegas."],
+    ["Usar herramientas visuales si es posible", "Ver las diferencias facilita entender qué cambió."],
+    ["Hacer un commit pequeño después de resolver", "Te permite revertir solo la resolución si algo sale mal."]
+  ]}
+/>
+
+---
+
+## Hasta aquí
+
+Todo lo anterior es lo que **me habría gustado entender antes de intentar resolver un conflicto**.  
+Conocer los tipos, las causas y cómo identificarlos cambia totalmente la experiencia.
+
+En la siguiente parte voy a llevar todo esto a la práctica con un proyecto en Java e IntelliJ IDEA — paso a paso y sin perder la calma.
