@@ -77,7 +77,7 @@ const siteConfig: SiteConfig = {
         },
         {
             name: 'Mail',
-            url: 'mailto:mario.rodriguez@mrodriguezdev.me',
+            url: 'mailto:mrodriguezdev.me@gmail.com',
             icon: MailIcon
         }
     ],
