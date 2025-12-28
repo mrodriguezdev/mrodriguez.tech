@@ -2,7 +2,12 @@ import GitHubIcon from "@/components/icons/GitHub.astro";
 import LinkedInIcon from "@/components/icons/LinkedIn.astro";
 import MailIcon from "@/components/icons/Mail.astro";
 import RssIcon from "@/components/icons/Rss.astro";
-const URL = import.meta.env.URL || 'http://localhost:4321';
+const URL =
+  import.meta.env.SITE ??
+  (import.meta.env.VERCEL_URL
+    ? `https://${import.meta.env.VERCEL_URL}`
+    : "http://localhost:4321");
+
 
 export type Image = {
     src: string;
