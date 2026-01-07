@@ -8,12 +8,12 @@ export interface Props {
 const { social } = Astro.props;
 ---
 
-<nav>
-    <ul>
+<nav class="flex justify-end p-0">
+    <ul class="flex gap-x-2 mt-4 mb-4">
         {
             social.map((item) => (
                 <li>
-                    <a href={item.url} target="_blank" title={item.name}>
+                    <a class="text-verde-lima" href={item.url} target="_blank" title={item.name}>
                         <item.icon />
                     </a>
                 </li>
@@ -21,20 +21,3 @@ const { social } = Astro.props;
         }
     </ul>
 </nav>
-
-<style>
-    nav {
-        display: flex;
-        justify-content: flex-end;
-        padding: 0;
-    }
-
-    ul {
-        display: flex;
-        column-gap: 0.5rem;
-    }
-
-    a {
-        color: var(--color-verde-lima);
-    }
-</style>

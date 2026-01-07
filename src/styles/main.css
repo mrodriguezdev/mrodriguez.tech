@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
     --color-negro-profundo: #121212;
     --color-blanco-puro: #fafafa;
