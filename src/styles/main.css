@@ -71,12 +71,20 @@ h4 {
 }
 
 @layer components {
-  .post-content p {
-    @apply text-gris-claro leading-7 py-0.5 my-4; 
-    text-wrap: pretty;
-  }
-}
+    .post-content p {
+        @apply text-gris-claro leading-7 py-0.5 my-4;
+        text-wrap: pretty;
+    }
 
+    .referencias {
+        @apply text-verde-lima;
+        text-decoration: none;
+    }
+
+    .referencias:hover {
+        @apply underline;
+    }
+}
 
 a {
     color: inherit;
@@ -101,13 +109,4 @@ ol {
     body {
         padding: 1.2rem 1.6rem 0;
     }
-}
-
-.referencias {
-    text-decoration: none;
-    color: var(--color-verde-lima);
-}
-
-.referencias:hover {
-    text-decoration: underline;
 }
