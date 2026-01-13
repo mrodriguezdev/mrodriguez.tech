@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import FormattedDate from "@/components/FormattedDate.astro";
+import ArrowRight from "./icons/ArrowRight.astro";
 
 type Props = { post: CollectionEntry<"blog"> };
 
@@ -10,13 +11,24 @@ const { title, pubDate, description, time } = post.data;
 
 <article class="flex flex-col justify-center items-start gap-2.5">
     <header class="flex flex-col gap-1.5">
-        <h2 class="text-lg md:text-xl -mb-1.5 text-gris-oscuro dark:text-blanco-puro uppercase font-extralight">
+        <h2
+            class="text-lg md:text-xl -mb-1.5 text-gris-oscuro dark:text-blanco-puro tracking-wider font-normal"
+        >
             {title}
         </h2>
         <div class="py-1.5 text-base md:text-lg">
             <FormattedDate date={pubDate} time={time} />
         </div>
-        <div class="leading-6 text-base md:text-lg text-gris-oscuro dark:text-gris-claro">{description}</div>
+        <div
+            class="leading-6 text-base md:text-lg text-gris-oscuro dark:text-gris-claro"
+        >
+            {description}
+        </div>
     </header>
-    <a class="text-base md:text-lg text-verde-lima hover:text-gris-oscuro dark:hover:text-blanco-puro transition-colors hover:underline" href={`/blog/${post.slug}`}> Leer más...</a>
+    <a
+        class="text-base md:text-lg text-verde-lima hover:text-gris-oscuro dark:hover:text-blanco-puro hover:underline flex items-center transition-colors duration-300 ease-in-out"
+        href={`/blog/${post.slug}`}
+    >
+        Leer más <ArrowRight /></a
+    >
 </article>

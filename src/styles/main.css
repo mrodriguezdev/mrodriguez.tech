@@ -14,7 +14,7 @@
     }
 
     hr {
-        @apply my-3 h-[1px] bg-gris-medio dark:border-gris-claro/20;
+        @apply my-3 h-[1px] bg-gris-medio dark:border-gris-claro/90;
     }
 
 }
