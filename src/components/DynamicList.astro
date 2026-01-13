@@ -2,105 +2,89 @@
 import ExternalLink from '@/components/ExternalLink.astro';
 
 interface ListItem {
-    title?: string;
-    description: string;
-    url?: string;
+  title?: string;
+  description: string;
+  url?: string;
 }
 
 export interface Props {
-    items: ListItem[];
-    listType?: "numbered" | "bulleted" | "plain";
+  items: ListItem[];
+  listType?: "numbered" | "bulleted" | "plain";
 }
 
 const { items, listType = "numbered" } = Astro.props;
 
 const isNumbered = listType === "numbered";
 const isBulleted = listType === "bulleted";
-const listClass = listType === "plain" ? "plain-list" : "";
+const isPlain = listType === "plain";
 ---
 
-{
-    isNumbered && (
-        <ol class={listClass}>
-            {items.map((item, index) => (
-                <li>
-                    {item.title && (
-                        <strong>
-                            {index + 1}. {item.url ? (
-                                <ExternalLink href={item.url} text={item.title} />
-                            ) : (
-                                item.title
-                            )}
-                            {item.description ? ": " : ""}
-                        </strong>
-                    )}
-                    {item.description}
-                </li>
-            ))}
-        </ol>
-    )
-}
-{
-    isBulleted && (
-        <ul class={listClass}>
-            {items.map((item) => (
-                <li>
-                    <span>- </span>
-                    {item.title && (
-                        <strong>
-                            {item.url ? (
-                                <ExternalLink href={item.url} text={item.title} />
-                            ) : (
-                                item.title
-                            )}
-                            {item.description ? ": " : ""}
-                        </strong>
-                    )}
-                    {item.description}
-                </li>
-            ))}
-        </ul>
-    )
-}
-{
-    listType === "plain" && (
-        <ul class="plain-list">
-            {items.map((item) => (
-                <li>
-                    {item.title && (
-                        <strong>
-                            {item.url ? (
-                                <ExternalLink href={item.url} text={item.title} />
-                            ) : (
-                                item.title
-                            )}
-                            {item.description ? ": " : ""}
-                        </strong>
-                    )}
-                    {item.description}
-                </li>
-            ))}
-        </ul>
-    )
-}
+{isNumbered && (
+  <ol class="list-none p-0 m-0">
+    {items.map((item, index) => (
+      <li class="mb-2">
+        {item.title && (
+          <span class="font-semibold text-negro-profundo dark:text-blanco-puro">
+            {index + 1}.{" "}
+            {item.url ? (
+              <ExternalLink href={item.url} text={item.title} />
+            ) : (
+              item.title
+            )}
+            {item.description ? ": " : ""}
+          </span>
+        )}
+        <span class="text-base md:text-[16px] text-gris-oscuro dark:text-gris-claro">
+          {item.description}
+        </span>
+      </li>
+    ))}
+  </ol>
+)}
 
-<style>
-    ol,
-    ul {
-        margin: 0;
-        padding: 0;
-    }
+{isBulleted && (
+  <ul class="list-none p-0 m-0">
+    {items.map((item) => (
+      <li class="mb-2 flex items-start">
+        <span class="mr-2">-</span>
+        <div>
+          {item.title && (
+            <span class="font-semibold text-negro-profundo dark:text-blanco-puro">
+              {item.url ? (
+                <ExternalLink href={item.url} text={item.title} />
+              ) : (
+                item.title
+              )}
+              {item.description ? ": " : ""}
+            </span>
+          )}
+          <span class="text-base md:text-[16px] text-gris-oscuro dark:text-gris-claro">
+            {item.description}
+          </span>
+        </div>
+      </li>
+    ))}
+  </ul>
+)}
 
-    li {
-        margin-bottom: .5rem;
-    }
-
-    ul li span {
-        margin-right: 0.5rem;
-    }
-
-    .plain-list {
-        list-style: none;
-        padding: 0;
-    }
-</style>
+{isPlain && (
+  <ul class="list-none p-0 m-0">
+    {items.map((item) => (
+      <li class="mb-2">
+        {item.title && (
+          <span class="font-semibold text-negro-profundo dark:text-blanco-puro">
+            {item.url ? (
+              <ExternalLink href={item.url} text={item.title} />
+            ) : (
+              item.title
+            )}
+            {item.description ? ": " : ""}
+          </span>
+        )}
+        <span class="text-base md:text-[16px] text-gris-oscuro dark:text-gris-claro">
+          {item.description}
+        </span>
+      </li>
+    ))}
+  </ul>
+)}

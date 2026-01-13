@@ -1,98 +1,65 @@
 ---
 export type Props = {
-    code: string;
+  code: string;
 };
 
 const { code } = Astro.props;
 ---
 
-<div class="code-toolbar">
-    <pre class="command">
-        <code>{code}</code>
-    </pre>
-    <div class="toolbar">
-        <div class="toolbar-item">
-            <button onclick="copyCode()">Copiar</button>
-        </div>
+<div class="code-toolbar relative my-4 not-prose">
+  <pre
+    class="bg-gris-oscuro text-blanco-puro px-4 py-2 rounded-md overflow-auto whitespace-pre"
+  >
+    <code class="whitespace-pre tex-base">{code}</code>
+  </pre>
+
+  <div class="absolute top-0 right-0">
+    <div class="inline-block m-2">
+      <button
+        type="button"
+        class="bg-verde-lima text-blanco-puro px-3 py-2 rounded-lg text-sm font-medium hover:opacity-90 transition"
+      >
+        Copiar
+      </button>
     </div>
+  </div>
 </div>
 
-<style>
-    .code-toolbar {
-        position: relative;
-        margin: 1rem 0;
-    }
-
-    .code-toolbar pre {
-        background: var(--color-gris-oscuro);
-        color: var(--color-blanco-puro);
-        padding: 0 1rem;
-        border-radius: 0.4rem;
-        margin: 0;
-        overflow: auto;
-        white-space: pre;
-    }
-
-    code {
-        white-space: pre;
-    }
-
-    .toolbar {
-        position: absolute;
-        top: 0;
-        right: 0;
-    }
-
-    .toolbar-item {
-        display: inline-block;
-        margin: 0.5rem;
-    }
-
-    .toolbar-item button {
-        background: var(--color-verde-lima);
-        color: var(--color-blanco-puro);
-        border: none;
-        padding: 0.5em;
-        border-radius: 0.5rem;
-        cursor: pointer;
-    }
-</style>
-
 <script is:inline>
-    if (typeof window !== "undefined") {
-        document.addEventListener("DOMContentLoaded", () => {
-            const buttons = document.querySelectorAll(".toolbar-item button");
+  const initCopyButtons = () => {
+    const toolbars = document.querySelectorAll(".code-toolbar");
 
-            buttons.forEach((button) => {
-                button.addEventListener("click", () => {
-                    const codeElement = button
-                        .closest(".code-toolbar")
-                        .querySelector("code");
+    toolbars.forEach((toolbar) => {
+      const button = toolbar.querySelector("button");
+      const codeEl = toolbar.querySelector("code");
 
-                    if (codeElement && codeElement.textContent) {
-                        navigator.clipboard
-                            .writeText(codeElement.textContent)
-                            .then(() => {
-                                const originalText = button.textContent;
-                                button.textContent = "Copiado!";
+      if (!button || !codeEl) return;
 
-                                setTimeout(() => {
-                                    button.textContent = originalText;
-                                }, 2000);
-                            })
-                            .catch((err) => {
-                                console.error(
-                                    "Fallo al copiar el código: ",
-                                    err,
-                                );
-                            });
-                    } else {
-                        console.error(
-                            "Elemento de código no encontrado o vacío",
-                        );
-                    }
-                });
-            });
-        });
-    }
+      if (button.dataset.bound === "true") return;
+      button.dataset.bound = "true";
+
+      button.addEventListener("click", async () => {
+        const text = codeEl.textContent ?? "";
+        if (!text.trim()) return;
+
+        try {
+          await navigator.clipboard.writeText(text);
+          const original = button.textContent;
+          button.textContent = "Copiado!";
+          setTimeout(() => (button.textContent = original), 2000);
+        } catch (err) {
+          console.error("Fallo al copiar el código: ", err);
+        }
+      });
+    });
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initCopyButtons);
+  } else {
+    initCopyButtons();
+  }
+
+  document.addEventListener("astro:page-load", initCopyButtons);
+  document.addEventListener("astro:after-swap", initCopyButtons);
 </script>

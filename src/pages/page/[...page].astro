@@ -20,7 +20,7 @@ const { page } = Astro.props;
 ---
 
 <BaseLayout>
-    <section>
+    <section class="flex flex-col gap-8 pt-7 md:pt-9">
         {page.data.map((post) => <PostPreview post={post} />)}
         <Pagination
             prevUrl={page.url.prev === "/page" ? "/" : page.url.prev}

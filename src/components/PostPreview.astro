@@ -8,68 +8,15 @@ const { post } = Astro.props;
 const { title, pubDate, description, time } = post.data;
 ---
 
-<article>
-    <header>
-        <h2>
+<article class="flex flex-col justify-center items-start gap-2.5">
+    <header class="flex flex-col gap-1.5">
+        <h2 class="text-lg md:text-xl -mb-1.5 text-gris-oscuro dark:text-blanco-puro uppercase font-extralight">
             {title}
         </h2>
-        <div class="time">
+        <div class="py-1.5 text-base md:text-lg">
             <FormattedDate date={pubDate} time={time} />
         </div>
-        <div class="description">{description}</div>
+        <div class="leading-6 text-base md:text-lg text-gris-oscuro dark:text-gris-claro">{description}</div>
     </header>
-    <a href={`/blog/${post.slug}`}> Leer más...</a>
+    <a class="text-base md:text-lg text-verde-lima hover:text-gris-oscuro dark:hover:text-blanco-puro transition-colors hover:underline" href={`/blog/${post.slug}`}> Leer más...</a>
 </article>
-
-<style>
-    article {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: flex-start;
-        gap: 0.5rem;
-    }
-
-    h2 {
-        color: var(--color-blanco-puro);
-        margin-bottom: 0;
-        font-size: 1.4rem !important;
-    }
-
-    html.light h2 {
-        color: var(--color-gris-oscuro);
-    }
-
-    @media (min-width: 640px) {
-        h2 {
-            font-size: 1.3rem !important;
-        }
-    }
-
-    .description {
-        margin-top: 0.75rem;
-        line-height: 1.25rem;
-        color: var(--color-gris-claro);
-        font-size: 1rem;
-    }
-
-    html.light .description {
-        color: var(--color-gris-oscuro);
-    }
-
-    .time {
-        font-size: 0.75rem;
-        margin-top: 0.6rem;
-    }
-
-    a {
-        color: var(--color-verde-lima);
-        transition: 0.5s ease-in-out;
-        display: flex;
-        align-items: center;
-    }
-
-    a:hover {
-        text-decoration-line: underline;
-    }
-</style>

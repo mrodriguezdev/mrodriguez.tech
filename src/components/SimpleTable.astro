@@ -6,47 +6,38 @@ interface SimpleTableProps {
 
 const { headers, rows } = Astro.props as SimpleTableProps;
 ---
-<table class="simple-table">
-  <thead>
-    <tr>
-      {headers.map((header) => (
-        <th>{header}</th>
-      ))}
-    </tr>
-  </thead>
-  <tbody>
-    {rows.map((row) => (
+
+<div class="overflow-x-auto not-prose">
+  <table
+    class="w-full border-collapse mt-4 text-sm
+           text-negro-profundo dark:text-gris-claro
+           bg-transparent"
+  >
+    <thead class="bg-gris-oscuro">
       <tr>
-        {row.map((cell) => (
-          <td>{cell}</td>
+        {headers.map((header) => (
+          <th
+            class="border border-gris-oscuro px-3 py-2 text-left
+                   font-semibold text-blanco-puro"
+          >
+            {header}
+          </th>
         ))}
       </tr>
-    ))}
-  </tbody>
-</table>
+    </thead>
 
-<style>
-  .simple-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 1rem;
-    font-size: 0.9rem;
-    color: var(--text);
-    background-color: var(--bg);
-  }
-
-  .simple-table th,
-  .simple-table td {
-    border: 1px solid var(--color-gris-oscuro);
-    padding: 8px 12px;
-    text-align: left;
-  }
-
-  .simple-table thead {
-    background-color: var(--color-gris-oscuro);
-  }
-
-  .simple-table th {
-    color: var(--color-blanco-puro);
-  }
-</style>
+    <tbody>
+      {rows.map((row) => (
+        <tr class="even:bg-transparent">
+          {row.map((cell) => (
+            <td
+              class="border border-gris-oscuro px-3 py-2 text-left"
+            >
+              {cell}
+            </td>
+          ))}
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>

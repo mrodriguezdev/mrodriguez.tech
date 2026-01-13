@@ -1,4 +1,4 @@
-:root {
+/* :root {
     --color-negro-profundo: #121212;
     --color-blanco-puro: #fafafa;
     --color-gris-claro: #CCCCCC;
@@ -77,36 +77,35 @@ div p {
     padding: 0.2rem 0;
 }
 
-a {
-    color: inherit;
-    text-decoration: none;
-}
+*/
 
-ul,
-ol {
-    list-style-type: none;
-    padding-left: 0;
-    margin-left: 0;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-.wrapper {
-    max-width: 48rem;
-    width: 100%;
-    width: min(100%, 48rem);
-    margin: 0 auto;
-}
-
-@media (max-width: 767px) {
-    body {
-        padding: 1.2rem 1.6rem 0;
+@layer base {
+    html {
+        font-family: "Onest Variable", system-ui, sans-serif;
+        @apply scroll-smooth;
     }
+
+    body {
+        @apply m-0 min-h-screen py-6 px-6 bg-blanco-puro text-gris-oscuro dark:bg-negro-profundo dark:text-blanco-puro;
+        transition: background-color 0.3s ease-in, color 0.3s ease-in;
+    }
+
+    hr {
+        @apply my-3 h-[1px] bg-gris-medio dark:border-gris-claro/20;
+    }
+
 }
 
-.referencias {
-    text-decoration: none;
-    color: var(--color-verde-lima);
-}
+@layer components {
+    .wrapper {
+        @apply max-w-3xl w-full my-0 mx-auto;
+    }
 
-.referencias:hover {
-    text-decoration: underline;
+    .referencias {
+        @apply text-verde-lima hover:text-gris-oscuro dark:hover:text-blanco-puro transition-colors duration-300 ease-in-out;
+    }
 }

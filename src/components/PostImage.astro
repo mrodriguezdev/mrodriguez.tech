@@ -9,18 +9,23 @@ export interface Props {
 const { src, alt, caption, zoom = true } = Astro.props;
 ---
 
-<figure class="post-image">
+<figure class="relative z-0 mx-auto my-8 max-w-full text-center not-prose">
   <img
     src={src}
     alt={alt}
     loading="lazy"
     class:list={{
-      "post-image__img": true,
-      "zoomable": zoom,
+      "max-w-full h-auto rounded-xl shadow-md transition-transform duration-300 ease-in-out": true,
+      "cursor-zoom-in": zoom,
     }}
     data-zoomable={zoom ? "true" : undefined}
   />
-  {caption && <figcaption class="post-image__caption">{caption}</figcaption>}
+
+  {caption && (
+    <figcaption class="mt-2 text-sm italic text-gris-medio">
+      {caption}
+    </figcaption>
+  )}
 </figure>
 
 {zoom && (
@@ -38,7 +43,7 @@ const { src, alt, caption, zoom = true } = Astro.props;
         scrollOffset: 0,
       });
 
-      imgs.forEach(img => {
+      imgs.forEach((img) => {
         if (!img.complete) {
           img.addEventListener("load", () => zoom.refresh());
         }
@@ -57,33 +62,6 @@ const { src, alt, caption, zoom = true } = Astro.props;
 )}
 
 <style>
-  .post-image {
-    margin: 2rem auto;
-    text-align: center;
-    max-width: 100%;
-    position: relative;
-    z-index: 0;
-  }
-
-  .post-image__img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 0.8rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-    transition: transform 0.3s ease;
-    z-index: 2;
-  }
-
-  .zoomable {
-    cursor: zoom-in;
-  }
-
-  .post-image__caption {
-    margin-top: 0.5rem;
-    font-size: 0.9rem;
-    font-style: italic;
-    color: var(--color-gris-medio);
-  }
   .medium-zoom-overlay {
     z-index: 9999 !important;
   }

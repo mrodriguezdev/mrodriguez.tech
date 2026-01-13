@@ -20,10 +20,46 @@ const { title, description } = Astro.props;
 <html lang="es">
     <head>
         <script is:inline>
-            if (localStorage.getItem("theme") === "light") {
-                document.documentElement.classList.add("light");
-            }
+            const storageKey = "tema";
+            const media = window.matchMedia("(prefers-color-scheme: dark)");
+
+            const getPref = () => localStorage.getItem(storageKey) ?? "sistema";
+
+            const applyTheme = () => {
+                const pref = getPref();
+                const shouldBeDark =
+                    pref === "oscuro" || (pref === "sistema" && media.matches);
+
+                document.documentElement.classList.toggle("dark", shouldBeDark);
+            };
+
+            const setPref = (next) => {
+                localStorage.setItem(storageKey, next);
+                applyTheme();
+            };
+
+            applyTheme();
+
+            document.addEventListener("click", (e) => {
+                const btn = e.target?.closest?.("#themeToggle");
+                if (!btn) return;
+
+                e.preventDefault();
+                e.stopPropagation();
+
+                const isDark =
+                    document.documentElement.classList.toggle("dark");
+                setPref(isDark ? "oscuro" : "claro");
+
+            });
+
+            media.addEventListener("change", () => {
+                if (getPref() === "sistema") applyTheme();
+            });
+
+            document.addEventListener("astro:after-swap", applyTheme);
         </script>
+
         <BaseHead
             title={title ? title : siteConfig.title}
             description={description ? description : siteConfig.description}
@@ -35,16 +71,11 @@ const { title, description } = Astro.props;
             url={siteConfig.url}
             image={siteConfig.image}
             social={siteConfig.socialLinks}
-            className={"wrapper"}
         />
         <main class="wrapper">
             <slot />
         </main>
-        <Footer
-            url={siteConfig.url}
-            developer={siteConfig.developer}
-            className={"wrapper"}
-        />
+        <Footer url={siteConfig.url} developer={siteConfig.developer} />
         <SpeedInsights />
     </body>
 </html>
