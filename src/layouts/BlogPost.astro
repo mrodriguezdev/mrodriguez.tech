@@ -8,7 +8,7 @@ type Props = CollectionEntry<"blog">["data"];
 const { pubDate, time } = Astro.props;
 ---
 
-<article class="flex flex-col gap-4">
+<article class="flex flex-col gap-9">
     {pubDate && time && <FormattedDate date={pubDate} time={time} />}
 
     <div

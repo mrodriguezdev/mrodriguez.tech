@@ -45,9 +45,12 @@ const isPlain = listType === "plain";
 {isBulleted && (
   <ul class="list-none p-0 m-0">
     {items.map((item) => (
-      <li class="mb-2 flex items-start">
-        <span class="mr-2">-</span>
-        <div>
+      <li class="mb-2 flex gap-3">
+        <span class="select-none text-gris-oscuro dark:text-gris-claro leading-6">
+          •
+        </span>
+
+        <div class="flex-1">
           {item.title && (
             <span class="font-semibold text-negro-profundo dark:text-blanco-puro">
               {item.url ? (
@@ -58,6 +61,7 @@ const isPlain = listType === "plain";
               {item.description ? ": " : ""}
             </span>
           )}
+
           <span class="text-base md:text-[16px] text-gris-oscuro dark:text-gris-claro">
             {item.description}
           </span>
@@ -66,6 +70,7 @@ const isPlain = listType === "plain";
     ))}
   </ul>
 )}
+
 
 {isPlain && (
   <ul class="list-none p-0 m-0">
