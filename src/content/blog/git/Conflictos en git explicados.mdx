@@ -7,11 +7,13 @@ updatedDate: 2025-11-01
 tags: ['git']
 time: 10
 ---
+
 import ExternalLink from '@/components/ExternalLink.astro';
 import CodeBlock from '@/components/CodeBlock.astro';
 import PostImage from '@/components/PostImage.astro';
 import SimpleTable from '@/components/SimpleTable.astro';
 import DynamicList from '@/components/DynamicList.astro';
+import InlineCode from '@/components/InlineCode.astro';
 
 ## Introducción
 
@@ -20,10 +22,13 @@ Hace un tiempo escribí sobre mis <ExternalLink href="https://www.mrodriguez.tec
 No son errores, pero se sienten como tal.  
 Recuerdo que la primera vez que me pasó, leí el mensaje en la consola:
 
-<CodeBlock code={`
-Auto-merging Main.java
-CONFLICT (content): Merge conflict in Main.java
-Automatic merge failed; fix conflicts and then commit the result.`} />
+<CodeBlock
+  lines={[
+    "Auto-merging Main.java",
+    "CONFLICT (content): Merge conflict in Main.java",
+    "Automatic merge failed; fix conflicts and then commit the result.",
+  ]}
+/>
 
 y pensé que había roto todo. Pero no era así, solo necesitaba entender **qué estaba pasando realmente**.
 
@@ -37,21 +42,24 @@ Un **conflicto en Git** ocurre cuando el sistema no puede determinar automática
 
 Esto suele pasar cuando dos ramas han modificado la **misma línea de código** o la **misma sección de un archivo**, y Git necesita tu intervención para decidir cuál es la correcta.
 
-<CodeBlock code={`
-<<<<<<< HEAD
-System.out.println("Hola desde la rama actual");
-=======
-System.out.println("Hola desde la nueva funcionalidad");
->>>>>>> nueva-funcionalidad`} />
+<CodeBlock
+  lines={[
+    "<<<<<<< HEAD",
+    'System.out.println("Hola desde la rama actual");',
+    "=======",
+    'System.out.println("Hola desde la nueva funcionalidad");',
+    ">>>>>>> nueva-funcionalidad",
+  ]}
+/>
 
 <DynamicList
   items={[
-    { title: 'HEAD', description: "Representa los cambios actuales en tu rama local. " },
-    { title: '=======', description: "Separa ambas versiones. " },
-    { title: '>>>>>>>', description: "Muestra los cambios de la rama que estás intentando fusionar. " },
+    { title: "HEAD", description: "Representa los cambios actuales en tu rama local." },
+    { title: "=======", description: "Separa ambas versiones." },
+    { title: ">>>>>>>", description: "Muestra los cambios de la rama que estás intentando fusionar." },
   ]}
   listType="bulleted"
-/> 
+/>
 
 Git detiene el proceso y espera que vos —el desarrollador— elijas cómo continuar.  
 En otras palabras, no es un error: **es una pregunta que Git te hace**.
@@ -90,12 +98,15 @@ Podemos agruparlos en dos grandes categorías:
 Son los más comunes.  
 Ocurren cuando dos ramas modifican la **misma línea o bloque de código**, y <ExternalLink href="https://git-scm.com/docs/git-merge" text="git merge" /> no puede decidir automáticamente cuál conservar.
 
-<CodeBlock code={`
-<<<<<<< HEAD
-System.out.println("Hola desde la rama main");
-=======
-System.out.println("Hola desde la nueva funcionalidad");
->>>>>>> nueva-funcionalidad`} />
+<CodeBlock
+  lines={[
+    "<<<<<<< HEAD",
+    'System.out.println("Hola desde la rama main");',
+    "=======",
+    'System.out.println("Hola desde la nueva funcionalidad");',
+    ">>>>>>> nueva-funcionalidad",
+  ]}
+/>
 
 En este caso, Git marca el archivo como conflictivo y detiene la fusión para que elijas qué versión tiene sentido mantener o si querés combinar ambas.
 
@@ -112,12 +123,12 @@ Algunos ejemplos:
 
 <DynamicList
   items={[
-    { description: "Una rama renombra un archivo mientras la otra lo modifica. " },
-    { description: "Una elimina una clase que la otra sigue usando. " },
-    { description: "O ambas mueven el mismo archivo a directorios distintos. " },
+    { description: "Una rama renombra un archivo mientras la otra lo modifica." },
+    { description: "Una elimina una clase que la otra sigue usando." },
+    { description: "O ambas mueven el mismo archivo a directorios distintos." },
   ]}
   listType="bulleted"
-/> 
+/>
 
 En estos casos, Git no puede inferir la intención detrás de cada cambio, por lo que interrumpe la operación y espera que tomes una decisión manual.
 
@@ -133,42 +144,48 @@ Mientras los conflictos de contenido suelen resolverse directamente en el códig
 Cuando ocurre un conflicto, Git no lo oculta: te lo dice de forma directa y sin rodeos.  
 El mensaje suele aparecer justo después de intentar un <ExternalLink href="https://git-scm.com/docs/git-merge" text="merge" /> o un <ExternalLink href="https://git-scm.com/docs/git-rebase" text="rebase" />:
 
-<CodeBlock code={`
-Auto-merging src/main/java/com/example/Main.java
-CONFLICT (content): Merge conflict in src/main/java/com/example/Main.java
-Automatic merge failed; fix conflicts and then commit the result.`} />
+<CodeBlock
+  lines={[
+    "Auto-merging src/main/java/com/example/Main.java",
+    "CONFLICT (content): Merge conflict in src/main/java/com/example/Main.java",
+    "Automatic merge failed; fix conflicts and then commit the result.",
+  ]}
+/>
 
 En este punto, el proceso se detiene. Git no puede continuar hasta que revises los archivos en conflicto y le confirmes cómo querés proceder.
 
 Podés comprobar rápidamente qué archivos quedaron en ese estado con:
 
-<CodeBlock code={`
-git status`} />
+<CodeBlock lines={["git status"]} />
 
 El resultado muestra una lista clara de los archivos afectados:
 
-<CodeBlock code={`
-both modified:   src/main/java/com/example/Main.java
-both added:      src/main/resources/application.properties`} />
+<CodeBlock
+  lines={[
+    "both modified:   src/main/java/com/example/Main.java",
+    "both added:      src/main/resources/application.properties",
+  ]}
+/>
 
 Si querés ver exactamente **qué partes del archivo entraron en conflicto**, podés usar:
 
-<CodeBlock code={`
-git diff`} />
+<CodeBlock lines={["git diff"]} />
 
 Esto mostrará las secciones delimitadas por los marcadores:
 
-<CodeBlock code={`
-<<<<<<< HEAD
-return "Hola desde la rama main";
-=======
-return "Hola desde la rama nueva";
->>>>>>> feature/nueva-funcionalidad`} />
+<CodeBlock
+  lines={[
+    "<<<<<<< HEAD",
+    'return "Hola desde la rama main";',
+    "=======",
+    'return "Hola desde la rama nueva";',
+    ">>>>>>> feature/nueva-funcionalidad",
+  ]}
+/>
 
 Cuando el proyecto es grande o incluye varios archivos, también podés identificar los commits involucrados en el conflicto con:
 
-<CodeBlock code={`
-git log --merge`} />
+<CodeBlock lines={["git log --merge"]} />
 
 Esto te da un contexto útil sobre qué cambios chocaron y en qué momento del historial ocurrieron.
 
@@ -181,12 +198,12 @@ Podés abrir el archivo afectado y ver los marcadores resaltados, o usar la herr
 
 <DynamicList
   items={[
-    { title: 'Local (HEAD)', description: "Tu versión actual. " },
-    { title: 'Base', description: "El punto común entre ambas ramas. " },
-    { title: 'Incoming', description: "Los cambios provenientes de la otra rama." },
+    { title: "Local (HEAD)", description: "Tu versión actual." },
+    { title: "Base", description: "El punto común entre ambas ramas." },
+    { title: "Incoming", description: "Los cambios provenientes de la otra rama." },
   ]}
   listType="bulleted"
-/> 
+/>
 
 Para ser honesto —o al menos en mi caso— rara vez resuelvo conflictos únicamente desde la terminal.  
 Prefiero hacerlo desde el IDE, porque me permite ver claramente qué cambió en cada versión y elegir qué conservar con un par de clics.  
@@ -199,7 +216,6 @@ Además, la interfaz visual reduce mucho la posibilidad de cometer errores al ed
 />
 
 Este tipo de vista te ayuda a comprender **qué cambió, dónde y por qué**, antes de siquiera resolverlo.  
-En el siguiente artículo veremos cómo hacerlo paso a paso con un ejemplo en Java dentro de IntelliJ IDEA.
 
 ---
 
@@ -221,5 +237,3 @@ En el siguiente artículo veremos cómo hacerlo paso a paso con un ejemplo en Ja
 
 Todo lo anterior es lo que **me habría gustado entender antes de intentar resolver un conflicto**.  
 Conocer los tipos, las causas y cómo identificarlos cambia totalmente la experiencia.
-
-En la siguiente parte voy a llevar todo esto a la práctica con un proyecto en Java e IntelliJ IDEA — paso a paso y sin perder la calma.

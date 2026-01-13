@@ -7,12 +7,13 @@ updatedDate: 2025-08-10
 tags: ['http', 'backend', 'api', 'rest']
 time: 8
 ---
+
 import CodeBlock from '@/components/CodeBlock.astro';
 import ExternalLink from '@/components/ExternalLink.astro';
 import DynamicList from '@/components/DynamicList.astro';
 import PostImage from '@/components/PostImage.astro';
 import SimpleTable from '@/components/SimpleTable.astro';
-
+import InlineCode from '@/components/InlineCode.astro';
 
 ## Introducción
 
@@ -39,12 +40,12 @@ Características clave:
 
 <DynamicList
   items={[
-    { title: "Cliente-servidor", description: "Quien inicia la comunicación es el cliente. " },
-    { title: "Sin estado (stateless)", description: "El servidor no recuerda solicitudes anteriores. " },
-    { title: "Basado en texto", description: "Las peticiones/respuestas son legibles y estructuradas. " },
+    { title: "Cliente-servidor", description: "Quien inicia la comunicación es el cliente." },
+    { title: "Sin estado (stateless)", description: "El servidor no recuerda solicitudes anteriores." },
+    { title: "Basado en texto", description: "Las peticiones/respuestas son legibles y estructuradas." },
   ]}
   listType="bulleted"
-/> 
+/>
 
 <PostImage
   src="/posts/http-flujo-peticion.png"
@@ -68,28 +69,30 @@ HTTP define una serie de métodos —también llamados verbos— que indican la 
 />
 
 Un método HTTP se considera <ExternalLink href="https://developer.mozilla.org/en-US/docs/Glossary/Idempotent" text="idempotente" /> cuando puede ejecutarse múltiples veces sin cambiar el resultado más allá de la primera ejecución.  
-Por ejemplo, eliminar el mismo recurso varias veces con <code>DELETE</code> no lo borra más de una vez.
+Por ejemplo, eliminar el mismo recurso varias veces con <InlineCode text="DELETE" /> no lo borra más de una vez.
 
 Además de la idempotencia, hay otros aspectos importantes como los métodos <em>safe</em> (seguros, que no modifican nada) o los <em>cacheables</em> (cuyas respuestas pueden almacenarse para futuras solicitudes).
 
 Si querés profundizar más en cada uno —qué hacen, cuáles son seguros, idempotentes o cacheables— te recomiendo esta guía buenísima, clara y en español: <ExternalLink href="https://developer.mozilla.org/es/docs/Web/HTTP/Methods" text="Métodos HTTP en MDN" />
 
-Ejemplos de uso con la herramienta <code>curl</code>:
+Ejemplos de uso con la herramienta <InlineCode text="curl" />:
 
-<CodeBlock code={`
-# GET: Obtener usuarios
-curl https://api.mrodriguez.tech/usuarios
-
-# POST: Crear un usuario
-curl -X POST https://api.mrodriguez.tech/usuarios \
-  -H "Content-Type: application/json" \
-  -d '{"nombre": "Mario"}'
-
-# PUT: Reemplazar usuario
-curl -X PUT https://api.mrodriguez.tech/usuarios/1 \
-  -H "Content-Type: application/json" \
-  -d '{"nombre": "Mario actualizado"}'
-`} />
+<CodeBlock
+  lines={[
+    "# GET: Obtener usuarios",
+    "curl https://api.mrodriguez.tech/usuarios",
+    "",
+    "# POST: Crear un usuario",
+    "curl -X POST https://api.mrodriguez.tech/usuarios \\",
+    '  -H "Content-Type: application/json" \\',
+    `  -d '{"nombre": "Mario"}'`,
+    "",
+    "# PUT: Reemplazar usuario",
+    "curl -X PUT https://api.mrodriguez.tech/usuarios/1 \\",
+    '  -H "Content-Type: application/json" \\',
+    `  -d '{"nombre": "Mario actualizado"}'`,
+  ]}
+/>
 
 ## Códigos de estado: no todo es 200 OK
 
@@ -134,7 +137,7 @@ Acá te dejo algunos headers comunes que vas a encontrarte muy seguido:
 />
 
 Un header mal configurado puede hacer que una API falle o que el servidor no entienda lo que estás enviando.  
-Por ejemplo, si mandás JSON pero no ponés <code>Content-Type: application/json</code>, el servidor podría ignorar completamente el cuerpo de tu solicitud.
+Por ejemplo, si mandás JSON pero no ponés <InlineCode text="Content-Type: application/json" />, el servidor podría ignorar completamente el cuerpo de tu solicitud.
 
 ## El cuerpo, la URL y los parámetros
 
@@ -151,36 +154,37 @@ Cada una tiene su propósito y se usa en contextos diferentes.
 />
 
 Una buena práctica es usar los path params para identificar recursos, los query params para filtros u opciones, y el cuerpo (body) para enviar los datos en sí.  
-Y algo clave: no todos los métodos permiten body. Por ejemplo, <code>GET</code> no debería usarse con cuerpo, aunque técnicamente algunos clientes lo permitan.
-
+Y algo clave: no todos los métodos permiten body. Por ejemplo, <InlineCode text="GET" /> no debería usarse con cuerpo, aunque técnicamente algunos clientes lo permitan.
 
 ## Ejemplo completo: mini API REST
 
 Supongamos que tenés una API de usuarios. Así se vería un flujo básico de operaciones comunes:
 
-<CodeBlock code={`
-# Crear un usuario
-curl -X POST https://api.mrodriguez.tech/usuarios \
-  -H "Content-Type: application/json" \
-  -d '{"nombre": "Mario"}'
-
-# Obtener todos los usuarios
-curl -X GET https://api.mrodriguez.tech/usuarios
-
-# Obtener usuario por ID
-curl -X GET https://api.mrodriguez.tech/usuarios/1
-
-# Actualizar usuario
-curl -X PUT https://api.mrodriguez.tech/usuarios/1 \
-  -H "Content-Type: application/json" \
-  -d '{"nombre": "Mario actualizado"}'
-
-# Eliminar usuario
-curl -X DELETE https://api.mrodriguez.tech/usuarios/1
-`} />
+<CodeBlock
+  lines={[
+    "# Crear un usuario",
+    "curl -X POST https://api.mrodriguez.tech/usuarios \\",
+    '  -H "Content-Type: application/json" \\',
+    `  -d '{"nombre": "Mario"}'`,
+    "",
+    "# Obtener todos los usuarios",
+    "curl -X GET https://api.mrodriguez.tech/usuarios",
+    "",
+    "# Obtener usuario por ID",
+    "curl -X GET https://api.mrodriguez.tech/usuarios/1",
+    "",
+    "# Actualizar usuario",
+    "curl -X PUT https://api.mrodriguez.tech/usuarios/1 \\",
+    '  -H "Content-Type: application/json" \\',
+    `  -d '{"nombre": "Mario actualizado"}'`,
+    "",
+    "# Eliminar usuario",
+    "curl -X DELETE https://api.mrodriguez.tech/usuarios/1",
+  ]}
+/>
 
 Este ejemplo cubre lo básico: creación, lectura, actualización y eliminación de recursos (lo que normalmente se conoce como CRUD).  
-Si querés practicar este tipo de solicitudes de forma más visual, además de <code>curl</code> o Postman, te recomiendo probar <ExternalLink href="https://cartero.danirod.es/" text="Cartero" />, un cliente HTTP de escritorio liviano, creado como proyecto open source.
+Si querés practicar este tipo de solicitudes de forma más visual, además de <InlineCode text="curl" /> o Postman, te recomiendo probar <ExternalLink href="https://cartero.danirod.es/" text="Cartero" />, un cliente HTTP de escritorio liviano, creado como proyecto open source.
 
 ## Conclusión 
 

@@ -1,0 +1,258 @@
+---
+title: 'Cómo Crear, Subir y Compartir Imágenes Docker en Docker Hub'
+slug: 'docker-hub-crear-y-compartir-imagenes'
+description: 'Aprende paso a paso cómo crear una aplicación con Node.js y TypeScript, empaquetarla en Docker, subirla a Docker Hub y compartirla de forma eficiente. 
+Ideal para principiantes y entusiastas de Docker.'
+pubDate: 2024-12-18
+updatedDate: 2025-08-10
+tags: ["docker", "node", "docker hub", "imágenes docker", "devops", "contenedores"]
+time: 10
+---
+
+import CodeBlock from '@/components/CodeBlock.astro';
+import ExternalLink from '@/components/ExternalLink.astro';
+import InlineCode from '@/components/InlineCode.astro';
+import siteConfig from "@/config/site.config";
+
+## Introducción
+
+Docker Hub es una plataforma esencial para almacenar y compartir imágenes Docker.  
+En artículos anteriores, exploramos
+<ExternalLink href={`${siteConfig.url}/post/introduccion-docker-hub`} text="Docker Hub: Repositorios Públicos y Privados" />
+y los <ExternalLink href={`${siteConfig.url}/post/comandos-basicos-docker`} text="Comandos básicos de Docker" />, que te pueden ayudar a comprender mejor los fundamentos de esta herramienta.
+
+Ya sea que trabajes en proyectos personales o colaborativos, entender cómo gestionar imágenes en Docker Hub es fundamental para un flujo de trabajo eficiente.  
+En este artículo, exploraremos paso a paso cómo crear, subir y compartir imágenes Docker en esta plataforma, utilizando un proyecto sencillo en TypeScript como ejemplo.
+
+---
+
+### 1. Creando una aplicación con Node.js y TypeScript
+
+Antes de subir una imagen a Docker Hub, necesitamos una aplicación que podamos empaquetar en un contenedor.  
+Crearemos una API básica con Node.js y TypeScript que exponga un endpoint <InlineCode text="/hello" />.
+
+#### 1. Inicializa el proyecto
+
+<CodeBlock
+  lines={[
+    "mkdir hello-docker-ts",
+    "cd hello-docker-ts",
+    "npm init -y",
+  ]}
+/>
+
+#### 2. Instala las dependencias necesarias
+
+<CodeBlock
+  lines={[
+    "npm install express",
+    "npm install typescript @types/node @types/express ts-node-dev --save-dev",
+  ]}
+/>
+
+#### 3. Configura TypeScript
+
+Ejecuta el siguiente comando para generar un archivo <InlineCode text="tsconfig.json" />:
+
+<CodeBlock lines={["npx tsc --init"]} />
+
+Edita el <InlineCode text="tsconfig.json" /> con la siguiente configuración recomendada:
+
+<CodeBlock
+  lines={[
+    "{",
+    '  "compilerOptions": {',
+    '    "target": "ES2020",',
+    '    "module": "CommonJS",',
+    '    "rootDir": "./src",',
+    '    "outDir": "./dist",',
+    '    "strict": true,',
+    '    "esModuleInterop": true,',
+    '    "skipLibCheck": true,',
+    '    "forceConsistentCasingInFileNames": true',
+    "  },",
+    '  "include": ["src/**/*"],',
+    '  "exclude": ["node_modules", "dist"]',
+    "}",
+  ]}
+/>
+
+#### 4. Crea la estructura del proyecto
+
+Organiza tus archivos de la siguiente manera:
+
+<CodeBlock
+  lines={[
+    "hello-docker-ts/",
+    "├── src/",
+    "│   └── server.ts    # Código fuente principal",
+    "├── dist/            # Generado automáticamente al compilar",
+    "├── package.json",
+    "├── tsconfig.json",
+    "└── node_modules/",
+  ]}
+/>
+
+#### 5. Implementa el servidor
+
+Crea un archivo <InlineCode text="src/server.ts" /> con el siguiente contenido:
+
+<CodeBlock
+  lines={[
+    "import express, { Request, Response } from 'express';",
+    "",
+    "const app = express();",
+    "",
+    "app.get('/hello', (req: Request, res: Response) => {",
+    "  res.json({ message: 'Hello, Docker!' });",
+    "});",
+    "",
+    "const PORT = 3000;",
+    "app.listen(PORT, () => {",
+    "  console.log(`Server is running on http://localhost:${PORT}`);",
+    "});",
+  ]}
+/>
+
+#### 6. Configura el script de inicio
+
+En el archivo <InlineCode text="package.json" />, asegúrate de que el script de inicio sea:
+
+<CodeBlock
+  lines={[
+    '"scripts": {',
+    '  "build": "npx tsc",',
+    '  "start": "npm run build && node dist/server.js"',
+    "}",
+  ]}
+/>
+
+#### 7. Prueba el servidor
+
+Ejecuta el comando:
+
+<CodeBlock lines={["npm start"]} />
+
+#### 8. Código fuente disponible
+
+Puedes encontrar el código completo de este proyecto en GitHub:  
+<ExternalLink href="https://github.com/mrodriguezdev/hello-docker-ts" text="hello-docker-ts" />.
+
+Si todo está correcto, al visitar el endpoint <InlineCode text="http://localhost:3000/hello" /> verás algo como esto:
+
+<CodeBlock
+  lines={[
+    "{",
+    '  "message": "Hello, Docker!"',
+    "}",
+  ]}
+/>
+
+---
+
+### 2. Crear una imagen Docker para la aplicación
+
+#### 1. Crea un archivo Dockerfile
+
+En el directorio del proyecto, crea un archivo llamado <InlineCode text="Dockerfile" /> con el siguiente contenido:
+
+<CodeBlock
+  lines={[
+    "# Imagen base para Node.js",
+    "FROM node:18-slim",
+    "",
+    "# Establecemos el directorio de trabajo",
+    "WORKDIR /app",
+    "",
+    "# Copiamos los archivos necesarios",
+    "COPY package*.json ./",
+    "RUN npm install",
+    "",
+    "# Copiamos el resto del código",
+    "COPY . ./",
+    "",
+    "# Compilamos el código TypeScript",
+    "RUN npm run build",
+    "",
+    "# Exponemos el puerto",
+    "EXPOSE 3000",
+    "",
+    "# Comando para ejecutar la aplicación",
+    'CMD ["node", "dist/server.js"]',
+  ]}
+/>
+
+#### 2. Construye la imagen
+
+Ejecuta el comando:
+
+<CodeBlock
+  lines={[
+    "docker build -f Dockerfile -t hello-docker-ts .",
+  ]}
+/>
+
+#### 3. Prueba la imagen localmente
+
+<CodeBlock
+  lines={[
+    "docker run -p 3000:3000 hello-docker-ts",
+  ]}
+/>
+
+Ve a <InlineCode text="http://localhost:3000/hello" /> y verifica que el contenedor funciona correctamente.
+
+---
+
+### 3. Subiendo imágenes a Docker Hub
+
+#### 1. Inicia sesión en Docker Hub
+
+<CodeBlock lines={["docker login"]} />
+
+#### 2. Etiqueta la imagen
+
+<CodeBlock
+  lines={[
+    "docker tag hello-docker-ts usuario/hello-docker-ts:1.0",
+  ]}
+/>
+
+#### 3. Sube la imagen a Docker Hub
+
+<CodeBlock
+  lines={[
+    "docker push usuario/hello-docker-ts:1.0",
+  ]}
+/>
+
+#### 4. Verifica la imagen en Docker Hub
+
+Ve a tu cuenta en Docker Hub y verifica que la imagen esté disponible.
+
+---
+
+### 4. Compartiendo tu imagen Docker
+
+#### 1. Repositorios públicos
+
+Si tu repositorio es público, otros usuarios pueden descargar tu imagen con:
+
+<CodeBlock
+  lines={[
+    "docker pull mrodrigueztech/hello-docker-ts:1.0",
+  ]}
+/>
+
+#### 2. Repositorios privados
+
+Para compartir imágenes privadas, puedes otorgar acceso a usuarios desde Docker Hub.
+
+---
+
+## Conclusión
+
+Docker Hub simplifica el proceso de compartir y distribuir imágenes Docker.  
+Ahora que sabes cómo crear, subir y compartir una aplicación TypeScript empaquetada en Docker, puedes integrar esta herramienta en tu flujo de trabajo.
+
+En el próximo artículo, exploraremos cómo gestionar múltiples contenedores con Docker Compose. **¡No te lo pierdas!**
