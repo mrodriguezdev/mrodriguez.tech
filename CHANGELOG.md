@@ -2,7 +2,7 @@
 
 Todos los cambios importantes de este proyecto se documentarán en este archivo.
 
-## [2.0.0] - 2026-01-13
+## [2.0.0] - 2026-01-14
 ### Cambiado
 - Migración completa de estilos desde CSS puro a Tailwind CSS.
 - Refactor de componentes para usar utilidades de Tailwind.
