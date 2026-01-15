@@ -1,0 +1,18 @@
+---
+export interface Props {
+  text: string;
+}
+const { text } = Astro.props;
+---
+
+<code
+  class="not-prose inline-flex items-center
+         px-1.5 py-0.5 rounded-md text-[0.9em] leading-none
+         whitespace-nowrap select-all
+         bg-gris-claro/40 dark:bg-gris-oscuro/40
+         text-negro-profundo dark:text-blanco-puro
+         border border-gris-claro dark:border-gris-oscuro
+         font-mono tracking-tight"
+>
+  {text}
+</code>

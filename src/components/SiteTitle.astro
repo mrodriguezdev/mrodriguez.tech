@@ -6,44 +6,14 @@ export interface Props {
 const { url } = Astro.props;
 ---
 
-<div>
-    <h1>
+<div class="flex-1">
+    <h1
+        class="text-2xl text-gris-oscuro dark:text-blanco-puro font-semibold
+    capitalize dark:hover:text-gris-claro"
+    >
         <a href={url} target="_blank">Mario Rodríguez</a>
     </h1>
-    <h2>Temas y Tips sobre Programación y Tecnología</h2>
+    <h2 class="text-lg text-gris-medio">Temas y Tips sobre Programación y Tecnología</h2>
 </div>
 
-<style>
-    h1 {
-        color: var(--color-blanco-puro);
-        text-align: justify;
-        font-size: 1.6rem;
-        font-weight: 600;
-        transition: 0.5s ease-in-out;
-        text-transform: capitalize;
-    }
 
-    h1:hover {
-        color: var(--color-gris-claro);
-    }
-
-    h2 {
-        font-size: 1.125rem;
-        color: var(--color-gris-claro);
-        margin: 0;
-    }
-
-    html.light h2 {
-        color: var(--color-gris-medio);
-        font-weight: 300;
-    }
-
-    html.light h1:hover {
-        color: var(--color-gris-oscuro);
-    }
-
-    div {
-        display: flex;
-        flex-direction: column;
-    }
-</style>

@@ -1,0 +1,144 @@
+---
+title: 'Instalación de Docker Engine en Ubuntu 22.04: Guía Paso a Paso'
+slug: 'instalar-docker-engine-en-ubuntu-22-04-guia-paso-a-paso'
+description: 'En este artículo, te guiaré a través del proceso de instalación de Docker Engine en Ubuntu 22.04. Aprenderás desde los conceptos básicos de qué es Docker y cómo funciona, hasta los pasos detallados para poner en marcha tu entorno de contenedores.'
+pubDate: 2024-09-25
+updatedDate: 2024-08-10
+tags: ["docker", "ubuntu", "contenedores", "linux"]
+time: 6
+---
+
+import CodeBlock from '@/components/CodeBlock.astro';
+import ExternalLink from '@/components/ExternalLink.astro';
+import StepItem from '@/components/StepItem.astro';
+import InlineCode from '@/components/InlineCode.astro';
+
+## Introducción
+
+En el mundo del desarrollo de software y la administración de sistemas, la capacidad de ejecutar aplicaciones de manera rápida y eficiente es esencial.  
+<ExternalLink href="https://www.docker.com" text="Docker" /> se ha convertido en una herramienta imprescindible al permitir la creación de contenedores, que son entornos ligeros y portátiles donde las aplicaciones pueden ejecutarse de forma aislada del sistema operativo.
+
+A diferencia de las máquinas virtuales tradicionales, que requieren un sistema operativo completo para cada instancia, los contenedores Docker comparten el kernel del sistema operativo, lo que los hace más ligeros y rápidos.
+
+En este artículo, aprenderás cómo instalar Docker Community Edition (CE) en Ubuntu 22.04.
+
+## Instalación usando el repositorio `apt`
+
+### 1. Configurar los repositorios apt de Docker
+
+<StepItem
+  title="Actualizar e instalar dependencias"
+  description="Necesitamos certificados, curl y preparar el directorio de llaves."
+/>
+
+<CodeBlock
+  lines={[
+    "sudo apt update",
+    "sudo apt install ca-certificates curl",
+    "sudo install -m 0755 -d /etc/apt/keyrings",
+    "sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc",
+    "sudo chmod a+r /etc/apt/keyrings/docker.asc",
+  ]}
+/>
+
+<StepItem
+  title="Agregar el repositorio de Docker"
+  description="Esto permite instalar Docker desde los repos oficiales."
+/>
+
+<CodeBlock
+  lines={[
+    'echo \\',
+    '"deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \\',
+    '$(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \\',
+    "sudo tee /etc/apt/sources.list.d/docker.list > /dev/null",
+    "sudo apt update",
+  ]}
+/>
+
+### 2. Instalar los paquetes de Docker
+
+<StepItem
+  title="Instalar la última versión"
+  description="Instala Docker Engine, CLI, containerd y plugins recomendados."
+/>
+
+<CodeBlock
+  lines={[
+    "sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin",
+  ]}
+/>
+
+<StepItem
+  title="Instalar una versión específica"
+  description="Puedes listar versiones disponibles y seleccionar una versión concreta."
+/>
+
+<CodeBlock
+  lines={[
+    "apt-cache madison docker-ce | awk '{ print $3 }'",
+  ]}
+/>
+
+<CodeBlock
+  lines={[
+    "VERSION_STRING=5:26.1.0-1~ubuntu.24.04~noble",
+    "sudo apt install docker-ce=$VERSION_STRING docker-ce-cli=$VERSION_STRING containerd.io docker-buildx-plugin docker-compose-plugin",
+  ]}
+/>
+
+### 3. Verificar la instalación de Docker Engine
+
+Para verificar que todo está correcto, ejecuta la imagen <InlineCode text="hello-world" />:
+
+<CodeBlock
+  lines={[
+    "sudo docker run hello-world",
+  ]}
+/>
+
+## Post-instalación
+
+### 1. Crear el grupo de Docker
+
+<CodeBlock
+  lines={[
+    "sudo groupadd docker",
+  ]}
+/>
+
+### 2. Agregar tu usuario al grupo de Docker
+
+<CodeBlock
+  lines={[
+    "sudo usermod -aG docker \\${USER}",
+  ]}
+/>
+
+### 3. Actualizar la sesión de usuario
+
+Necesitarás cerrar sesión y volver a iniciarla para que se reevalúe la membresía del grupo, o puedes ejecutar:
+
+<CodeBlock
+  lines={[
+    "su -s \\${USER}",
+  ]}
+/>
+
+### 4. Verificar Docker sin sudo
+
+Cierra la terminal, abre una nueva y ejecuta:
+
+<CodeBlock
+  lines={[
+    "docker run hello-world",
+  ]}
+/>
+
+## Conclusión
+
+Las ventajas que ofrece Docker han revolucionado la implementación de software, haciéndola considerablemente más eficiente.  
+Con Docker, los desarrolladores pueden estar seguros de que su aplicación se ejecutará de manera consistente, independientemente del entorno en el que se despliegue.
+
+En próximos artículos, exploraremos cómo administrar contenedores, ejecutar contenedores de forma efectiva y gestionar imágenes.  
+Para profundizar, te recomiendo explorar la <ExternalLink href="https://docs.docker.com/" text="documentación oficial de Docker" />.

@@ -8,6 +8,7 @@ const URL =
     ? `https://${import.meta.env.VERCEL_URL}`
     : "http://localhost:4321");
 
+const EMAIL = import.meta.env.EMAIL;
 
 export type Image = {
     src: string;
@@ -55,10 +56,6 @@ const siteConfig: SiteConfig = {
             text: 'Blog',
             href: '/'
         },
-/*         {
-            text: 'Proyectos',
-            href: '/proyectos'
-        }, */
         {
             text: 'Sobre mí',
             href: '/sobre-mi'
@@ -82,7 +79,7 @@ const siteConfig: SiteConfig = {
         },
         {
             name: 'Mail',
-            url: 'mailto:mario.rodriguez@mrodriguezdev.me',
+            url: EMAIL,
             icon: MailIcon
         }
     ],

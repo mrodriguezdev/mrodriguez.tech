@@ -19,16 +19,16 @@ const title = "Sobre Mí";
     title=`${title} - Mario Rodríguez`
     description="Desarrollador de software, actualmente trabajando en Asesoría y Servicios Técnicos, S.A. de C.V."
 >
-    <section>
-        <h1>{title.toUpperCase()}</h1>
-        <p>
+    <section class="flex flex-col">
+        <h1 class="text-xl md:text-2xl my-4 mx-0 uppercase font-normal tracking-wide">{title}</h1>
+        <p class="py-2 px-0 m-0 leading-normal md:text-lg text-gris-oscuro dark:text-gris-claro">
             ¡Hola! Soy Mario, un apasionado Ingeniero en Sistemas de {edad} años,
             originario de La Libertad, El Salvador 🇸🇻. Me gradué en 2024, y desde
             entonces he enfocado mi carrera en el desarrollo de software, con un
             especial interés en la creación de soluciones innovadoras y eficientes
             tanto en el backend como en el frontend.
         </p>
-        <p>
+        <p class="py-2 px-0 m-0 leading-normal md:text-lg text-gris-oscuro dark:text-gris-claro">
             Mi verdadera pasión reside en el desarrollo backend, donde me
             destaco por mi conocimiento en arquitecturas de <ExternalLink
                 href="https://www.redhat.com/es/topics/microservices"
@@ -42,7 +42,7 @@ const title = "Sobre Mí";
             prioridad. Para mí, cada proyecto es una oportunidad para superar
             desafíos y aportar soluciones que realmente marquen la diferencia.
         </p>
-        <p>
+        <p class="py-2 px-0 m-0 leading-normal md:text-lg text-gris-oscuro dark:text-gris-claro">
             Espero que, a través de este sitio web, encuentres entradas de blog
             que te sean útiles, donde comparto experiencias, aprendizajes y
             técnicas sobre desarrollo de software. También podrás explorar
@@ -53,21 +53,3 @@ const title = "Sobre Mí";
         </p>
     </section>
 </BaseLayout>
-
-<style>
-    section {
-        display: flex;
-        flex-direction: column;
-    }
-
-    h1 {
-        font-size: 1.4rem !important;
-        margin: 1rem 0 1rem 0;
-    }
-
-    p {
-        padding: 0.6rem 0 0.6rem;
-        margin: 0;
-        line-height: 1.55;
-    }
-</style>

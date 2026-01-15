@@ -8,8 +8,20 @@ type Props = CollectionEntry<"blog">["data"];
 const { pubDate, time } = Astro.props;
 ---
 
-<article>
+<article class="flex flex-col gap-9">
     {pubDate && time && <FormattedDate date={pubDate} time={time} />}
-    <div><slot /></div>
+
+    <div
+        class="prose max-w-none
+              prose-p:text-gris-oscuro
+              prose-headings:text-gris-oscuro
+              prose-strong:text-gris-oscuro
+              dark:prose-p:text-gris-claro
+              dark:prose-strong:text-gris-medio
+              dark:prose-headings:text-blanco-puro"
+    >
+        <slot />
+    </div>
+
     <PostComments />
 </article>
