@@ -1,0 +1,47 @@
+---
+import ExternalLink from "@/components/ExternalLink.astro";
+
+interface Props {
+  number?: number;
+  title?: string;
+  description: string;
+  url?: string;
+}
+
+const { number, title, description, url } = Astro.props;
+---
+
+<div class="not-prose mb-4">
+  <div class="flex items-start gap-3">
+    {number !== undefined && (
+      <span
+        class="shrink-0 mt-[2px] w-6 h-6 grid place-items-center rounded-md
+               text-xs font-bold
+               bg-gris-claro dark:bg-gris-oscuro/50
+               text-negro-profundo dark:text-blanco-puro"
+      >
+        {number}
+      </span>
+    )}
+
+    <div class="flex-1">
+      {title ? (
+        <p class="m-0">
+          <span class="font-semibold text-negro-profundo dark:text-blanco-puro">
+            {url ? <ExternalLink href={url} text={title} /> : title}
+          </span>
+          {description && (
+            <span class="text-gris-oscuro dark:text-gris-claro">
+              {" "}
+              : {description}
+            </span>
+          )}
+        </p>
+      ) : (
+        <p class="m-0 text-base md:text-[16px] text-gris-oscuro dark:text-gris-claro">
+          {description}
+        </p>
+      )}
+    </div>
+  </div>
+</div>

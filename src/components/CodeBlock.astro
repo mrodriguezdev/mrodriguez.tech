@@ -1,98 +1,147 @@
 ---
 export type Props = {
-    code: string;
+  code?: string;
+  lines?: string[];
+  label?: string;
 };
 
-const { code } = Astro.props;
+const { code, lines, label } = Astro.props;
+
+const rawCode =
+  Array.isArray(lines) && lines.length > 0 ? lines.join("\n") : (code ?? "");
+
+function dedent(str: string) {
+  const trimmed = str.replace(/^\s*\n+/, "").replace(/\n+\s*$/, "");
+  const splitLines = trimmed.split("\n");
+
+  const indents = splitLines
+    .filter((l) => l.trim().length > 0)
+    .map((l) => l.match(/^[ \t]*/)?.[0].length ?? 0);
+
+  const minIndent = indents.length ? Math.min(...indents) : 0;
+
+  return splitLines.map((l) => l.slice(minIndent)).join("\n");
+}
+
+const cleanCode = dedent(rawCode);
 ---
 
-<div class="code-toolbar">
-    <pre class="command">
-        <code>{code}</code>
-    </pre>
-    <div class="toolbar">
-        <div class="toolbar-item">
-            <button onclick="copyCode()">Copiar</button>
-        </div>
+<div class="code-toolbar not-prose w-full my-4" data-code={cleanCode}>
+  {
+    label && (
+      <div class="mb-2 flex justify-between items-center">
+        <p class="text-sm font-medium text-negro-profundo dark:text-blanco-puro">
+          {label}
+        </p>
+      </div>
+    )
+  }
+
+  <div
+    class="relative bg-gris-oscuro border border-gris-oscuro/60 rounded-md p-4"
+  >
+    <div class="overflow-auto max-h-64">
+      <pre
+        class="m-0">
+<code class="text-sm text-blanco-puro whitespace-pre">{cleanCode}</code>
+      </pre>
     </div>
+
+    <div class="absolute top-2 right-2">
+      <button
+        type="button"
+        class="copy-btn flex items-center gap-1.5
+               text-blanco-puro bg-gris-oscuro/40 border border-blanco-puro/20
+               hover:bg-gris-oscuro/60 hover:border-blanco-puro/30
+               focus:outline-none focus:ring-4 focus:ring-verde-lima/30
+               font-medium rounded-md text-xs px-3 py-1.5"
+      >
+        <span class="default-message inline-flex items-center gap-1.5">
+          <svg
+            class="w-4 h-4"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M8 7V6a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2h-1M8 7H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2v-1M8 7h7a2 2 0 0 1 2 2v10"
+            ></path>
+          </svg>
+          <span class="text-xs font-semibold">Copiar</span>
+        </span>
+
+        <span class="success-message hidden items-center gap-1.5">
+          <svg
+            class="w-4 h-4 text-verde-lima"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M5 13l4 4L19 7"></path>
+          </svg>
+          <span class="text-xs font-semibold text-verde-lima">Copiado</span>
+        </span>
+      </button>
+    </div>
+  </div>
 </div>
 
-<style>
-    .code-toolbar {
-        position: relative;
-        margin: 1rem 0;
-    }
-
-    .code-toolbar pre {
-        background: var(--color-gris-oscuro);
-        color: var(--color-blanco-puro);
-        padding: 0 1rem;
-        border-radius: 0.4rem;
-        margin: 0;
-        overflow: auto;
-        white-space: pre;
-    }
-
-    code {
-        white-space: pre;
-    }
-
-    .toolbar {
-        position: absolute;
-        top: 0;
-        right: 0;
-    }
-
-    .toolbar-item {
-        display: inline-block;
-        margin: 0.5rem;
-    }
-
-    .toolbar-item button {
-        background: var(--color-verde-lima);
-        color: var(--color-blanco-puro);
-        border: none;
-        padding: 0.5em;
-        border-radius: 0.5rem;
-        cursor: pointer;
-    }
-</style>
-
 <script is:inline>
-    if (typeof window !== "undefined") {
-        document.addEventListener("DOMContentLoaded", () => {
-            const buttons = document.querySelectorAll(".toolbar-item button");
+  const initCopyButtons = () => {
+    const toolbars = document.querySelectorAll(".code-toolbar");
 
-            buttons.forEach((button) => {
-                button.addEventListener("click", () => {
-                    const codeElement = button
-                        .closest(".code-toolbar")
-                        .querySelector("code");
+    toolbars.forEach((toolbar) => {
+      const button = toolbar.querySelector(".copy-btn");
+      const defaultMsg = toolbar.querySelector(".default-message");
+      const successMsg = toolbar.querySelector(".success-message");
 
-                    if (codeElement && codeElement.textContent) {
-                        navigator.clipboard
-                            .writeText(codeElement.textContent)
-                            .then(() => {
-                                const originalText = button.textContent;
-                                button.textContent = "Copiado!";
+      if (!button || !defaultMsg || !successMsg) return;
 
-                                setTimeout(() => {
-                                    button.textContent = originalText;
-                                }, 2000);
-                            })
-                            .catch((err) => {
-                                console.error(
-                                    "Fallo al copiar el código: ",
-                                    err,
-                                );
-                            });
-                    } else {
-                        console.error(
-                            "Elemento de código no encontrado o vacío",
-                        );
-                    }
-                });
-            });
-        });
-    }
+      if (button.dataset.bound === "true") return;
+      button.dataset.bound = "true";
+
+      const showSuccess = () => {
+        defaultMsg.classList.add("hidden");
+        successMsg.classList.remove("hidden");
+      };
+
+      const resetToDefault = () => {
+        defaultMsg.classList.remove("hidden");
+        successMsg.classList.add("hidden");
+      };
+
+      button.addEventListener("click", async () => {
+        const code = toolbar.getAttribute("data-code") ?? "";
+        if (!code.trim()) return;
+
+        try {
+          await navigator.clipboard.writeText(code);
+          showSuccess();
+          setTimeout(resetToDefault, 2000);
+        } catch (err) {
+          console.error("Fallo al copiar el código:", err);
+        }
+      });
+    });
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initCopyButtons);
+  } else {
+    initCopyButtons();
+  }
+
+  document.addEventListener("astro:page-load", initCopyButtons);
+  document.addEventListener("astro:after-swap", initCopyButtons);
 </script>

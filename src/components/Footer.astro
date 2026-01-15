@@ -5,37 +5,15 @@ const creationYear = 2024;
 export interface Props {
     url: string;
     developer: string;
-    className: string;
 }
 
-const { url, developer, className } = Astro.props;
+const { url, developer } = Astro.props;
 ---
 
-<footer class={className}>
-    <span>
+<footer class="wrapper text-center p-3">
+    <span class="text-base md:text-lg text-gris-medio">
         &copy; {creationYear} - {currentYear}
-        <a href={url}>{developer}</a>
+        <a class="text-verde-lima font-medium hover:text-gris-oscuro dark:hover:text-blanco-puro hover:underline transition-colors duration-300 ease-in-out" href={url}>{developer}</a>
         | Todos los derechos reservados.
     </span>
 </footer>
-
-<style>
-    footer {
-        text-align: center;
-        padding-top: 1.6rem;
-    }
-
-    footer span {
-        font-size: 0.875rem;
-        color: var(--color-gris-medio);
-    }
-
-    a {
-        color: var(--color-verde-lima);
-        transition: 0.5s ease-in-out;
-    }
-
-    a:hover {
-        text-decoration: underline;
-    }
-</style>

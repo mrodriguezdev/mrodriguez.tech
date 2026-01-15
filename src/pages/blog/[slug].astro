@@ -25,22 +25,10 @@ const { Content } = await entry.render();
 ---
 
 <BaseLayout title={entry.data.title} description={entry.data.description}>
-    <section>
-        <h1>{entry.data.title.toUpperCase()}</h1>
+    <section class="flex flex-col">
+        <h1 class="text-xl md:text-2xl my-4 mx-0 uppercase font-normal tracking-wide">{entry.data.title.toUpperCase()}</h1>
         <BlogPost {...entry.data}>
             <Content />
         </BlogPost>
     </section>
 </BaseLayout>
-
-<style>
-    section {
-        display: flex;
-        flex-direction: column;
-    }
-
-    h1 {
-        font-size: 1.4rem !important;
-        margin: 1rem 0 1rem 0;
-    }
-</style>

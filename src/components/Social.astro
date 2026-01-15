@@ -8,33 +8,16 @@ export interface Props {
 const { social } = Astro.props;
 ---
 
-<nav>
-    <ul>
+<nav class="flex justify-end p-0">
+    <ul class="flex gap-x-2">
         {
             social.map((item) => (
                 <li>
                     <a href={item.url} target="_blank" title={item.name}>
-                        <item.icon />
+                        <item.icon class="w-6 h-6 text-verde-lima hover:text-gris-oscuro dark:hover:text-blanco-puro transition-colors" />
                     </a>
                 </li>
             ))
         }
     </ul>
 </nav>
-
-<style>
-    nav {
-        display: flex;
-        justify-content: flex-end;
-        padding: 0;
-    }
-
-    ul {
-        display: flex;
-        column-gap: 0.5rem;
-    }
-
-    a {
-        color: var(--color-verde-lima);
-    }
-</style>

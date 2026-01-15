@@ -9,36 +9,15 @@ export interface Props {
 const { navLinks } = Astro.props;
 ---
 
-<nav>
-    <ul>
+<nav class="flex justify-between">
+    <ul class="flex gap-x-4">
         {
             navLinks.map((item) => (
                 <li>
-                    <a href={item.href}>{item.text}</a>
+                    <a class="text-verde-lima text-lg hover:underline hover:text-gris-oscuro dark:hover:text-blanco-puro transition-colors" href={item.href}>{item.text}</a>
                 </li>
             ))
         }
     </ul>
     <ThemeToggle />
 </nav>
-
-<style>
-    nav {
-        display: flex;
-        justify-content: space-between;
-    }
-
-    ul {
-        display: flex;
-        column-gap: 1rem;
-    }
-
-    a {
-        color: var(--color-verde-lima);
-        font-size: 1.1rem;
-    }
-
-    a:hover {
-        text-decoration-line: underline;
-    }
-</style>
