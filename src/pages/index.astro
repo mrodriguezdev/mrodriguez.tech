@@ -1,21 +1,21 @@
 ---
 import Pagination from "@/components/Pagination.astro";
-import PostPreview from "@/components/PostPreview.astro";
+import PostList from "@/components/PostList.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 import siteConfig from "@/config/site.config";
 
 const pageSize = siteConfig.pageSize;
+
 const allPosts = await getCollection("blog", ({ data }) => {
-	return import.meta.env.PROD ? !data.draft : true;
+  return import.meta.env.PROD ? !data.draft : true;
 });
 
 const posts = allPosts.sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
 
 const currentPage = 1;
-
 const start = (currentPage - 1) * pageSize;
 const end = start + pageSize;
 const paginatedPosts = posts.slice(start, end);
@@ -27,23 +27,13 @@ const title = "Publicaciones recientes";
 ---
 
 <BaseLayout>
-	<section class="flex flex-col">
-		<h1 class="text-xl md:text-2xl my-4 mx-0 uppercase font-normal tracking-wide">
-			{title}
-		</h1>
-		<div class="flex flex-col gap-y-7">
-			{
-				paginatedPosts.map((post, index) => (
-					<div>
-						<PostPreview post={post} />
-						{index !== paginatedPosts.length - 1 && (
-							<hr />
-						)}
-					</div>
-				))
-			}
-		</div>
+  <section class="flex flex-col">
+    <h1 class="text-xl md:text-2xl my-4 mx-0 uppercase font-normal tracking-wide">
+      {title}
+    </h1>
 
-		{nextUrl && <Pagination nextUrl={nextUrl} />}
-	</section>
+    <PostList posts={paginatedPosts} />
+
+    {nextUrl && <Pagination nextUrl={nextUrl} />}
+  </section>
 </BaseLayout>

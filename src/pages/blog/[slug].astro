@@ -4,31 +4,42 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import BlogPost from "@/layouts/BlogPost.astro";
 import { getCollection } from "astro:content";
 
-
 export async function getStaticPaths() {
   try {
     const blogEntries = await getCollection("blog", ({ data }) => {
       return import.meta.env.PROD ? !data.draft : true;
     });
 
-    return blogEntries.map(entry => ({
-      params: { slug: entry.slug },
-      props: { entry },
-    }));
+    const sorted = blogEntries.sort(
+      (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+    );
+
+    return sorted.map((entry, index) => {
+      const prevEntry = sorted[index + 1] ?? null;
+      const nextEntry = sorted[index - 1] ?? null;
+
+      return {
+        params: { slug: entry.slug },
+        props: { entry, prevEntry, nextEntry },
+      };
+    });
   } catch (error) {
     return [];
   }
 }
 
-const { entry } = Astro.props;
+const { entry, prevEntry, nextEntry } = Astro.props;
 const { Content } = await entry.render();
 ---
 
 <BaseLayout title={entry.data.title} description={entry.data.description}>
-    <section class="flex flex-col">
-        <h1 class="text-xl md:text-2xl my-4 mx-0 uppercase font-normal tracking-wide">{entry.data.title.toUpperCase()}</h1>
-        <BlogPost {...entry.data}>
-            <Content />
-        </BlogPost>
-    </section>
+  <section class="flex flex-col">
+    <h1 class="text-xl md:text-2xl my-4 mx-0 uppercase font-normal tracking-wide">
+      {entry.data.title.toUpperCase()}
+    </h1>
+
+    <BlogPost {...entry.data} prevEntry={prevEntry} nextEntry={nextEntry}>
+      <Content />
+    </BlogPost>
+  </section>
 </BaseLayout>
