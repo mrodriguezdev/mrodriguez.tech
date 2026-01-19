@@ -2,29 +2,31 @@
 // @ts-nocheck
 export const prerender = true;
 import Pagination from "@/components/Pagination.astro";
-import PostPreview from "@/components/PostPreview.astro";
+import PostList from "@/components/PostList.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 import siteConfig from "@/config/site.config";
 
 export async function getStaticPaths({ paginate }) {
-    const allPosts = (await getCollection("blog")).sort(
-        (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-    );
-    return paginate(allPosts, {
-        pageSize: siteConfig.pageSize,
-    });
+  const allPosts = (await getCollection("blog")).sort(
+    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+  );
+
+  return paginate(allPosts, {
+    pageSize: siteConfig.pageSize,
+  });
 }
 
 const { page } = Astro.props;
 ---
 
 <BaseLayout>
-    <section class="flex flex-col gap-8 pt-7 md:pt-9">
-        {page.data.map((post) => <PostPreview post={post} />)}
-        <Pagination
-            prevUrl={page.url.prev === "/page" ? "/" : page.url.prev}
-            nextUrl={page.url.next}
-        />
-    </section>
+  <section class="flex flex-col gap-8 pt-7 md:pt-9">
+    <PostList posts={page.data} />
+
+    <Pagination
+      prevUrl={page.url.prev === "/page" ? "/" : page.url.prev}
+      nextUrl={page.url.next}
+    />
+  </section>
 </BaseLayout>
