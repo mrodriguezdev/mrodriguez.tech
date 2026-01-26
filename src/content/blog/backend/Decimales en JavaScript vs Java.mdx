@@ -1,0 +1,160 @@
+---
+title: 'Decimales en JavaScript vs Java: cuando el mismo cálculo da distinto'
+slug: 'decimales-javascript-vs-java-cuando-da-distinto'
+description: 'Yo ya había escuchado mil veces que JavaScript tiene problemas con puntos flotantes, y que lo ideal es no recalcular nada en frontend. Pero hasta que me tocó un caso real no entendí lo serio que puede ser. En este artículo cuento qué pasó, por qué mi helper de redondeo no alcanzó y qué se hizo para evitarlo.'
+pubDate: 2026-01-25
+tags: ['javascript', 'java', 'frontend', 'backend', 'finanzas']
+time: 7
+---
+
+import CodeBlock from '@/components/CodeBlock.astro';
+import InlineCode from '@/components/InlineCode.astro';
+import ExternalLink from '@/components/ExternalLink.astro';
+
+## Introducción
+
+Yo ya había escuchado lo típico: que JavaScript tiene problemas con puntos flotantes, que <InlineCode text="number" /> no es lo mejor para dinero, y que el backend debería ser la fuente de la verdad. Nunca lo dudé, pero siendo honesto, por mucho tiempo lo tuve en modo “sí, ya sé”. Hasta que me tocó vivirlo en un caso real.
+
+El problema no era un total final como tal, era un monto de impuesto. El frontend mostraba un valor y el backend calculaba otro. No era un bug gigante, no era un crash, pero era peor: era una diferencia pequeña y constante, de esas que te hacen desconfiar. Y cuando hay dinero de por medio, aunque sea mínima, deja de ser “detalle”.
+
+Antes de seguir, una aclaración rápida: el caso sí fue real, pero los montos que voy a mostrar en este artículo están inventados. La idea es explicar el problema sin exponer información sensible.
+
+Y ojo: esto no pasa porque JavaScript sea “malo”. Pasa porque los números en JavaScript se representan como punto flotante y eso tiene límites cuando trabajás con decimales.
+
+## Lo que estaba pasando
+
+En un mundo ideal, el frontend solo mostraría números que vienen del backend. Pero en la vida real hay procesos donde el usuario necesita ver cálculos mientras interactúa: un subtotal, un descuento, un impuesto estimado, un total antes de confirmar.
+
+Aunque el backend recalcula todo y guarda la versión final, el frontend igual tiene que mostrar algo en pantalla. Y ahí es donde aparece el riesgo: cuando ese cálculo “de pantalla” empieza a diferir del resultado final.
+
+En este caso el impuesto era del 15%, entonces el cálculo era algo tan simple como:
+
+<CodeBlock
+  lines={[
+    "const base = 4919.57;",
+    "const tasa = 0.15;",
+    "",
+    "const impuesto = base * tasa;",
+    "console.log(impuesto); console.log(impuesto); // en debug me salió algo como 737.9354999999999",
+  ]}
+/>
+
+## El helper que ya existía
+
+Como ya conocíamos el tema de los flotantes, el proyecto no estaba multiplicando con <InlineCode text="*" /> por todos lados sin control. Ya existía un helper para centralizar operaciones y redondear.
+
+Y sí, ese helper no salió de la nada. Fue construido en base a artículos que encontraba en internet, ejemplos de redondeo, y formas comunes de evitar estos errores (especialmente usando <InlineCode text="Math.round" /> y <InlineCode text="Number.EPSILON" />).
+
+De hecho, cosas como <ExternalLink href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/EPSILON" text="Number.EPSILON en MDN" /> y <ExternalLink href="https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Math/round" text="Math.round en MDN" /> ayudan bastante a entender por qué algunos redondeos fallan justo en el límite.
+
+El helper se veía más o menos así:
+
+<CodeBlock
+  lines={[
+    "export class MoneyHelper {",
+    "  static redondear(valor: number, cantDec: number): number {",
+    "    const factor = Math.pow(10, cantDec);",
+    "    return Math.round((valor + Number.EPSILON) * factor) / factor;",
+    "  }",
+    "}",
+  ]}
+/>
+
+Lo que hace es sencillo: crea un factor con <InlineCode text="Math.pow(10, cantDec)" /> (por ejemplo, 100 si son 2 decimales, 1000 si son 3), multiplica para “mover” el punto decimal, redondea y luego divide para regresarlo a su lugar.
+
+Y el <InlineCode text="Number.EPSILON" /> es como un empujoncito para evitar ciertos casos donde el número queda tan pegado al límite que el redondeo termina cayendo para el lado equivocado.
+
+La lógica era simple: si todos pasan por el mismo lugar y redondeamos igual, evitamos diferencias raras. Y durante bastante tiempo funcionó.
+
+Hasta que apareció un caso demasiado específico.
+
+## El valor “feo” que apareció debugueando
+
+Lo curioso es que el valor problemático nunca se mostró así en pantalla. En la UI el número se veía normal (redondeado, formateado, como cualquier monto). Pero debugueando me tocó ver el valor real con el que JavaScript estaba trabajando por debajo.
+
+El impuesto terminaba siendo algo como esto: <InlineCode text="737.9354999999999" />
+
+Ese tipo de valores son los que te arruinan la paz, porque no se ven a simple vista, pero existen. Y cuando tu regla de negocio depende de redondear en un punto exacto, ahí es donde el frontend y el backend pueden empezar a dar distinto.
+
+Por ejemplo, en JavaScript:
+
+<CodeBlock
+  lines={[
+    "const base = 4919.57;",
+    "const tasa = 0.15;",
+    "const impuesto = base * tasa;",
+    "",
+    "console.log('impuesto:', impuesto); // ejemplo: 737.9354999999999",
+    "console.log('3 decimales:', MoneyHelper.redondear(impuesto, 3)); // ejemplo: 737.935",
+  ]}
+/>
+
+Y del lado del backend (Java), el mismo cálculo se veía así:
+
+<CodeBlock
+  lines={[
+    "import java.math.BigDecimal;",
+    "import java.math.RoundingMode;",
+    "",
+    "public class ImpuestoExample {",
+    "  public static void main(String[] args) {",
+    "    BigDecimal base = new BigDecimal(\"4919.57\");",
+    "    BigDecimal tasa = new BigDecimal(\"0.15\");",
+    "",
+    "    BigDecimal impuesto = base.multiply(tasa);",
+    "",
+    "    System.out.println(\"impuesto: \" + impuesto); // 737.9355",
+    "    System.out.println(\"3 decimales: \" + impuesto.setScale(3, RoundingMode.HALF_UP)); // 737.936",
+    "  }",
+    "}",
+  ]}
+/>
+
+Y ahí es donde se nota el detalle: en Java el valor se redondea desde un decimal exacto, mientras que en JavaScript muchas veces estás redondeando una aproximación que ya viene “sucia” desde antes.
+
+Aquí fue donde me terminó de caer la idea completa: no basta con decir “yo redondeo a X decimales”. Importa qué valor estás redondeando y en qué punto del proceso lo estás haciendo. Porque si el número ya viene con ruido, el redondeo puede cambiar justo en el límite.
+
+
+## Esto no es solo un problema de JavaScript
+
+Algo que me pareció importante dejar claro es que esto no es un “JavaScript moment” y ya.
+
+En Java también te puede pasar si alguien usa <InlineCode text="double" /> o <InlineCode text="float" /> para manejar dinero. Nosotros no usamos esos tipos para eso (por lo mismo), pero vale la pena mencionarlo porque el problema de fondo es el mismo: punto flotante.
+
+Por eso, cuando Java maneja dinero en serio, normalmente se termina usando <InlineCode text="BigDecimal" /> o se trabaja con enteros (centavos).
+
+## Se consideró decimal.js, pero no se adoptó
+
+En el camino se consideró usar una librería tipo <ExternalLink href="https://github.com/MikeMcl/decimal.js" text="decimal.js" /> para que el frontend trabajara con decimales “reales” y se comportara más parecido al backend. Técnicamente tenía sentido.
+
+Algo así:
+
+<CodeBlock
+  lines={[
+    'import Decimal from "decimal.js";',
+    "",
+    'const base = new Decimal("4919.57");',
+    'const tasa = new Decimal("0.15");',
+    "",
+    "const impuesto = base.mul(tasa);",
+    "console.log(impuesto.toString()); // 737.9355",
+  ]}
+/>
+
+Pero en proyectos internos esto no siempre es bien visto. Aunque una librería sea buena, muchas veces se prefiere no meter dependencias externas solo para resolver un caso puntual (por mantenimiento, seguridad, revisiones internas, etc.).
+
+## La decisión final
+
+Al final, lo que hicimos fue mantenerlo simple: el frontend podía seguir calculando para mostrar en pantalla (porque el usuario lo necesita), pero dejando claro que eso era solo un estimado visual.
+
+El backend ya recalculaba todo al confirmar, y ese resultado era el que se guardaba y el que realmente valía.
+
+Entonces el cambio fue más de comportamiento: cuando el usuario confirmaba, en lugar de confiar en lo que el frontend había calculado, la UI se ajustaba al monto que devolvía el backend.
+
+No fue el final más “elegante”, pero sí fue el más estable. Porque si el backend ya tiene la precisión correcta, lo peor que podés hacer es discutirle con una simulación aproximada.
+
+## Conclusión
+
+Yo ya sabía en teoría que JavaScript tenía problemas con puntos flotantes. Lo que no había vivido era un caso tan específico, tan fino, que te obliga a dejar de pensar que esto es un “detalle”. Cuando hay dinero de por medio, los detalles no existen.
+
+Y después de toparme con ese valor “feo” en debug, me quedó más claro que nunca: el problema no es que JavaScript “haga mal las matemáticas”, el problema es que nosotros a veces olvidamos que el dinero exige reglas más estrictas que un simple redondeo.
