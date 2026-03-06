@@ -6,11 +6,15 @@ const title = "404 Página no encontrada";
 ---
 
 <BaseLayout title={`${title} - Mario Rodríguez`}>
-    <h1>Página No Encontrada</h1>
+    <div class="flex flex-col gap-4">
+        <h1 class="pt-3">Página No Encontrada</h1>
 
-    Llegaste hasta aquí, pero la página que buscas no está disponible. Si crees
-    que esto es un error, quizás puedas <ExternalLink
-        href="https://github.com/mrodriguezdev/mrodriguez.tech/issues"
-        text="ayudarme"
-    /> a solucionarlo.
+        <p>
+            Llegaste hasta aquí, pero la página que buscas no está disponible.
+            Si crees que esto es un error, quizás puedas <ExternalLink
+                href="https://github.com/mrodriguezdev/mrodriguez.tech/issues"
+                text="ayudarme"
+            /> a solucionarlo.
+        </p>
+    </div>
 </BaseLayout>

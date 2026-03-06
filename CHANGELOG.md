@@ -2,6 +2,11 @@
 
 Todos los cambios importantes de este proyecto se documentarán en este archivo.
 
+## [2.0.2] - 2026-03-06
+### Cambiado
+- Migración del despliegue desde Vercel a Cloudflare Pages.
+- Ajustes de configuración del proyecto para compatibilidad con Cloudflare  Pages.
+
 ## [2.0.1] - 2026-01-18
 ### Añadido
 - Navegación de artículos anterior y siguiente dentro de cada post.
