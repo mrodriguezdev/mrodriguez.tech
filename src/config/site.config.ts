@@ -79,7 +79,7 @@ const siteConfig: SiteConfig = {
         },
         {
             name: 'Mail',
-            url: EMAIL,
+            url: `mailto:${EMAIL}?subject=${encodeURIComponent("Contacto desde mrodriguez.tech")}`,
             icon: MailIcon
         }
     ],
