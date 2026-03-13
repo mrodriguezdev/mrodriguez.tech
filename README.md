@@ -3,8 +3,6 @@
 Este repositorio contiene el código fuente del sitio web [**mrodriguez.tech**](https://mrodriguez.tech).  
 Es un blog personal creado con [**Astro**](https://astro.build/), [**Tailwind CSS**](https://tailwindcss.com/) y contenido en **Markdown** para compartir conocimientos sobre desarrollo de software.
 
-El sitio está hosteado en [**Vercel**](https://vercel.com/).
-
 ## Versiones del proyecto
 
 Este proyecto ha evolucionado por versiones como parte de mi aprendizaje:
@@ -62,7 +60,7 @@ En `main.css` se definen:
    npm run build
    ```
 
-2. Sirve los archivos estáticos generados o despliega en tu servidor favorito, como Vercel.
+2. Sirve los archivos estáticos generados o despliega en tu servidor favorito.
 
 ## Estructura del proyecto
 
