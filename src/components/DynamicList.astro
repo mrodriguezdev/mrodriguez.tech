@@ -1,10 +1,29 @@
 ---
 import ExternalLink from '@/components/ExternalLink.astro';
 
+type TextPart = {
+  type: "text";
+  text: string;
+};
+
+type LinkPart = {
+  type: "link";
+  text: string;
+  url: string;
+};
+
+type DescriptionPart = TextPart | LinkPart;
+
+interface LinkItem {
+  text: string;
+  url: string;
+}
+
 interface ListItem {
   title?: string;
   description: string;
   url?: string;
+  links?: LinkItem[];
 }
 
 export interface Props {
@@ -17,6 +36,32 @@ const { items, listType = "numbered" } = Astro.props;
 const isNumbered = listType === "numbered";
 const isBulleted = listType === "bulleted";
 const isPlain = listType === "plain";
+
+function parseDescription(item: ListItem): DescriptionPart[] {
+  const parts = (item.description ?? "").split(/(\?\d+)/g);
+
+  return parts.map((part) => {
+    const match = part.match(/^\?(\d+)$/);
+
+    if (match) {
+      const index = Number(match[1]) - 1;
+      const link = item.links?.[index];
+
+      if (link) {
+        return {
+          type: "link",
+          text: link.text,
+          url: link.url,
+        };
+      }
+    }
+
+    return {
+      type: "text",
+      text: part,
+    };
+  });
+}
 ---
 
 {isNumbered && (
@@ -34,8 +79,15 @@ const isPlain = listType === "plain";
             {item.description ? ": " : ""}
           </span>
         )}
+
         <span class="text-base md:text-[16px] text-gris-oscuro dark:text-gris-claro">
-          {item.description}
+          {parseDescription(item).map((part) =>
+            part.type === "link" ? (
+              <ExternalLink href={part.url} text={part.text} />
+            ) : (
+              part.text
+            )
+          )}
         </span>
       </li>
     ))}
@@ -63,14 +115,19 @@ const isPlain = listType === "plain";
           )}
 
           <span class="text-base md:text-[16px] text-gris-oscuro dark:text-gris-claro">
-            {item.description}
+            {parseDescription(item).map((part) =>
+              part.type === "link" ? (
+                <ExternalLink href={part.url} text={part.text} />
+              ) : (
+                part.text
+              )
+            )}
           </span>
         </div>
       </li>
     ))}
   </ul>
 )}
-
 
 {isPlain && (
   <ul class="list-none p-0 m-0">
@@ -86,8 +143,15 @@ const isPlain = listType === "plain";
             {item.description ? ": " : ""}
           </span>
         )}
+
         <span class="text-base md:text-[16px] text-gris-oscuro dark:text-gris-claro">
-          {item.description}
+          {parseDescription(item).map((part) =>
+            part.type === "link" ? (
+              <ExternalLink href={part.url} text={part.text} />
+            ) : (
+              part.text
+            )
+          )}
         </span>
       </li>
     ))}

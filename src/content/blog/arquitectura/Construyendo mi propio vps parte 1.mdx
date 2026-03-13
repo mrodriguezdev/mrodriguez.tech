@@ -1,0 +1,182 @@
+---
+title: 'Construyendo mi propio VPS para proyectos personales — Parte 1: motivación y arquitectura'
+slug: 'construyendo-mi-propio-vps-parte-1-motivacion-y-arquitectura'
+description: 'En este artículo explico por qué decidí comenzar a migrar mis proyectos a un VPS, qué valor técnico veo en esa decisión y cuál es la arquitectura inicial que tengo pensada con Cloudflare, Nginx y Docker.'
+pubDate: 2026-03-12
+tags: ['vps', 'cloudflare', 'nginx', 'docker', 'arquitectura']
+---
+
+import ExternalLink from '@/components/ExternalLink.astro';
+import DynamicList from '@/components/DynamicList.astro';
+import PostImage from '@/components/PostImage.astro';
+import InlineCode from '@/components/InlineCode.astro';
+
+## Introducción
+
+Antes de comenzar este blog, pasaron por mi mente muchas ideas de proyectos que quería desarrollar. Sin embargo, siempre terminaba encontrándome con el mismo problema: en mi máquina local todo funcionaba bien, pero ¿cómo podía hacer para que otras personas pudieran ver esos proyectos sin depender de mi propio equipo?
+
+Muchos dirán que la respuesta es bastante obvia: desplegar la aplicación en internet. Y sí, lo es. Pero mi duda iba más allá de eso. Me preocupaban temas como el costo, cuánto tendría que pagar por alojar proyectos personales y si terminaría usando una solución más cara o más compleja de lo que realmente necesitaba.
+
+Después de investigar un poco descubrí que muchos servicios de hosting ofrecen capas gratuitas bastante completas. De hecho, este mismo blog, desde que comenzó, ha estado alojado en Vercel y, siendo honesto, no tengo ninguna queja. Funciona muy bien, ofrece métricas del sitio, facilita el despliegue continuo y además incorpora varias características útiles de seguridad y rendimiento.
+
+Sin embargo, desde hace un tiempo ha estado rondando en mi cabeza la idea de tener mi propio servidor. No necesariamente porque las plataformas actuales no funcionen bien, sino porque quería tener un poco más de control sobre cómo se despliegan mis aplicaciones y poder alojar varios proyectos desde un mismo lugar.
+
+La razón por la que no lo había hecho antes era simple: miedo a equivocarme. Miedo a no configurar correctamente el servidor, a dejarlo expuesto a problemas de seguridad o, simplemente, a no administrarlo de la mejor manera. Aun así, sigo pensando que equivocarse forma parte del aprendizaje. Tratamos de evitar errores, claro, pero también es cierto que muchas veces no avanzar por miedo a cometerlos termina siendo peor.
+
+Después de varias semanas dándole vueltas al tema, finalmente decidí dar el primer paso y comenzar a migrar mis proyectos hacia un <ExternalLink href="https://aws.amazon.com/es/what-is/vps/" text='VPS'/>.
+
+## Primer paso: centralizar el dominio en Cloudflare
+
+Como esta migración puede volverse algo compleja, decidí hacerla de forma gradual para evitar que el sitio deje de funcionar en algún momento del proceso.
+
+Lo primero que hice fue mover mi dominio a <ExternalLink href="https://www.cloudflare.com/es-la/learning/what-is-cloudflare/" text="Cloudflare" />. Desde ahí puedo administrar los registros <ExternalLink href="https://www.cloudflare.com/es-la/learning/dns/what-is-dns/" text="DNS" />, además de aprovechar varias de las características de seguridad y rendimiento que ofrece la plataforma.
+
+Cloudflare también puede actuar como intermediario entre los usuarios y mi servidor. En la práctica, esto significa que las solicitudes pasan primero por su red antes de llegar a mi infraestructura. Esto tiene varias ventajas, entre ellas:
+
+<DynamicList
+  items={[
+    {
+      title: "Gestión centralizada del dominio",
+      description:
+        "Puedo administrar registros DNS y mantener el control del tráfico desde un solo lugar.",
+    },
+{
+      title: "Protección adicional",
+      description:
+        "La IP real del servidor no queda expuesta directamente al público cuando Cloudflare actúa como ?1.",
+      links: [
+        {
+          text: "proxy",
+          url: "https://www.netskope.com/es/security-defined/what-is-a-proxy-server",
+        }
+      ],
+    },
+    {
+      title: "HTTPS y rendimiento",
+      description:
+        "También ofrece características que ayudan con certificados, caché y optimización del tráfico.",
+    },
+  ]}
+  listType="bulleted"
+/>
+
+Otro paso importante fue migrar temporalmente el sitio a <ExternalLink href='https://www.cloudflare.com/es-la/developer-platform/products/pages/' text='Cloudflare Pages'/>, principalmente para tener todo más centralizado mientras termino de preparar el entorno del VPS.
+
+## ¿Por qué migrar a un VPS?
+
+Es probable que, para un blog personal como este, migrar a un VPS pueda parecer un poco excesivo. Y probablemente lo sea.
+
+Sin embargo, la idea principal no es únicamente alojar este sitio web, sino poder desplegar múltiples aplicaciones desde un mismo servidor. De esta manera puedo trabajar con distintos proyectos sin depender de diferentes servicios de hosting o plataformas externas para cada uno.
+
+Además del objetivo práctico de poder alojar múltiples proyectos desde un mismo lugar, también hay un motivo de aprendizaje detrás de esta decisión. Tener un VPS implica encargarse de aspectos que normalmente quedan abstraídos cuando se utilizan plataformas administradas: configuración del sistema, red, seguridad, servidor web y despliegue de aplicaciones.
+
+Es cierto que en muchos entornos empresariales actuales la infraestructura suele ir mucho más allá de un simple VPS. Hoy es común encontrar arquitecturas basadas en contenedores orquestados con Kubernetes, servicios administrados en la nube o plataformas que abstraen gran parte de la infraestructura. Pero precisamente por eso me parece valioso entender primero los componentes más básicos: un servidor Linux, la resolución DNS, el tráfico HTTP, el rol de un servidor web y la forma en que una aplicación termina expuesta en internet.
+
+Por esa razón, más que reemplazar servicios como Vercel o Cloudflare Pages, este proceso también busca darme experiencia práctica en la gestión de infraestructura. Para mí, el valor real de esta decisión está en dos cosas: poder alojar múltiples proyectos desde un mismo servidor y, al mismo tiempo, entender mejor qué hay detrás de muchas de las plataformas que usamos a diario para desplegar software.
+
+## El papel del servidor web
+
+Para lograr esto hay una pieza importante dentro de la arquitectura que tengo en mente: el servidor web que actuará como <ExternalLink href='https://www.cloudflare.com/es-la/learning/cdn/glossary/reverse-proxy/' text='reverse proxy' />.
+
+Existen varias opciones conocidas para este propósito. <ExternalLink href="https://kinsta.com/es/blog/que-es-apache/" text="Apache HTTP Server" /> es probablemente uno de los servidores web más históricos y utilizados, y sigue siendo una alternativa completamente válida. Sin embargo, en mi caso prefiero utilizar <ExternalLink href="https://kinsta.com/es/blog/que-es-nginx/" text="Nginx" />.
+
+La razón principal es que me resulta una opción muy conveniente para trabajar como reverse proxy, especialmente en una arquitectura donde quiero tener múltiples servicios corriendo dentro del mismo servidor. Además, suele integrarse bastante bien con despliegues basados en contenedores.
+
+Con este enfoque, el servidor expone únicamente los puertos de entrada habituales, como HTTP y HTTPS, y Nginx se encarga de analizar el dominio o subdominio solicitado para redirigir la petición al servicio correspondiente.
+
+## Arquitectura que tengo en mente
+
+De forma simplificada, la arquitectura que quiero implementar es la siguiente:
+
+<PostImage
+  src="/posts/arquitectura-vps-cloudflare-nginx-docker.png"
+  alt="Arquitectura de despliegue con Cloudflare, un VPS con Nginx como reverse proxy y múltiples aplicaciones ejecutándose en contenedores Docker"
+  caption="Arquitectura que planeo implementar: Cloudflare recibe las solicitudes, las envía al VPS y Nginx actúa como reverse proxy para dirigir el tráfico hacia los distintos servicios que corren en contenedores Docker."
+/>
+
+Los clientes realizan una solicitud a alguno de mis dominios o subdominios, por ejemplo <InlineCode text="mrodriguez.tech" />, <InlineCode text="api.mrodriguez.tech" /> o incluso a proyectos alojados bajo otros dominios como <InlineCode text="sideproject.com" />.
+
+Estas solicitudes llegan primero a Cloudflare, que actúa como punto de entrada y capa de protección. Posteriormente, Cloudflare redirige el tráfico hacia mi VPS.
+
+Una vez que la solicitud llega al servidor, Nginx recibe las peticiones a través de los puertos HTTP (80) o HTTPS (443). A partir del dominio solicitado, se encarga de enrutar el tráfico al servicio correspondiente.
+
+Cada uno de esos servicios estará ejecutándose dentro de contenedores Docker conectados a una red interna en el servidor.
+
+En resumen, la idea sería algo así:
+
+<DynamicList
+  items={[
+    {
+      title: "Cliente",
+      description:
+        "Realiza la solicitud al dominio o subdominio correspondiente.",
+    },
+    {
+      title: "Cloudflare",
+      description:
+        "Recibe la petición primero, protege el acceso y reenvía el tráfico hacia el VPS.",
+    },
+    {
+      title: "Nginx",
+      description:
+        "Escucha en los puertos públicos y decide a qué servicio enviar cada solicitud.",
+    },
+    {
+      title: "Docker",
+      description:
+        "Aloja las aplicaciones dentro del servidor de forma aislada y organizada.",
+    },
+  ]}
+  listType="numbered"
+/>
+
+Este enfoque me permitiría alojar varias aplicaciones al mismo tiempo, cada una bajo su propio dominio o subdominio, pero todas dentro del mismo VPS.
+
+## Practicando antes de hacerlo en producción
+
+Antes de configurar todo esto en un servidor real, decidí practicar primero en un entorno local.
+
+Para ello preparé una máquina virtual con <ExternalLink href='https://ubuntu.com/server' text='Ubuntu Server' />, donde puedo probar las configuraciones necesarias antes de replicarlas en un VPS real. La idea no es únicamente instalar el sistema operativo y ya, sino intentar acercarme lo más posible a un escenario real de administración.
+
+Por eso también configuré la red de la máquina virtual en modo <ExternalLink href='https://docs.redhat.com/es/documentation/red_hat_enterprise_linux/8/html/configuring_and_managing_virtualization/virtual-networking-bridged-mode_types-of-virtual-machine-network-connections' text='bridge' />, lo que permite que el router le asigne una dirección IP dentro de la misma red local. De esta manera puedo interactuar con la máquina virtual como si fuera otro equipo conectado a la red, simulando de forma bastante cercana el comportamiento que tendría un servidor real.
+
+En esa máquina virtual he estado practicando varias configuraciones iniciales, entre ellas:
+
+<DynamicList
+  items={[
+    {
+      description: "Creación de un usuario distinto de root.",
+    },
+    {
+      description: "Deshabilitar el acceso SSH como usuario root.",
+    },
+    {
+      description: "Configurar autenticación mediante llaves SSH.",
+    },
+    {
+      description: "Activar un firewall y cerrar puertos innecesarios.",
+    },
+    {
+      description: "Implementar Fail2Ban para proteger el acceso SSH.",
+    },
+  ]}
+  listType="bulleted"
+/>
+
+La intención es aplicar un hardening básico del servidor, suficiente para un entorno personal y con una base razonable antes de exponer cualquier servicio a internet.
+
+## Lo que viene después
+
+Este artículo funciona más como punto de partida que como guía técnica paso a paso. Mi intención aquí era dejar clara la motivación detrás de la decisión y la arquitectura inicial que tengo pensada.
+
+En los próximos artículos quiero ir documentando el resto del proceso: primero cómo estoy preparando el entorno del servidor en una máquina virtual local y luego cómo pienso configurar Nginx como reverse proxy para comenzar a desplegar proyectos dentro de contenedores Docker.
+
+Mi idea con esta serie es que, si alguien en algún momento busca algo como **“cómo configurar mi propio VPS para desplegar proyectos personales”**, pueda encontrar aquí una explicación basada en experiencia real, no solo en teoría.
+
+## Conclusión
+
+Migrar un blog personal a un VPS probablemente no sea una necesidad técnica urgente. Pero en mi caso, esta decisión no responde solo al sitio web que ya tengo hoy, sino también a los proyectos que quiero poder desplegar más adelante y al interés de entender mejor la infraestructura que hay detrás de muchas plataformas modernas.
+
+Sé que actualmente muchas arquitecturas reales de producción van bastante más allá de un VPS aislado. Aun así, me parece que empezar por lo fundamental sigue teniendo mucho valor. Entender cómo se configura un servidor, cómo se enruta tráfico y cómo se exponen aplicaciones es una base útil incluso cuando más adelante se trabaja con herramientas mucho más complejas.
+
+Así que este artículo no es el final de una migración, sino más bien el inicio de un proceso que quiero ir construyendo y documentando paso a paso.
