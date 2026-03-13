@@ -38,7 +38,7 @@ const isBulleted = listType === "bulleted";
 const isPlain = listType === "plain";
 
 function parseDescription(item: ListItem): DescriptionPart[] {
-  const parts = item.description.split(/(\?\d+)/g);
+  const parts = (item.description ?? "").split(/(\?\d+)/g);
 
   return parts.map((part) => {
     const match = part.match(/^\?(\d+)$/);
