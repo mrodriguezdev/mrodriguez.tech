@@ -1,12 +1,14 @@
 ---
-import type { CollectionEntry } from "astro:content";
+import { render, type CollectionEntry } from "astro:content";
 import FormattedDate from "@/components/FormattedDate.astro";
 import ArrowRight from "./icons/ArrowRight.astro";
 
 type Props = { post: CollectionEntry<"blog"> };
 
 const { post } = Astro.props;
-const { title, pubDate, description, time } = post.data;
+const { title, pubDate, description } = post.data;
+const { remarkPluginFrontmatter } = await render(post);
+const time = Math.ceil(remarkPluginFrontmatter?.time ?? 0);
 ---
 
 <article class="flex flex-col justify-center items-start gap-2.5">
